@@ -1,0 +1,391 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap');
+@import 'tailwindcss';
+
+/* ============================================================
+   RAW SCALES — Plain CSS variables.
+   These never change between light/dark. Semantic tokens do.
+   ============================================================ */
+:root {
+  /* ----------------------------------------------------------
+     PRIMARY — Teal
+     Anchors: #53c0cb at 400, #004050 at 900
+     ---------------------------------------------------------- */
+  --primary-50: #eaf6f8; /*  lightest tint */
+  --primary-100: #c8eaee;
+  --primary-200: #9dd9e0;
+  --primary-300: #72c8d2;
+  --primary-400: #53c0cb; /*  brand teal    */
+  --primary-500: #3da8b4;
+  --primary-600: #2a8f9e;
+  --primary-700: #1a7585;
+  --primary-800: #0d5f6e;
+  --primary-900: #004050; /*  deep teal     */
+  --primary-950: #002d38; /*  darkest       */
+
+  /* ----------------------------------------------------------
+     NEUTRAL — Teal-tinted (hue ~188°, low saturation)
+     Not gray — every stop shares the primary hue DNA.
+     ---------------------------------------------------------- */
+  --neutral-0: #ffffff;
+  --neutral-50: #f0f7f8;
+  --neutral-100: #e4f0f2;
+  --neutral-200: #c8dfe2;
+  --neutral-300: #a8c8cc;
+  --neutral-400: #7aaab2;
+  --neutral-500: #4a7880;
+  --neutral-600: #3a6068;
+  --neutral-700: #2a4850;
+  --neutral-800: #1c3038;
+  --neutral-900: #0e2028;
+  --neutral-950: #071418;
+
+  /* ----------------------------------------------------------
+     ACCENT — Coral Red
+     Anchor: #e8394a at 500
+     Role: brand punctuation, notification badges, decorative dots.
+     Never use for errors or destructive actions — use --danger.
+     ---------------------------------------------------------- */
+  --accent-50: #fff1f2;
+  --accent-100: #ffe0e2;
+  --accent-200: #ffc2c6;
+  --accent-300: #ff9aa0;
+  --accent-400: #f7606e;
+  --accent-500: #e8394a; /*  brand coral   */
+  --accent-600: #cc2035;
+  --accent-700: #aa1828;
+  --accent-800: #8c1520;
+  --accent-900: #741319;
+  --accent-950: #420a0e;
+
+  /* ----------------------------------------------------------
+     SEMANTIC — Light mode defaults
+     These are the tokens components use directly.
+     ---------------------------------------------------------- */
+
+  /* Surfaces */
+  --bg: #f0f7f8; /* page background      */
+  --surface: #f7fbfc; /* cards, panels        */
+  --surface-subtle: #e4f0f2; /* hover rows, input bg */
+  --surface-hover: #c8dfe2;  /* button/item hover    */
+  --surface-strong: #ffffff; /* elevated / modal bg  */
+
+  /* Borders */
+  --border: #c8dfe2; /* default             */
+  --border-strong: #a8c8cc; /* emphasized          */
+  --border-focus: #53c0cb; /* focus ring          */
+  --border-invalid: #dc2626; /* invalid input       */
+  --border-invalid-focus: rgba(220, 38, 38, 0.15); /* invalid focus ring */
+
+  /* Text */
+  --text: #0e2028; /* primary body text   */
+  --text-muted: #4a7880; /* secondary / meta    */
+  --text-subtle: #7aaab2; /* placeholders        */
+  --text-inverse: #f0f7f8; /* text on dark bg     */
+  --text-on-primary: #ffffff; /* text on primary bg  */
+
+  /* Interactive */
+  --color-primary: #004050;
+  --color-primary-hover: #002d38;
+  --color-accent: #e8394a;
+
+  /* Status */
+  --success: #16a34a;
+  --success-light: #dcfce7;
+  --success-dark: #14532d;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --warning-dark: #78350f;
+  --danger: #dc2626; /* clean red, distinct from coral accent */
+  --danger-light: #fee2e2;
+  --danger-dark: #7f1d1d;
+
+  /* Shadows — private vars so dark mode can override */
+  --_shadow-xs: 0 1px 2px 0 rgba(0, 40, 50, 0.05);
+  --_shadow-sm: 0 1px 3px 0 rgba(0, 40, 50, 0.08), 0 1px 2px -1px rgba(0, 40, 50, 0.06);
+  --_shadow-md: 0 4px 6px -1px rgba(0, 40, 50, 0.08), 0 2px 4px -2px rgba(0, 40, 50, 0.06);
+  --_shadow-lg: 0 10px 15px -3px rgba(0, 40, 50, 0.08), 0 4px 6px -4px rgba(0, 40, 50, 0.05);
+  --_shadow-xl: 0 20px 25px -5px rgba(0, 40, 50, 0.08), 0 8px 10px -6px rgba(0, 40, 50, 0.04);
+}
+
+/* ----------------------------------------------------------
+   DARK MODE — only semantic tokens override.
+   Raw scales are untouched.
+   ---------------------------------------------------------- */
+.dark {
+  /* Surfaces */
+  --bg: #071418;
+  --surface: #0e2028;
+  --surface-subtle: #1c3038;
+  --surface-hover: #3a6068;
+  --surface-strong: #2a4850;
+
+  /* Borders */
+  --border: #2a4850;
+  --border-strong: #3a6068;
+  --border-focus: #53c0cb;
+
+  /* Text */
+  --text: #f0f7f8;
+  --text-muted: #7aaab2;
+  --text-subtle: #4a7880;
+
+  /* Interactive */
+  --color-primary: #53c0cb;
+  --color-primary-hover: #72c8d2;
+  --text-on-primary: #002d38;
+
+  /* Status — swap light/dark variants */
+  --success-light: #14532d;
+  --warning-light: #78350f;
+  --danger-light: #7f1d1d;
+
+  /* Shadows — higher-opacity black for visibility on dark surfaces */
+  --_shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.20);
+  --_shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.25), 0 1px 2px -1px rgba(0, 0, 0, 0.18);
+  --_shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.30), 0 2px 4px -2px rgba(0, 0, 0, 0.22);
+  --_shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
+  --_shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.40), 0 8px 10px -6px rgba(0, 0, 0, 0.30);
+}
+
+/* ============================================================
+   @THEME INLINE — Registers everything as Tailwind utilities.
+   "inline" generates var() references so dark mode works
+   automatically without dark: variants.
+
+   Usage:
+     bg-primary-400       text-primary-900
+     bg-surface           text-text-muted
+     border-border-focus  shadow-md
+     bg-accent-500        text-danger
+   ============================================================ */
+@theme inline {
+  /* ----------------------------------------------------------
+     RESETS — disable all default Tailwind tokens
+     Only sw-core tokens are available
+     ---------------------------------------------------------- */
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --font-weight-*: initial;
+  --leading-*: initial;
+  --tracking-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --border-width-*: initial;
+  --spacing: initial; /* kills the dynamic multiplier — only named steps below are allowed */
+
+  /* ----------------------------------------------------------
+     SPACING — curated scale (4px base unit)
+     Use these for padding, margin, gap.
+     For layout-specific values (height, top, width, etc.)
+     that don't follow this rhythm, use arbitrary values: h-[14rem]
+     ---------------------------------------------------------- */
+  --spacing-0:   0rem;
+  --spacing-0_5: 0.125rem;  /*  2px */
+  --spacing-1:   0.25rem;   /*  4px */
+  --spacing-1_5: 0.375rem;  /*  6px */
+  --spacing-2:   0.5rem;    /*  8px */
+  --spacing-2_5: 0.625rem;  /* 10px */
+  --spacing-3:   0.75rem;   /* 12px */
+  --spacing-3_5: 0.875rem;  /* 14px */
+  --spacing-4:   1rem;      /* 16px */
+  --spacing-5:  1.25rem;   /* 20px */
+  --spacing-6:  1.5rem;    /* 24px */
+  --spacing-7:  1.75rem;   /* 28px */
+  --spacing-8:  2rem;      /* 32px */
+  --spacing-9:  2.25rem;   /* 36px */
+  --spacing-10: 2.5rem;    /* 40px */
+  --spacing-12: 3rem;      /* 48px */
+  --spacing-14: 3.5rem;    /* 56px */
+  --spacing-16: 4rem;      /* 64px */
+  --spacing-20: 5rem;      /* 80px */
+  --spacing-24: 6rem;      /* 96px */
+  --spacing-32: 8rem;      /* 128px */
+  --spacing-40: 10rem;     /* 160px */
+  --spacing-48: 12rem;     /* 192px */
+  --spacing-64: 16rem;     /* 256px */
+  --spacing-80: 20rem;     /* 320px */
+  --spacing-96: 24rem;     /* 384px */
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY
+     ---------------------------------------------------------- */
+  --font-sans: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0em;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ----------------------------------------------------------
+     PRIMARY SCALE → bg-primary-*, text-primary-*
+     ---------------------------------------------------------- */
+  --color-primary-50: var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+  --color-primary-300: var(--primary-300);
+  --color-primary-400: var(--primary-400);
+  --color-primary-500: var(--primary-500);
+  --color-primary-600: var(--primary-600);
+  --color-primary-700: var(--primary-700);
+  --color-primary-800: var(--primary-800);
+  --color-primary-900: var(--primary-900);
+  --color-primary-950: var(--primary-950);
+
+  /* ----------------------------------------------------------
+     NEUTRAL SCALE → bg-neutral-*, text-neutral-*
+     ---------------------------------------------------------- */
+  --color-neutral-0: var(--neutral-0);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+
+  /* ----------------------------------------------------------
+     ACCENT SCALE → bg-accent-*, text-accent-*
+     ---------------------------------------------------------- */
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+  --color-accent-950: var(--accent-950);
+
+  /* ----------------------------------------------------------
+     SEMANTIC SURFACES → bg-bg, bg-surface, bg-surface-subtle
+     ---------------------------------------------------------- */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-strong: var(--surface-strong);
+
+  /* ----------------------------------------------------------
+     SEMANTIC BORDERS → border-border, border-border-strong
+     ---------------------------------------------------------- */
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
+  --color-border-invalid: var(--border-invalid);
+  --color-border-invalid-focus: var(--border-invalid-focus);
+
+  /* ----------------------------------------------------------
+     SEMANTIC TEXT → text-text, text-text-muted, text-text-subtle
+     ---------------------------------------------------------- */
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+  --color-text-subtle: var(--text-subtle);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-on-primary: var(--text-on-primary);
+
+  /* ----------------------------------------------------------
+     SEMANTIC INTERACTIVE → bg-primary, bg-primary-hover
+     ---------------------------------------------------------- */
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-accent: var(--color-accent);
+
+  /* ----------------------------------------------------------
+     STATUS → bg-success, text-danger, bg-warning-light etc.
+     ---------------------------------------------------------- */
+  --color-success: var(--success);
+  --color-success-light: var(--success-light);
+  --color-success-dark: var(--success-dark);
+  --color-warning: var(--warning);
+  --color-warning-light: var(--warning-light);
+  --color-warning-dark: var(--warning-dark);
+  --color-danger: var(--danger);
+  --color-danger-light: var(--danger-light);
+  --color-danger-dark: var(--danger-dark);
+
+  /* ----------------------------------------------------------
+     BORDER WIDTH → border-1, border-2, border-4, border-8
+     ---------------------------------------------------------- */
+  --border-width-0: 0px;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+
+  /* ----------------------------------------------------------
+     BORDER RADIUS → rounded-sm, rounded-lg, rounded-2xl etc.
+     ---------------------------------------------------------- */
+  --radius-sm: 0.25rem; /*  4px */
+  --radius-md: 0.375rem; /*  6px */
+  --radius-lg: 0.5rem; /*  8px */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-full: 9999px;
+
+  /* ----------------------------------------------------------
+     SHADOWS — light: teal-tinted, dark: high-opacity black
+     Values live in :root / .dark so dark mode overrides work.
+     ---------------------------------------------------------- */
+  --shadow-xs: var(--_shadow-xs);
+  --shadow-sm: var(--_shadow-sm);
+  --shadow-md: var(--_shadow-md);
+  --shadow-lg: var(--_shadow-lg);
+  --shadow-xl: var(--_shadow-xl);
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+@layer base {
+  html {
+    font-family: 'Outfit', sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  ::placeholder {
+    color: var(--text-subtle);
+  }
+
+  ::selection {
+    background: var(--primary-200);
+    color: var(--primary-900);
+  }
+}
