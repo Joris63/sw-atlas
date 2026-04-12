@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue'
 import ColorsPage from '@/pages/styleguide/ColorsPage.vue'
 import TypographyPage from '@/pages/styleguide/TypographyPage.vue'
@@ -23,7 +23,7 @@ function sgCrumbs(...labels: string[]): Crumb[] {
 }
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     {
       path: '/',
