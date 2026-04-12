@@ -37,7 +37,11 @@ const breadcrumbs = computed(
       </SwNavSidebar>
 
       <main class="sw-page">
-        <SwBreadcrumbs v-if="breadcrumbs.length > 1" :items="breadcrumbs" class="sw-page__breadcrumbs" />
+        <SwBreadcrumbs
+          v-if="breadcrumbs.length > 1"
+          :items="breadcrumbs"
+          class="sw-page__breadcrumbs"
+        />
         <div class="sw-page__card">
           <slot />
         </div>

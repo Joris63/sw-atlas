@@ -33,19 +33,63 @@ const router = createRouter({
     },
 
     // Design tokens
-    { path: '/styleguide/tokens/colors',     component: ColorsPage,     meta: { breadcrumbs: sgCrumbs('Kleuren') } },
-    { path: '/styleguide/tokens/typography', component: TypographyPage, meta: { breadcrumbs: sgCrumbs('Typografie') } },
-    { path: '/styleguide/tokens/spacing',    component: SpacingPage,    meta: { breadcrumbs: sgCrumbs('Spacing') } },
-    { path: '/styleguide/tokens/shadows',       component: ShadowsPage,       meta: { breadcrumbs: sgCrumbs('Schaduwen') } },
-    { path: '/styleguide/tokens/borders', component: BordersPage, meta: { breadcrumbs: sgCrumbs('Borders') } },
+    {
+      path: '/styleguide/tokens/colors',
+      component: ColorsPage,
+      meta: { breadcrumbs: sgCrumbs('Kleuren') },
+    },
+    {
+      path: '/styleguide/tokens/typography',
+      component: TypographyPage,
+      meta: { breadcrumbs: sgCrumbs('Typografie') },
+    },
+    {
+      path: '/styleguide/tokens/spacing',
+      component: SpacingPage,
+      meta: { breadcrumbs: sgCrumbs('Spacing') },
+    },
+    {
+      path: '/styleguide/tokens/shadows',
+      component: ShadowsPage,
+      meta: { breadcrumbs: sgCrumbs('Schaduwen') },
+    },
+    {
+      path: '/styleguide/tokens/borders',
+      component: BordersPage,
+      meta: { breadcrumbs: sgCrumbs('Borders') },
+    },
 
     // Components
-    { path: '/styleguide/components/button',      component: ButtonPage,      meta: { breadcrumbs: sgCrumbs('Button') } },
-    { path: '/styleguide/components/icon-button', component: SwIconButtonPage, meta: { breadcrumbs: sgCrumbs('Icon Button') } },
-    { path: '/styleguide/components/heading',     component: SwHeadingPage,   meta: { breadcrumbs: sgCrumbs('SwHeading') } },
-    { path: '/styleguide/components/text',        component: SwTextPage,      meta: { breadcrumbs: sgCrumbs('SwText') } },
-    { path: '/styleguide/components/label',       component: SwLabelPage,     meta: { breadcrumbs: sgCrumbs('SwLabel') } },
-    { path: '/styleguide/components/code',        component: SwCodePage,      meta: { breadcrumbs: sgCrumbs('SwCode') } },
+    {
+      path: '/styleguide/components/button',
+      component: ButtonPage,
+      meta: { breadcrumbs: sgCrumbs('Button') },
+    },
+    {
+      path: '/styleguide/components/icon-button',
+      component: SwIconButtonPage,
+      meta: { breadcrumbs: sgCrumbs('Icon Button') },
+    },
+    {
+      path: '/styleguide/components/heading',
+      component: SwHeadingPage,
+      meta: { breadcrumbs: sgCrumbs('SwHeading') },
+    },
+    {
+      path: '/styleguide/components/text',
+      component: SwTextPage,
+      meta: { breadcrumbs: sgCrumbs('SwText') },
+    },
+    {
+      path: '/styleguide/components/label',
+      component: SwLabelPage,
+      meta: { breadcrumbs: sgCrumbs('SwLabel') },
+    },
+    {
+      path: '/styleguide/components/code',
+      component: SwCodePage,
+      meta: { breadcrumbs: sgCrumbs('SwCode') },
+    },
   ],
 })
 

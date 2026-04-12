@@ -13,7 +13,11 @@ withDefaults(
 </script>
 
 <template>
-  <label class="sw-label" :class="[`sw-label--${size}`, { 'sw-label--uppercase': uppercase }]" :for="(($props as any).for)">
+  <label
+    class="sw-label"
+    :class="[`sw-label--${size}`, { 'sw-label--uppercase': uppercase }]"
+    :for="($props as any).for"
+  >
     <slot />
     <span v-if="required" class="sw-label__required" aria-hidden="true">*</span>
   </label>
@@ -26,8 +30,12 @@ withDefaults(
   @apply inline-flex items-center gap-1 font-medium text-text;
 }
 
-.sw-label--sm { @apply text-sm; }
-.sw-label--xs { @apply text-xs; }
+.sw-label--sm {
+  @apply text-sm;
+}
+.sw-label--xs {
+  @apply text-xs;
+}
 
 .sw-label--uppercase {
   @apply uppercase text-text-muted tracking-wider;

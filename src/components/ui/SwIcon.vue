@@ -32,11 +32,5 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <component
-    v-if="icon"
-    :is="icon"
-    :size="size"
-    :stroke-width="strokeWidth"
-    :color="color"
-  />
+  <component v-if="icon" :is="icon" :size="size" :stroke-width="strokeWidth" :color="color" />
 </template>

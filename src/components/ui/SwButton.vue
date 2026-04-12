@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
   as: 'button',
 })
 
-const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs') ? 12 : 16)
+const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 12 : 16))
 </script>
 
 <template>
@@ -28,9 +28,15 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs') ? 
     :is="as"
     class="sw-btn"
     :class="[`sw-btn--${variant}`, `sw-btn--${size}`, { 'sw-btn--loading': loading }]"
-    :disabled="as === 'button' ? (disabled || loading) : undefined"
+    :disabled="as === 'button' ? disabled || loading : undefined"
   >
-    <SwIcon v-if="loading" name="loader-2" :size="iconSize" class="sw-btn__spinner" aria-hidden="true" />
+    <SwIcon
+      v-if="loading"
+      name="loader-2"
+      :size="iconSize"
+      class="sw-btn__spinner"
+      aria-hidden="true"
+    />
 
     <span v-if="!loading && (iconLeft || $slots['icon-left'])" class="sw-btn__icon">
       <SwIcon v-if="iconLeft" :name="iconLeft" :size="iconSize" />
@@ -87,18 +93,38 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs') ? 
 }
 
 /* --- Variants --- */
-.sw-btn--primary { @apply bg-primary text-text-on-primary; }
-.sw-btn--primary:not(:disabled):hover { @apply bg-primary-hover; }
+.sw-btn--primary {
+  @apply bg-primary text-text-on-primary;
+}
+.sw-btn--primary:not(:disabled):hover {
+  @apply bg-primary-hover;
+}
 
-.sw-btn--outline { @apply bg-transparent border border-border-strong text-text; }
-.sw-btn--outline:not(:disabled):hover { @apply bg-surface-subtle; }
+.sw-btn--outline {
+  @apply bg-transparent border border-border-strong text-text;
+}
+.sw-btn--outline:not(:disabled):hover {
+  @apply bg-surface-subtle;
+}
 
-.sw-btn--ghost { @apply bg-surface-subtle text-text; }
-.sw-btn--ghost:not(:disabled):hover { @apply bg-surface-hover; }
+.sw-btn--ghost {
+  @apply bg-surface-subtle text-text;
+}
+.sw-btn--ghost:not(:disabled):hover {
+  @apply bg-surface-hover;
+}
 
-.sw-btn--plain { @apply bg-transparent text-text; }
-.sw-btn--plain:not(:disabled):hover { @apply bg-surface-subtle; }
+.sw-btn--plain {
+  @apply bg-transparent text-text;
+}
+.sw-btn--plain:not(:disabled):hover {
+  @apply bg-surface-subtle;
+}
 
-.sw-btn--danger { @apply bg-danger text-neutral-0; }
-.sw-btn--danger:not(:disabled):hover { @apply bg-danger-dark; }
+.sw-btn--danger {
+  @apply bg-danger text-neutral-0;
+}
+.sw-btn--danger:not(:disabled):hover {
+  @apply bg-danger-dark;
+}
 </style>

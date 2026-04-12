@@ -12,17 +12,22 @@ const title = computed(() => {
 </script>
 
 <template>
-
-    <div class="sg-placeholder">
-      <div class="sg-placeholder__icon">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-        </svg>
-      </div>
-      <SwHeading :level="1" size="2xl">{{ title }}</SwHeading>
-      <SwText size="sm" color="muted">This page is under construction.</SwText>
+  <div class="sg-placeholder">
+    <div class="sg-placeholder__icon">
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+      >
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
     </div>
-
+    <SwHeading :level="1" size="2xl">{{ title }}</SwHeading>
+    <SwText size="sm" color="muted">This page is under construction.</SwText>
+  </div>
 </template>
 
 <style scoped>

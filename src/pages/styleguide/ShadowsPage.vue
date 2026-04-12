@@ -11,23 +11,22 @@ const shadows = [
 </script>
 
 <template>
-
-    <SwPage title="Schaduwen" description="Box shadows communicate elevation. Pick the level that matches how high the element floats above the page — don't mix levels in the same surface stack.">
-
-      <div class="sg-section">
-        <div class="shadow-grid">
-          <div v-for="s in shadows" :key="s.name" class="shadow-item">
-            <div class="shadow-item__box" :style="{ boxShadow: `var(--_shadow-${s.name})` }" />
-            <div class="shadow-item__meta">
-              <span class="shadow-item__token">{{ s.token }}</span>
-              <span class="shadow-item__desc">{{ s.desc }}</span>
-            </div>
+  <SwPage
+    title="Schaduwen"
+    description="Box shadows communicate elevation. Pick the level that matches how high the element floats above the page — don't mix levels in the same surface stack."
+  >
+    <div class="sg-section">
+      <div class="shadow-grid">
+        <div v-for="s in shadows" :key="s.name" class="shadow-item">
+          <div class="shadow-item__box" :style="{ boxShadow: `var(--_shadow-${s.name})` }" />
+          <div class="shadow-item__meta">
+            <span class="shadow-item__token">{{ s.token }}</span>
+            <span class="shadow-item__desc">{{ s.desc }}</span>
           </div>
         </div>
       </div>
-
-    </SwPage>
-
+    </div>
+  </SwPage>
 </template>
 
 <style scoped>
@@ -47,13 +46,17 @@ const shadows = [
 }
 
 .shadow-item__box {
-  @apply w-20 h-20 rounded-xl bg-surface-strong; 
+  @apply w-20 h-20 rounded-xl bg-surface-strong;
 }
 
 .shadow-item__meta {
   @apply flex flex-col gap-1 text-center;
 }
 
-.shadow-item__token { @apply text-sm font-mono font-medium text-text; }
-.shadow-item__desc  { @apply text-xs text-text-muted; }
+.shadow-item__token {
+  @apply text-sm font-mono font-medium text-text;
+}
+.shadow-item__desc {
+  @apply text-xs text-text-muted;
+}
 </style>

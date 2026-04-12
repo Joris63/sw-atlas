@@ -66,7 +66,7 @@
   --bg: #f0f7f8; /* page background      */
   --surface: #f7fbfc; /* cards, panels        */
   --surface-subtle: #e4f0f2; /* hover rows, input bg */
-  --surface-hover: #c8dfe2;  /* button/item hover    */
+  --surface-hover: #c8dfe2; /* button/item hover    */
   --surface-strong: #ffffff; /* elevated / modal bg  */
 
   /* Borders */
@@ -140,11 +140,11 @@
   --danger-light: #7f1d1d;
 
   /* Shadows — higher-opacity black for visibility on dark surfaces */
-  --_shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.20);
+  --_shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
   --_shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.25), 0 1px 2px -1px rgba(0, 0, 0, 0.18);
-  --_shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.30), 0 2px 4px -2px rgba(0, 0, 0, 0.22);
+  --_shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.22);
   --_shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.35), 0 4px 6px -4px rgba(0, 0, 0, 0.25);
-  --_shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.40), 0 8px 10px -6px rgba(0, 0, 0, 0.30);
+  --_shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
 }
 
 /* ============================================================
@@ -180,32 +180,32 @@
      For layout-specific values (height, top, width, etc.)
      that don't follow this rhythm, use arbitrary values: h-[14rem]
      ---------------------------------------------------------- */
-  --spacing-0:   0rem;
-  --spacing-0_5: 0.125rem;  /*  2px */
-  --spacing-1:   0.25rem;   /*  4px */
-  --spacing-1_5: 0.375rem;  /*  6px */
-  --spacing-2:   0.5rem;    /*  8px */
-  --spacing-2_5: 0.625rem;  /* 10px */
-  --spacing-3:   0.75rem;   /* 12px */
-  --spacing-3_5: 0.875rem;  /* 14px */
-  --spacing-4:   1rem;      /* 16px */
-  --spacing-5:  1.25rem;   /* 20px */
-  --spacing-6:  1.5rem;    /* 24px */
-  --spacing-7:  1.75rem;   /* 28px */
-  --spacing-8:  2rem;      /* 32px */
-  --spacing-9:  2.25rem;   /* 36px */
-  --spacing-10: 2.5rem;    /* 40px */
-  --spacing-12: 3rem;      /* 48px */
-  --spacing-14: 3.5rem;    /* 56px */
-  --spacing-16: 4rem;      /* 64px */
-  --spacing-20: 5rem;      /* 80px */
-  --spacing-24: 6rem;      /* 96px */
-  --spacing-32: 8rem;      /* 128px */
-  --spacing-40: 10rem;     /* 160px */
-  --spacing-48: 12rem;     /* 192px */
-  --spacing-64: 16rem;     /* 256px */
-  --spacing-80: 20rem;     /* 320px */
-  --spacing-96: 24rem;     /* 384px */
+  --spacing-0: 0rem;
+  --spacing-0_5: 0.125rem; /*  2px */
+  --spacing-1: 0.25rem; /*  4px */
+  --spacing-1_5: 0.375rem; /*  6px */
+  --spacing-2: 0.5rem; /*  8px */
+  --spacing-2_5: 0.625rem; /* 10px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-3_5: 0.875rem; /* 14px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-7: 1.75rem; /* 28px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-9: 2.25rem; /* 36px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-14: 3.5rem; /* 56px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+  --spacing-24: 6rem; /* 96px */
+  --spacing-32: 8rem; /* 128px */
+  --spacing-40: 10rem; /* 160px */
+  --spacing-48: 12rem; /* 192px */
+  --spacing-64: 16rem; /* 256px */
+  --spacing-80: 20rem; /* 320px */
+  --spacing-96: 24rem; /* 384px */
 
   /* ----------------------------------------------------------
      TYPOGRAPHY

@@ -28,32 +28,28 @@ const pillars = [
 </script>
 
 <template>
-
-    <div class="home">
-
-      <div class="home__hero">
-        <SwText size="sm" color="muted" class="home__eyebrow">sw-atlas</SwText>
-        <SwHeading :level="1" size="4xl">Welcome to SW-Atlas</SwHeading>
-        <SwText size="lg" color="muted" class="home__tagline">
-          The Sanitairwinkel design system — a Vue 3 component library, token foundation,
-          and live styleguide in one package.
-        </SwText>
-      </div>
-
-      <div class="home__pillars">
-        <div v-for="p in pillars" :key="p.title" class="pillar">
-          <div class="pillar__icon-wrap">
-            <SwIcon :name="p.icon" :size="18" />
-          </div>
-          <div class="pillar__body">
-            <SwHeading :level="3" size="base">{{ p.title }}</SwHeading>
-            <SwText size="sm" color="muted">{{ p.desc }}</SwText>
-          </div>
-        </div>
-      </div>
-
+  <div class="home">
+    <div class="home__hero">
+      <SwText size="sm" color="muted" class="home__eyebrow">sw-atlas</SwText>
+      <SwHeading :level="1" size="4xl">Welcome to SW-Atlas</SwHeading>
+      <SwText size="lg" color="muted" class="home__tagline">
+        The Sanitairwinkel design system — a Vue 3 component library, token foundation, and live
+        styleguide in one package.
+      </SwText>
     </div>
 
+    <div class="home__pillars">
+      <div v-for="p in pillars" :key="p.title" class="pillar">
+        <div class="pillar__icon-wrap">
+          <SwIcon :name="p.icon" :size="18" />
+        </div>
+        <div class="pillar__body">
+          <SwHeading :level="3" size="base">{{ p.title }}</SwHeading>
+          <SwText size="sm" color="muted">{{ p.desc }}</SwText>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -70,7 +66,6 @@ const pillars = [
 .home__eyebrow {
   @apply font-mono tracking-wide uppercase;
 }
-
 
 .home__pillars {
   @apply grid gap-6;

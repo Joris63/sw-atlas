@@ -28,20 +28,46 @@ withDefaults(
 <style scoped>
 @reference "../../styles/tailwind.css";
 
-.sw-text { @apply leading-normal; }
+.sw-text {
+  @apply leading-normal;
+}
 
-.sw-text--xs   { @apply text-xs; }
-.sw-text--sm   { @apply text-sm; }
-.sw-text--base { @apply text-base; }
-.sw-text--lg   { @apply text-lg; }
-.sw-text--xl   { @apply text-xl; }
+.sw-text--xs {
+  @apply text-xs;
+}
+.sw-text--sm {
+  @apply text-sm;
+}
+.sw-text--base {
+  @apply text-base;
+}
+.sw-text--lg {
+  @apply text-lg;
+}
+.sw-text--xl {
+  @apply text-xl;
+}
 
-.sw-text--normal   { @apply font-normal; }
-.sw-text--medium   { @apply font-medium; }
-.sw-text--semibold { @apply font-semibold; }
+.sw-text--normal {
+  @apply font-normal;
+}
+.sw-text--medium {
+  @apply font-medium;
+}
+.sw-text--semibold {
+  @apply font-semibold;
+}
 
-.sw-text--default { @apply text-text; }
-.sw-text--muted   { @apply text-text-muted; }
-.sw-text--subtle  { @apply text-text-subtle; }
-.sw-text--inverse { @apply text-text-inverse; }
+.sw-text--default {
+  @apply text-text;
+}
+.sw-text--muted {
+  @apply text-text-muted;
+}
+.sw-text--subtle {
+  @apply text-text-subtle;
+}
+.sw-text--inverse {
+  @apply text-text-inverse;
+}
 </style>

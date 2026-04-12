@@ -29,11 +29,21 @@ const iconSize = computed(() => {
   <component
     :is="as"
     class="sw-icon-btn"
-    :class="[`sw-icon-btn--${variant}`, `sw-icon-btn--${size}`, { 'sw-icon-btn--loading': loading, 'sw-icon-btn--rounded': rounded }]"
-    :disabled="as === 'button' ? (disabled || loading) : undefined"
+    :class="[
+      `sw-icon-btn--${variant}`,
+      `sw-icon-btn--${size}`,
+      { 'sw-icon-btn--loading': loading, 'sw-icon-btn--rounded': rounded },
+    ]"
+    :disabled="as === 'button' ? disabled || loading : undefined"
     :aria-label="label"
   >
-    <SwIcon v-if="loading" name="loader-2" :size="iconSize" class="sw-icon-btn__spinner" aria-hidden="true" />
+    <SwIcon
+      v-if="loading"
+      name="loader-2"
+      :size="iconSize"
+      class="sw-icon-btn__spinner"
+      aria-hidden="true"
+    />
 
     <template v-else>
       <SwIcon v-if="icon" :name="icon" :size="iconSize" />
@@ -82,18 +92,38 @@ const iconSize = computed(() => {
 }
 
 /* --- Variants --- */
-.sw-icon-btn--primary { @apply bg-primary text-text-on-primary; }
-.sw-icon-btn--primary:not(:disabled):hover { @apply bg-primary-hover; }
+.sw-icon-btn--primary {
+  @apply bg-primary text-text-on-primary;
+}
+.sw-icon-btn--primary:not(:disabled):hover {
+  @apply bg-primary-hover;
+}
 
-.sw-icon-btn--outline { @apply bg-transparent border border-border-strong text-text; }
-.sw-icon-btn--outline:not(:disabled):hover { @apply bg-surface-subtle; }
+.sw-icon-btn--outline {
+  @apply bg-transparent border border-border-strong text-text;
+}
+.sw-icon-btn--outline:not(:disabled):hover {
+  @apply bg-surface-subtle;
+}
 
-.sw-icon-btn--ghost { @apply bg-surface-subtle text-text; }
-.sw-icon-btn--ghost:not(:disabled):hover { @apply bg-surface-hover; }
+.sw-icon-btn--ghost {
+  @apply bg-surface-subtle text-text;
+}
+.sw-icon-btn--ghost:not(:disabled):hover {
+  @apply bg-surface-hover;
+}
 
-.sw-icon-btn--plain { @apply bg-transparent text-text; }
-.sw-icon-btn--plain:not(:disabled):hover { @apply bg-surface-subtle; }
+.sw-icon-btn--plain {
+  @apply bg-transparent text-text;
+}
+.sw-icon-btn--plain:not(:disabled):hover {
+  @apply bg-surface-subtle;
+}
 
-.sw-icon-btn--danger { @apply bg-danger text-neutral-0; }
-.sw-icon-btn--danger:not(:disabled):hover { @apply bg-danger-dark; }
+.sw-icon-btn--danger {
+  @apply bg-danger text-neutral-0;
+}
+.sw-icon-btn--danger:not(:disabled):hover {
+  @apply bg-danger-dark;
+}
 </style>

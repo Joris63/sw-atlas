@@ -2,7 +2,8 @@ import { ref, watchEffect } from 'vue'
 
 const isDark = ref(
   localStorage.getItem('sw-theme') === 'dark' ||
-  (!localStorage.getItem('sw-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches),
+    (!localStorage.getItem('sw-theme') &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches),
 )
 
 watchEffect(() => {

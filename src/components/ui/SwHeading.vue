@@ -37,12 +37,28 @@ const sizeClass = computed(() => `sw-heading--${props.size ?? defaultSize[props.
   @apply font-semibold text-text leading-tight;
 }
 
-.sw-heading--5xl { @apply text-5xl; }
-.sw-heading--4xl { @apply text-4xl; }
-.sw-heading--3xl { @apply text-3xl; }
-.sw-heading--2xl { @apply text-2xl; }
-.sw-heading--xl  { @apply text-xl; }
-.sw-heading--lg  { @apply text-lg; }
-.sw-heading--base { @apply text-base; }
-.sw-heading--sm  { @apply text-sm; }
+.sw-heading--5xl {
+  @apply text-5xl;
+}
+.sw-heading--4xl {
+  @apply text-4xl;
+}
+.sw-heading--3xl {
+  @apply text-3xl;
+}
+.sw-heading--2xl {
+  @apply text-2xl;
+}
+.sw-heading--xl {
+  @apply text-xl;
+}
+.sw-heading--lg {
+  @apply text-lg;
+}
+.sw-heading--base {
+  @apply text-base;
+}
+.sw-heading--sm {
+  @apply text-sm;
+}
 </style>

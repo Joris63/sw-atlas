@@ -76,6 +76,6 @@ const showCode = ref(false)
 }
 
 .sw-example__code-inner {
-  @apply overflow-hidden
+  @apply overflow-hidden;
 }
 </style>

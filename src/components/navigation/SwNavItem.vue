@@ -23,9 +23,7 @@ const sidebarOpen = computed(() => _sidebarOpen.value)
 const depth = inject<number>('navDepth', 0)
 const openItemId = inject<Ref<symbol | null>>('openNavItemId', ref(null))
 
-const isActive = computed(
-  () => props.active || (!!props.to && route.path === props.to),
-)
+const isActive = computed(() => props.active || (!!props.to && route.path === props.to))
 
 // Each root-level item gets a stable identity for accordion coordination
 const id = Symbol()
@@ -33,7 +31,7 @@ const id = Symbol()
 provide('navDepth', depth + 1)
 
 const isExpanded = computed({
-  get: () => depth === 0 ? openItemId.value === id : _localExpanded.value,
+  get: () => (depth === 0 ? openItemId.value === id : _localExpanded.value),
   set: (val: boolean) => {
     if (depth === 0) openItemId.value = val ? id : null
     else _localExpanded.value = val
@@ -65,7 +63,7 @@ function handleClick() {
       class="sw-nav-item__btn"
       :class="[
         depth > 0 ? 'sw-nav-item__btn--child' : 'sw-nav-item__btn--root',
-        { 'sw-nav-item__btn--active': isActive, 'sw-nav-item__btn--collapsed': !sidebarOpen }
+        { 'sw-nav-item__btn--active': isActive, 'sw-nav-item__btn--collapsed': !sidebarOpen },
       ]"
       @click="handleClick"
     >
@@ -107,7 +105,10 @@ function handleClick() {
          text-sm text-text-muted
          cursor-pointer select-none
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus;
-  transition: color 150ms ease, background-color 150ms ease, padding 200ms ease;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease,
+    padding 200ms ease;
 }
 
 .sw-nav-item__btn--root:hover {
@@ -145,7 +146,9 @@ function handleClick() {
 
 .sw-nav-item__label {
   @apply text-left flex-1 overflow-hidden whitespace-nowrap text-ellipsis max-w-48 opacity-100;
-  transition: max-width 200ms ease, opacity 150ms ease;
+  transition:
+    max-width 200ms ease,
+    opacity 150ms ease;
 }
 
 .sw-nav-item__btn--collapsed .sw-nav-item__label {
