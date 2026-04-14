@@ -47,12 +47,24 @@ const sizes = [
 
 .type-header {
   @apply grid px-5 py-2.5 text-xs font-semibold uppercase text-text-muted bg-surface-subtle border-b border-border gap-4 tracking-wider;
-  grid-template-columns: 7rem 8rem 1fr 1fr;
+  grid-template-columns: 7rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .type-header {
+    grid-template-columns: 7rem 8rem 1fr 1fr;
+  }
 }
 
 .type-row {
   @apply grid items-center px-5 py-3 bg-surface gap-4;
-  grid-template-columns: 7rem 8rem 1fr 1fr;
+  grid-template-columns: 7rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .type-row {
+    grid-template-columns: 7rem 8rem 1fr 1fr;
+  }
 }
 
 .type-row__meta {
@@ -63,10 +75,17 @@ const sizes = [
   @apply text-xs font-mono font-medium text-text;
 }
 .type-row__value {
-  @apply text-xs font-mono text-text-muted;
+  @apply hidden md:block text-xs font-mono text-text-muted;
 }
 .type-row__usage {
-  @apply text-xs text-text-muted italic;
+  @apply hidden md:block text-xs text-text-muted italic;
+}
+
+@media (max-width: 767px) {
+  .type-header span:nth-child(2),
+  .type-header span:nth-child(3) {
+    display: none;
+  }
 }
 .type-row__sample {
   @apply text-text truncate;

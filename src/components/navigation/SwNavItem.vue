@@ -41,9 +41,12 @@ const _localExpanded = ref(false)
 
 function handleClick() {
   if (!sidebarOpen.value) {
+    if (props.to) {
+      router.push(props.to)
+      return
+    }
     _sidebarOpen.value = true
     if (hasChildren.value) isExpanded.value = true
-    if (props.to) router.push(props.to)
     return
   }
   if (props.to) {

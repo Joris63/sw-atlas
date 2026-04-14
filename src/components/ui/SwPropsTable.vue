@@ -106,13 +106,25 @@ const open = ref(false)
 .sw-props-table__header {
   @apply grid px-4 py-2 text-xs font-semibold uppercase text-text-muted
          bg-surface-subtle border-t border-border tracking-wider gap-4;
-  grid-template-columns: 9rem 10rem 7rem 1fr;
+  grid-template-columns: 8rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .sw-props-table__header {
+    grid-template-columns: 9rem 10rem 7rem 1fr;
+  }
 }
 
 .sw-props-table__row {
   @apply grid items-baseline px-4 py-3 text-sm
          border-t border-border bg-surface gap-4;
-  grid-template-columns: 9rem 10rem 7rem 1fr;
+  grid-template-columns: 8rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .sw-props-table__row {
+    grid-template-columns: 9rem 10rem 7rem 1fr;
+  }
 }
 
 .sw-props-table__row:last-child {
@@ -128,12 +140,20 @@ const open = ref(false)
 }
 
 .sw-props-table__type {
-  @apply font-mono text-xs text-primary-700 leading-relaxed;
+  @apply hidden md:block font-mono text-xs text-primary-700 leading-relaxed;
   word-break: break-word;
 }
 
 .sw-props-table__default {
-  @apply font-mono text-xs text-text-muted;
+  @apply hidden md:block font-mono text-xs text-text-muted;
+}
+
+/* Hide "Type" and "Default" header labels on mobile */
+@media (max-width: 767px) {
+  .sw-props-table__header span:nth-child(2),
+  .sw-props-table__header span:nth-child(3) {
+    display: none;
+  }
 }
 
 .sw-props-table__desc {

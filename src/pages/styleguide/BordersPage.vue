@@ -98,26 +98,45 @@ const radii = [
 
 .width-table__header {
   @apply grid px-5 py-2.5 text-xs font-semibold uppercase text-text-muted bg-surface-subtle border-b border-border tracking-wider gap-4;
-  grid-template-columns: 8rem 6rem 1fr 6rem;
+  grid-template-columns: 8rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .width-table__header {
+    grid-template-columns: 8rem 6rem 1fr 6rem;
+  }
 }
 
 .width-row {
   @apply grid items-center px-5 py-3 border-b border-border last:border-0 bg-surface gap-4;
-  grid-template-columns: 8rem 6rem 1fr 6rem;
+  grid-template-columns: 8rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .width-row {
+    grid-template-columns: 8rem 6rem 1fr 6rem;
+  }
 }
 
 .width-row__token {
   @apply text-sm font-mono font-medium text-text;
 }
 .width-row__value {
-  @apply text-sm font-mono text-text-muted;
+  @apply hidden md:block text-sm font-mono text-text-muted;
 }
 .width-row__usage {
   @apply text-xs text-text-muted italic;
 }
 
 .width-row__preview {
-  @apply flex items-center;
+  @apply hidden md:flex items-center;
+}
+
+@media (max-width: 767px) {
+  .width-table__header span:nth-child(2),
+  .width-table__header span:nth-child(4) {
+    display: none;
+  }
 }
 
 .width-row__box {

@@ -377,21 +377,41 @@ const semanticGroups: SemanticGroup[] = [
   @apply flex flex-col gap-4;
 }
 
-/* Scale */
+/* Scale — mobile: vertical list */
 .color-scale {
-  @apply flex rounded-xl overflow-hidden;
+  @apply flex flex-col rounded-xl overflow-hidden;
 }
 
 .color-swatch {
-  @apply flex-1 flex flex-col justify-between p-2.5 min-h-24;
+  @apply flex items-center justify-between px-4 h-12;
 }
 
 .color-swatch__step {
-  @apply text-xs font-semibold;
+  @apply text-sm font-semibold;
 }
 
 .color-swatch__hex {
-  @apply text-xs font-mono;
+  @apply text-sm font-mono;
+}
+
+/* Scale — desktop: horizontal strip */
+@media (min-width: 1280px) {
+  .color-scale {
+    @apply flex-row;
+  }
+
+  .color-swatch {
+    @apply flex-1 flex-col justify-between p-2.5 min-h-24 px-2.5;
+    height: auto;
+  }
+
+  .color-swatch__step {
+    @apply text-xs;
+  }
+
+  .color-swatch__hex {
+    @apply text-xs;
+  }
 }
 
 .color-swatch__label--dark {

@@ -30,7 +30,6 @@ const steps = [
   { name: '96', rem: '24rem', px: '384px', usage: null },
 ]
 
-const maxPx = 384
 </script>
 
 <template>
@@ -55,7 +54,7 @@ const maxPx = 384
           <div class="spacing-row__bar-track">
             <div
               class="spacing-row__bar"
-              :style="{ width: `${(parseInt(s.px) / maxPx) * 100}%` }"
+              :style="{ width: s.rem }"
             />
           </div>
         </div>
@@ -77,32 +76,71 @@ const maxPx = 384
 
 .spacing-table__header {
   @apply grid px-5 py-2.5 text-xs font-semibold uppercase text-text-muted bg-surface-subtle border-b border-border tracking-wider gap-4;
-  grid-template-columns: 5rem 6rem 5rem 1fr 8rem;
+  grid-template-columns: 5rem 5rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .spacing-table__header {
+    grid-template-columns: 5rem 6rem 5rem 1fr;
+  }
+}
+
+@media (min-width: 1280px) {
+  .spacing-table__header {
+    grid-template-columns: 5rem 6rem 5rem 1fr minmax(0, 24rem);
+  }
 }
 
 .spacing-row {
   @apply grid items-center px-5 py-2.5 border-b border-border last:border-0 bg-surface gap-4;
-  grid-template-columns: 5rem 6rem 5rem 1fr 8rem;
+  grid-template-columns: 5rem 5rem 1fr;
+}
+
+@media (min-width: 768px) {
+  .spacing-row {
+    grid-template-columns: 5rem 6rem 5rem 1fr;
+  }
+}
+
+@media (min-width: 1280px) {
+  .spacing-row {
+    grid-template-columns: 5rem 6rem 5rem 1fr minmax(0, 24rem);
+  }
 }
 
 .spacing-row__name {
   @apply text-sm font-mono font-medium text-text;
 }
 .spacing-row__rem {
-  @apply text-sm font-mono text-text-muted;
+  @apply hidden md:block text-sm font-mono text-text-muted;
 }
 .spacing-row__px {
   @apply text-sm font-mono text-text-muted;
 }
 .spacing-row__usage {
-  @apply text-xs text-text-muted italic;
+  @apply hidden md:block text-xs text-text-muted italic;
+}
+
+@media (max-width: 767px) {
+  .spacing-table__header span:nth-child(2),
+  .spacing-table__header span:nth-child(4),
+  .spacing-table__header span:nth-child(5) {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1279px) {
+  .spacing-table__header span:nth-child(5) {
+    display: none;
+  }
 }
 
 .spacing-row__bar-track {
-  @apply h-4 rounded-sm overflow-hidden min-w-0 bg-surface-subtle;
+  @apply hidden xl:block h-4 rounded-sm overflow-hidden min-w-0 bg-surface-subtle;
 }
 
 .spacing-row__bar {
-  @apply h-full rounded-sm bg-primary-400 min-w-0.5;
+  @apply h-full rounded-sm bg-primary-400;
+  max-width: 100%;
 }
 </style>
