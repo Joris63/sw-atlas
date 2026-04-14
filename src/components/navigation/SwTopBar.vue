@@ -3,6 +3,8 @@
 <template>
   <header class="sw-topbar">
     <div class="sw-topbar__inner">
+      <slot name="menu-btn" />
+
       <div class="sw-topbar__start" v-if="$slots.logo">
         <slot name="logo" />
       </div>

@@ -19,7 +19,7 @@ defineProps<{
 @reference "../../styles/tailwind.css";
 
 .sw-page-content {
-  @apply flex flex-col gap-12;
+  @apply flex flex-col gap-6 md:gap-8 lg:gap-12;
 }
 
 .sw-page-content__header {
@@ -27,10 +27,10 @@ defineProps<{
 }
 
 .sw-page-content__title {
-  @apply text-3xl font-semibold text-text;
+  @apply text-xl md:text-2xl lg:text-3xl font-semibold text-text;
 }
 
 .sw-page-content__desc {
-  @apply text-base text-text-muted;
+  @apply text-sm md:text-base text-text-muted;
 }
 </style>

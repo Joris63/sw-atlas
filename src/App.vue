@@ -3,15 +3,10 @@ import SwAppLayout from '@/components/layout/SwAppLayout.vue'
 import SwNavItem from '@/components/navigation/SwNavItem.vue'
 import SwNavGroup from '@/components/navigation/SwNavGroup.vue'
 import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue'
-import logoRaw from '@/assets/logo-nl.svg?raw'
 </script>
 
 <template>
-  <SwAppLayout>
-    <template #logo>
-      <span v-html="logoRaw" class="sw-app__logo" />
-    </template>
-
+  <SwAppLayout logo="nl">
     <template #topbar-end>
       <SwDarkModeToggle />
     </template>
@@ -44,16 +39,3 @@ import logoRaw from '@/assets/logo-nl.svg?raw'
     <RouterView />
   </SwAppLayout>
 </template>
-
-<style scoped>
-@reference "./styles/tailwind.css";
-
-.sw-app__logo {
-  @apply flex items-center text-text-on-primary;
-}
-
-.sw-app__logo :deep(svg) {
-  height: 2.25rem;
-  width: auto;
-}
-</style>
