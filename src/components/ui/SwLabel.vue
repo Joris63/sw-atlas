@@ -1,5 +1,5 @@
 <script setup lang="ts">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     for?: string
     size?: 'xs' | 'sm'
@@ -16,7 +16,7 @@ withDefaults(
   <label
     class="sw-label"
     :class="[`sw-label--${size}`, { 'sw-label--uppercase': uppercase }]"
-    :for="($props as any).for"
+    :for="props.for"
   >
     <slot />
     <span v-if="required" class="sw-label__required" aria-hidden="true">*</span>

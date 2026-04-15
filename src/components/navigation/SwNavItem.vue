@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, provide, useSlots, computed } from 'vue'
+import { ref, inject, provide, useSlots, computed, watch } from 'vue'
 import type { Ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import SwIcon from '@/components/ui/SwIcon.vue'
@@ -18,42 +18,56 @@ const route = useRoute()
 
 const slots = useSlots()
 const hasChildren = computed(() => !!slots.default)
-const _sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
-const sidebarOpen = computed(() => _sidebarOpen.value)
+
+const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
 const depth = inject<number>('navDepth', 0)
 const openItemId = inject<Ref<symbol | null>>('openNavItemId', ref(null))
 
-const isActive = computed(() => props.active || (!!props.to && route.path === props.to))
-
 // Each root-level item gets a stable identity for accordion coordination
 const id = Symbol()
+const localExpanded = ref(false)
 
 provide('navDepth', depth + 1)
 
 const isExpanded = computed({
-  get: () => (depth === 0 ? openItemId.value === id : _localExpanded.value),
+  get: () => (depth === 0 ? openItemId.value === id : localExpanded.value),
   set: (val: boolean) => {
     if (depth === 0) openItemId.value = val ? id : null
-    else _localExpanded.value = val
+    else localExpanded.value = val
   },
 })
-const _localExpanded = ref(false)
+
+const isActive = computed(() => props.active || (!!props.to && route.path === props.to))
+
+// Bubble active state up so a collapsed parent highlights when a child route is active
+const hasActiveDescendant = ref(false)
+const reportToParent = inject<((active: boolean) => void) | null>('reportActiveChild', null)
+
+provide('reportActiveChild', (active: boolean) => {
+  hasActiveDescendant.value = active
+})
+
+watch(
+  [isActive, hasActiveDescendant],
+  () => reportToParent?.(isActive.value || hasActiveDescendant.value),
+  { immediate: true },
+)
+
+const showAsActive = computed(() => isActive.value || hasActiveDescendant.value)
 
 function handleClick() {
   if (!sidebarOpen.value) {
     if (props.to) {
       router.push(props.to)
-      return
+    } else {
+      sidebarOpen.value = true
+      if (hasChildren.value) isExpanded.value = true
     }
-    _sidebarOpen.value = true
-    if (hasChildren.value) isExpanded.value = true
     return
   }
   if (props.to) {
     router.push(props.to)
-    return
-  }
-  if (hasChildren.value) {
+  } else if (hasChildren.value) {
     isExpanded.value = !isExpanded.value
   }
 }
@@ -66,7 +80,7 @@ function handleClick() {
       class="sw-nav-item__btn"
       :class="[
         depth > 0 ? 'sw-nav-item__btn--child' : 'sw-nav-item__btn--root',
-        { 'sw-nav-item__btn--active': isActive, 'sw-nav-item__btn--collapsed': !sidebarOpen },
+        { 'sw-nav-item__btn--active': showAsActive, 'sw-nav-item__btn--collapsed': !sidebarOpen },
       ]"
       @click="handleClick"
     >
@@ -83,7 +97,8 @@ function handleClick() {
     </button>
 
     <div
-      v-if="hasChildren && sidebarOpen"
+      v-if="hasChildren"
+      v-show="sidebarOpen"
       class="sw-nav-item__children-wrap"
       :class="{ 'sw-nav-item__children-wrap--open': isExpanded }"
       @click.stop
@@ -115,28 +130,30 @@ function handleClick() {
 }
 
 .sw-nav-item__btn--root:hover {
-  @apply text-text;
+  @apply text-text bg-surface-subtle;
 }
 
 .sw-nav-item__btn--root.sw-nav-item__btn--active {
-  @apply text-text font-semibold;
+  @apply text-primary font-semibold;
+  background-color: color-mix(in srgb, var(--color-primary) 10%, var(--surface));
 }
 
 /* Child items */
 .sw-nav-item__btn--child {
   @apply flex items-center gap-2.5 w-full px-2 h-7 rounded-md
-         text-sm text-primary
+         text-sm text-text-muted
          cursor-pointer select-none
          transition-colors duration-150
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus;
 }
 
 .sw-nav-item__btn--child:hover {
-  @apply text-primary underline;
+  @apply text-text bg-surface-subtle;
 }
 
 .sw-nav-item__btn--child.sw-nav-item__btn--active {
-  @apply font-semibold;
+  @apply text-primary font-semibold;
+  background-color: color-mix(in srgb, var(--color-primary) 10%, var(--surface));
 }
 
 .sw-nav-item__btn--collapsed {
@@ -173,6 +190,6 @@ function handleClick() {
 }
 
 .sw-nav-item__children {
-  @apply flex flex-col ml-6 mt-0.5 mb-1 overflow-hidden;
+  @apply flex flex-col gap-0.5 ml-6 mt-0.5 mb-1 overflow-hidden;
 }
 </style>

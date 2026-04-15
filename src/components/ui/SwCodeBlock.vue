@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { codeToHtml } from 'shiki'
 import SwButton from './SwButton.vue'
 
@@ -18,8 +18,6 @@ watchEffect(async () => {
   })
 })
 
-const displayLang = computed(() => props.language ?? 'vue')
-
 async function copy() {
   await navigator.clipboard.writeText(props.code)
   copied.value = true
@@ -30,7 +28,7 @@ async function copy() {
 <template>
   <div class="sw-code-block">
     <div class="sw-code-block__toolbar">
-      <span class="sw-code-block__lang">{{ displayLang }}</span>
+      <span class="sw-code-block__lang">{{ props.language ?? 'vue' }}</span>
       <SwButton
         size="xs"
         variant="plain"

@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { inject, computed } from 'vue'
+import { inject, ref } from 'vue'
 import type { Ref } from 'vue'
-import { ref } from 'vue'
 
 defineProps<{ label: string }>()
 
-const _sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
-const sidebarOpen = computed(() => _sidebarOpen.value)
+const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
 </script>
 
 <template>
