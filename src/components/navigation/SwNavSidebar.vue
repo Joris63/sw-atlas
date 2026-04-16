@@ -39,7 +39,7 @@ const toggle = inject<() => void>('toggleSidebar', () => {})
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 /* ── Desktop (default) ──────────────────────────────────────── */
 .sw-sidebar {

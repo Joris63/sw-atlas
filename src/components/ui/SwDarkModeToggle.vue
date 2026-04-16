@@ -17,7 +17,7 @@ const { isDark, toggle } = useDarkMode()
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-dark-toggle :deep(.sw-icon-btn) {
   @apply text-text-on-primary;

@@ -21,7 +21,7 @@
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-topbar {
   @apply sticky top-0 z-50 w-full bg-primary border-b border-border h-16 shadow-md;

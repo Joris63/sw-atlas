@@ -31,7 +31,7 @@ const sizeClass = computed(() => `sw-heading--${props.size ?? defaultSize[props.
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-heading {
   @apply font-semibold text-text leading-tight;

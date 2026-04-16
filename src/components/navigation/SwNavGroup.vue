@@ -15,7 +15,7 @@ const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-nav-group {
   @apply flex flex-col gap-0.5 pt-4 first:pt-2;

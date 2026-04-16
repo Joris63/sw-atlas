@@ -127,7 +127,7 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-layout {
   @apply flex flex-col h-screen overflow-hidden;

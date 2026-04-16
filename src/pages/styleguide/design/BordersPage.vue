@@ -7,6 +7,7 @@ const widths = [
   { token: 'border-0', value: '0px', usage: 'Remove a border (reset)' },
   { token: 'border-1', value: '1px', usage: 'Default — most UI elements' },
   { token: 'border-2', value: '2px', usage: 'Emphasis — selected state, focus ring' },
+  { token: 'border-4', value: '4px', usage: '' },
 ]
 
 const radii = [
@@ -77,7 +78,7 @@ const radii = [
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sg-section {
   @apply flex flex-col gap-4;

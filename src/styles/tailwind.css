@@ -339,6 +339,7 @@
   --border-width-0: 0px;
   --border-width-1: 1px;
   --border-width-2: 2px;
+  --border-width-4: 4px;
 
   /* ----------------------------------------------------------
      BORDER RADIUS → rounded-sm, rounded-lg, rounded-2xl etc.

@@ -31,7 +31,7 @@ const title = computed(() => {
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sg-placeholder {
   @apply flex flex-col items-center justify-center gap-4 text-center min-h-96;

@@ -34,7 +34,7 @@ const inlineCode = `<SwText>Use <SwCode>bg-primary</SwCode> for the brand backgr
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 .sg-section {
   @apply flex flex-col gap-4;
 }

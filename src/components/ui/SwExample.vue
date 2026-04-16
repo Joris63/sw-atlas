@@ -42,7 +42,7 @@ const showCode = ref(false)
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-example {
   @apply rounded-xl overflow-hidden border border-border;

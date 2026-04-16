@@ -111,7 +111,7 @@ function handleClick() {
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-nav-item {
   @apply flex flex-col;

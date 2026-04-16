@@ -59,7 +59,7 @@ const sizeCode = `<!-- Override the visual size while keeping semantic level -->
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 .sg-section {
   @apply flex flex-col gap-4;
 }

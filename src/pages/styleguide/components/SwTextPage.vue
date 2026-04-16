@@ -78,7 +78,7 @@ const weightCode = `<SwText weight="normal">Normal weight</SwText>
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 .sg-section {
   @apply flex flex-col gap-4;
 }

@@ -11,7 +11,7 @@ defineProps<{
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-code {
   @apply text-sm rounded-md px-1.5 py-0.5 font-mono text-primary-700 bg-primary-50;

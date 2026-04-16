@@ -54,7 +54,7 @@ const open = ref(false)
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-props-table {
   @apply rounded-xl border border-border overflow-hidden;

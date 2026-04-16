@@ -29,7 +29,7 @@ defineProps<{ items: Item[] }>()
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-breadcrumbs__list {
   @apply flex items-center gap-1.5 text-sm;

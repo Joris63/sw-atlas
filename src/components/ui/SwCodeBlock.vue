@@ -43,7 +43,7 @@ async function copy() {
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-code-block {
   @apply bg-neutral-950 border-t border-neutral-800;

@@ -16,7 +16,7 @@ defineProps<{
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-page-content {
   @apply flex flex-col gap-6 md:gap-8 lg:gap-12;

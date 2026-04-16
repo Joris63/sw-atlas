@@ -53,7 +53,7 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 1
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-btn {
   @apply inline-flex items-center justify-center gap-2

@@ -24,7 +24,7 @@ const props = withDefaults(
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-label {
   @apply inline-flex items-center gap-1 font-medium text-text;

@@ -26,7 +26,7 @@ withDefaults(
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-text {
   @apply leading-normal;

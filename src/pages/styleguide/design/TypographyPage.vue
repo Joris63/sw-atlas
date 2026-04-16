@@ -39,7 +39,7 @@ const sizes = [
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .type-scale {
   @apply flex flex-col divide-y border border-border rounded-xl overflow-hidden;

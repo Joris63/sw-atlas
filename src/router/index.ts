@@ -1,16 +1,23 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '@/pages/HomePage.vue'
-import ColorsPage from '@/pages/styleguide/ColorsPage.vue'
-import TypographyPage from '@/pages/styleguide/TypographyPage.vue'
-import SpacingPage from '@/pages/styleguide/SpacingPage.vue'
-import ShadowsPage from '@/pages/styleguide/ShadowsPage.vue'
-import BordersPage from '@/pages/styleguide/BordersPage.vue'
-import ButtonPage from '@/pages/styleguide/ButtonPage.vue'
-import SwHeadingPage from '@/pages/styleguide/SwHeadingPage.vue'
-import SwTextPage from '@/pages/styleguide/SwTextPage.vue'
-import SwLabelPage from '@/pages/styleguide/SwLabelPage.vue'
-import SwCodePage from '@/pages/styleguide/SwCodePage.vue'
-import SwIconButtonPage from '@/pages/styleguide/SwIconButtonPage.vue'
+
+/* DESIGN */
+import ColorsPage from '@/pages/styleguide/design/ColorsPage.vue'
+import TypographyPage from '@/pages/styleguide/design/TypographyPage.vue'
+import SpacingPage from '@/pages/styleguide/design/SpacingPage.vue'
+import ShadowsPage from '@/pages/styleguide/design/ShadowsPage.vue'
+import BordersPage from '@/pages/styleguide/design/BordersPage.vue'
+
+/* COMPONENTS */
+/* BUTTONS */
+import ButtonPage from '@/pages/styleguide/components/buttons/ButtonPage.vue'
+import SwHeadingPage from '@/pages/styleguide/components/SwHeadingPage.vue'
+
+/* TYPOGRAPHY */
+import SwTextPage from '@/pages/styleguide/components/SwTextPage.vue'
+import SwLabelPage from '@/pages/styleguide/components/SwLabelPage.vue'
+import SwCodePage from '@/pages/styleguide/components/SwCodePage.vue'
+import SwIconButtonPage from '@/pages/styleguide/components/buttons/SwIconButtonPage.vue'
 
 type Crumb = { label: string; icon?: string; to?: string }
 

@@ -53,7 +53,7 @@ const iconSize = computed(() => {
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sw-icon-btn {
   @apply inline-flex items-center justify-center shrink-0

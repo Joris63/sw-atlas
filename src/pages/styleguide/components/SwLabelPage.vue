@@ -57,7 +57,7 @@ const uppercaseCode = `<SwLabel uppercase>Section header</SwLabel>
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 .sg-section {
   @apply flex flex-col gap-4;
 }

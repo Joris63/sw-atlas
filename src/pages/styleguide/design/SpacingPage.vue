@@ -29,7 +29,6 @@ const steps = [
   { name: '80', rem: '20rem', px: '320px', usage: null },
   { name: '96', rem: '24rem', px: '384px', usage: null },
 ]
-
 </script>
 
 <template>
@@ -52,10 +51,7 @@ const steps = [
           <span class="spacing-row__px">{{ s.px }}</span>
           <span class="spacing-row__usage">{{ s.usage ?? '' }}</span>
           <div class="spacing-row__bar-track">
-            <div
-              class="spacing-row__bar"
-              :style="{ width: s.rem }"
-            />
+            <div class="spacing-row__bar" :style="{ width: s.rem }" />
           </div>
         </div>
       </div>
@@ -64,7 +60,7 @@ const steps = [
 </template>
 
 <style scoped>
-@reference "../../styles/tailwind.css";
+@reference "@/styles/tailwind.css";
 
 .sg-section {
   @apply flex flex-col gap-4;
