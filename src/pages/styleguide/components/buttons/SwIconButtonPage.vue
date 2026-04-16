@@ -63,25 +63,25 @@ const variantsCode = `<SwIconButton icon="pencil" label="Edit" variant="primary"
 <SwIconButton icon="trash-2" label="Delete" variant="danger" />`
 
 const sizesCode = `<SwIconButton icon="star" label="Star" size="2xs" variant="outline" />
-<SwIconButton icon="star" label="Star" size="xs"  variant="outline" />
-<SwIconButton icon="star" label="Star" size="sm"  variant="outline" />
-<SwIconButton icon="star" label="Star" size="md"  variant="outline" />
-<SwIconButton icon="star" label="Star" size="lg"  variant="outline" />`
+<SwIconButton icon="star" label="Star" size="xs" variant="outline" />
+<SwIconButton icon="star" label="Star" size="sm" variant="outline" />
+<SwIconButton icon="star" label="Star" size="md" variant="outline" />
+<SwIconButton icon="star" label="Star" size="lg" variant="outline" />`
 
 const roundedCode = `<SwIconButton icon="plus"    label="Add"    variant="primary" rounded />
-<SwIconButton icon="pencil"  label="Edit"   variant="outline" rounded />
-<SwIconButton icon="x"       label="Close"  variant="ghost"   rounded />
-<SwIconButton icon="trash-2" label="Delete" variant="danger"  rounded />`
+<SwIconButton icon="pencil" label="Edit"   variant="outline" rounded />
+<SwIconButton icon="x" label="Close"  variant="ghost" rounded />
+<SwIconButton icon="trash-2" label="Delete" variant="danger" rounded />`
 
 const disabledCode = `<SwIconButton icon="pencil" label="Edit" variant="primary"  disabled />
-<SwIconButton icon="pencil" label="Edit" variant="outline"  disabled />
-<SwIconButton icon="pencil" label="Edit" variant="ghost"    disabled />
-<SwIconButton icon="pencil" label="Edit" variant="plain"    disabled />
-<SwIconButton icon="pencil" label="Edit" variant="danger"   disabled />`
+<SwIconButton icon="pencil" label="Edit" variant="outline" disabled />
+<SwIconButton icon="pencil" label="Edit" variant="ghost" disabled />
+<SwIconButton icon="pencil" label="Edit" variant="plain" disabled />
+<SwIconButton icon="pencil" label="Edit" variant="danger" disabled />`
 
 const loadingCode = `<SwIconButton label="Saving" variant="primary" loading />
 <SwIconButton label="Saving" variant="outline" loading />
-<SwIconButton label="Saving" variant="danger"  loading />`
+<SwIconButton label="Saving" variant="danger" loading />`
 </script>
 
 <template>

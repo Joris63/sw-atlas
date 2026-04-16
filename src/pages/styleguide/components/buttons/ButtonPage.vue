@@ -59,35 +59,35 @@ const propRows: PropRow[] = [
 
 const variantsCode = `<SwButton label="Primary" variant="primary" />
 <SwButton label="Outline" variant="outline" />
-<SwButton label="Ghost"   variant="ghost" />
-<SwButton label="Plain"   variant="plain" />
-<SwButton label="Danger"  variant="danger" />`
+<SwButton label="Ghost" variant="ghost" />
+<SwButton label="Plain" variant="plain" />
+<SwButton label="Danger" variant="danger" />`
 
 const sizesCode = `<SwButton label="2xs" size="2xs" />
-<SwButton label="xs"  size="xs" />
-<SwButton label="sm"  size="sm" />
-<SwButton label="md"  size="md" />
-<SwButton label="lg"  size="lg" />`
+<SwButton label="xs" size="xs" />
+<SwButton label="sm" size="sm" />
+<SwButton label="md" size="md" />
+<SwButton label="lg" size="lg" />`
 
 const iconLeftCode = `<SwButton label="Send"     icon-left="send" />
 <SwButton label="Download" variant="outline" icon-left="download" />
-<SwButton label="Add item" variant="ghost"   icon-left="plus" />
-<SwButton label="Settings" variant="plain"   icon-left="settings" />
-<SwButton label="Delete"   variant="danger"  icon-left="trash-2" />`
+<SwButton label="Add item" variant="ghost" icon-left="plus" />
+<SwButton label="Settings" variant="plain" icon-left="settings" />
+<SwButton label="Delete" variant="danger" icon-left="trash-2" />`
 
 const iconRightCode = `<SwButton label="Continue" icon-right="arrow-right" />
-<SwButton label="Open"     variant="outline" icon-right="external-link" />
-<SwButton label="More"     variant="ghost"   icon-right="chevron-down" />`
+<SwButton label="Open" variant="outline" icon-right="external-link" />
+<SwButton label="More" variant="ghost" icon-right="chevron-down" />`
 
 const disabledCode = `<SwButton label="Primary" disabled />
 <SwButton label="Outline" variant="outline" disabled />
-<SwButton label="Ghost"   variant="ghost"   disabled />
-<SwButton label="Plain"   variant="plain"   disabled />
-<SwButton label="Danger"  variant="danger"  disabled />`
+<SwButton label="Ghost" variant="ghost" disabled />
+<SwButton label="Plain" variant="plain" disabled />
+<SwButton label="Danger" variant="danger" disabled />`
 
-const loadingCode = `<SwButton label="Save"   loading loading-text="Saving…" />
-<SwButton label="Load"   variant="outline" loading loading-text="Loading…" />
-<SwButton label="Delete" variant="danger"  loading loading-text="Deleting…" />`
+const loadingCode = `<SwButton label="Save" loading loading-text="Saving…" />
+<SwButton label="Load" variant="outline" loading loading-text="Loading…" />
+<SwButton label="Delete" variant="danger" loading loading-text="Deleting…" />`
 </script>
 
 <template>

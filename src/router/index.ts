@@ -11,13 +11,13 @@ import BordersPage from '@/pages/styleguide/design/BordersPage.vue'
 /* COMPONENTS */
 /* BUTTONS */
 import ButtonPage from '@/pages/styleguide/components/buttons/ButtonPage.vue'
-import SwHeadingPage from '@/pages/styleguide/components/SwHeadingPage.vue'
+import SwIconButtonPage from '@/pages/styleguide/components/buttons/SwIconButtonPage.vue'
 
 /* TYPOGRAPHY */
-import SwTextPage from '@/pages/styleguide/components/SwTextPage.vue'
-import SwLabelPage from '@/pages/styleguide/components/SwLabelPage.vue'
-import SwCodePage from '@/pages/styleguide/components/SwCodePage.vue'
-import SwIconButtonPage from '@/pages/styleguide/components/buttons/SwIconButtonPage.vue'
+import SwHeadingPage from '@/pages/styleguide/components/typography/SwHeadingPage.vue'
+import SwTextPage from '@/pages/styleguide/components/typography/SwTextPage.vue'
+import SwLabelPage from '@/pages/styleguide/components/typography/SwLabelPage.vue'
+import SwCodePage from '@/pages/styleguide/components/typography/SwCodePage.vue'
 
 type Crumb = { label: string; icon?: string; to?: string }
 
