@@ -19,6 +19,10 @@ import SwTextPage from '@/pages/styleguide/components/typography/SwTextPage.vue'
 import SwLabelPage from '@/pages/styleguide/components/typography/SwLabelPage.vue'
 import SwCodePage from '@/pages/styleguide/components/typography/SwCodePage.vue'
 
+/* FORMS */
+import SwInputPage from '@/pages/styleguide/components/forms/SwInputPage.vue'
+import SwSwitchPage from '@/pages/styleguide/components/forms/SwSwitchPage.vue'
+
 type Crumb = { label: string; icon?: string; to?: string }
 
 function sgCrumbs(...labels: string[]): Crumb[] {
@@ -96,6 +100,18 @@ const router = createRouter({
       path: '/styleguide/components/code',
       component: SwCodePage,
       meta: { breadcrumbs: sgCrumbs('SwCode') },
+    },
+
+    // Forms
+    {
+      path: '/styleguide/components/input',
+      component: SwInputPage,
+      meta: { breadcrumbs: sgCrumbs('SwInput') },
+    },
+    {
+      path: '/styleguide/components/switch',
+      component: SwSwitchPage,
+      meta: { breadcrumbs: sgCrumbs('SwSwitch') },
     },
   ],
 })

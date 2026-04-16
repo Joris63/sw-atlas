@@ -58,7 +58,7 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 1
 .sw-btn {
   @apply inline-flex items-center justify-center gap-2
          font-medium rounded-lg cursor-pointer select-none
-         transition-colors duration-150 whitespace-nowrap
+         transition-all duration-150 whitespace-nowrap
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus
          disabled:opacity-50 disabled:cursor-not-allowed;
 }

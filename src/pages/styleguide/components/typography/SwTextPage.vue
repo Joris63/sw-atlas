@@ -1,50 +1,50 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue'
-import SwExample from '@/components/ui/SwExample.vue'
 import SwText from '@/components/ui/SwText.vue'
-import SwPropsTable from '@/components/ui/SwPropsTable.vue'
-import type { PropRow } from '@/components/ui/SwPropsTable.vue'
+import SwPlayground from '@/components/ui/SwPlayground.vue'
+import type { PlaygroundPropConfig } from '@/components/ui/SwPlayground.vue'
 
-const propRows: PropRow[] = [
+const playgroundConfig: PlaygroundPropConfig[] = [
   {
-    name: 'as',
-    type: 'string',
-    default: "'p'",
-    description: 'HTML element to render as (e.g. span, div, li).',
+    name: '_content',
+    type: 'slot',
+    description: 'Text content.',
+    control: 'text',
+    initialValue: 'The quick brown fox jumps over the lazy dog.',
+    isSlotContent: true,
   },
   {
     name: 'size',
     type: "'xs' | 'sm' | 'base' | 'lg' | 'xl'",
-    default: "'base'",
+    default: 'base',
     description: 'Font size.',
+    control: 'segmented',
+    options: ['xs', 'sm', 'base', 'lg', 'xl'],
   },
   {
     name: 'weight',
     type: "'normal' | 'medium' | 'semibold'",
-    default: "'normal'",
+    default: 'normal',
     description: 'Font weight.',
+    control: 'segmented',
+    options: ['normal', 'medium', 'semibold'],
   },
   {
     name: 'color',
     type: "'default' | 'muted' | 'subtle' | 'inverse'",
-    default: "'default'",
-    description: 'Text color token. Use muted for secondary copy, subtle for placeholders.',
+    default: 'default',
+    description: 'Text color token.',
+    control: 'segmented',
+    options: ['default', 'muted', 'subtle'],
+  },
+  {
+    name: 'as',
+    type: 'string',
+    default: "'p'",
+    description: 'HTML element to render as.',
+    control: 'none',
   },
 ]
-
-const sizesCode = `<SwText size="xl">Extra large</SwText>
-<SwText size="lg">Large</SwText>
-<SwText size="base">Base (default)</SwText>
-<SwText size="sm">Small</SwText>
-<SwText size="xs">Extra small</SwText>`
-
-const colorCode = `<SwText>Default</SwText>
-<SwText color="muted">Muted</SwText>
-<SwText color="subtle">Subtle</SwText>`
-
-const weightCode = `<SwText weight="normal">Normal weight</SwText>
-<SwText weight="medium">Medium weight</SwText>
-<SwText weight="semibold">Semibold weight</SwText>`
 </script>
 
 <template>
@@ -52,34 +52,12 @@ const weightCode = `<SwText weight="normal">Normal weight</SwText>
     title="SwText"
     description="Body copy rendered as a paragraph by default. Configurable size, color, and weight."
   >
-    <div class="sg-section">
-      <SwPropsTable :rows="propRows" />
-
-      <SwExample title="Sizes" :code="sizesCode" preview-class="flex-col items-start gap-2">
-        <SwText size="xl">Extra large</SwText>
-        <SwText size="lg">Large</SwText>
-        <SwText size="base">Base (default)</SwText>
-        <SwText size="sm">Small</SwText>
-        <SwText size="xs">Extra small</SwText>
-      </SwExample>
-
-      <SwExample title="Color" :code="colorCode" preview-class="flex-col items-start gap-2">
-        <SwText>Default</SwText>
-        <SwText color="muted">Muted</SwText>
-        <SwText color="subtle">Subtle</SwText>
-      </SwExample>
-      <SwExample title="Weight" :code="weightCode" preview-class="flex-col items-start gap-2">
-        <SwText weight="normal">Normal weight</SwText>
-        <SwText weight="medium">Medium weight</SwText>
-        <SwText weight="semibold">Semibold weight</SwText>
-      </SwExample>
-    </div>
+    <SwPlayground :props-config="playgroundConfig" component-name="SwText">
+      <template #default="{ values }">
+        <SwText :size="values.size" :weight="values.weight" :color="values.color">
+          {{ values._content }}
+        </SwText>
+      </template>
+    </SwPlayground>
   </SwPage>
 </template>
-
-<style scoped>
-@reference "@/styles/tailwind.css";
-.sg-section {
-  @apply flex flex-col gap-4;
-}
-</style>

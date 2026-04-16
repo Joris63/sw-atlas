@@ -39,17 +39,24 @@ const isExpanded = computed({
 
 const isActive = computed(() => props.active || (!!props.to && route.path === props.to))
 
-// Bubble active state up so a collapsed parent highlights when a child route is active
+// Bubble active state up so a collapsed parent highlights when a child route is active.
+// Track a Set of active child IDs so multiple siblings reporting don't overwrite each other.
+const activeChildIds = new Set<symbol>()
 const hasActiveDescendant = ref(false)
-const reportToParent = inject<((active: boolean) => void) | null>('reportActiveChild', null)
+const reportToParent = inject<((childId: symbol, active: boolean) => void) | null>(
+  'reportActiveChild',
+  null,
+)
 
-provide('reportActiveChild', (active: boolean) => {
-  hasActiveDescendant.value = active
+provide('reportActiveChild', (childId: symbol, active: boolean) => {
+  if (active) activeChildIds.add(childId)
+  else activeChildIds.delete(childId)
+  hasActiveDescendant.value = activeChildIds.size > 0
 })
 
 watch(
   [isActive, hasActiveDescendant],
-  () => reportToParent?.(isActive.value || hasActiveDescendant.value),
+  () => reportToParent?.(id, isActive.value || hasActiveDescendant.value),
   { immediate: true },
 )
 

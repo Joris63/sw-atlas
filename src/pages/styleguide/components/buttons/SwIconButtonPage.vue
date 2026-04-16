@@ -1,87 +1,71 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue'
-import SwExample from '@/components/ui/SwExample.vue'
 import SwIconButton from '@/components/ui/SwIconButton.vue'
-import SwPropsTable from '@/components/ui/SwPropsTable.vue'
-import type { PropRow } from '@/components/ui/SwPropsTable.vue'
+import SwPlayground from '@/components/ui/SwPlayground.vue'
+import type { PlaygroundPropConfig } from '@/components/ui/SwPlayground.vue'
 
-const propRows: PropRow[] = [
+const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'label',
     type: 'string',
     required: true,
     description: 'Accessible label — rendered as aria-label. Always required.',
+    control: 'text',
+    initialValue: 'Edit',
   },
   {
     name: 'icon',
     type: 'string',
-    default: '—',
-    description: 'Lucide icon name. If omitted, renders the default slot instead.',
+    default: '',
+    description: 'Lucide icon name.',
+    control: 'text',
+    initialValue: 'pencil',
   },
   {
     name: 'variant',
     type: "'primary' | 'outline' | 'ghost' | 'plain' | 'danger'",
-    default: "'primary'",
+    default: 'primary',
     description: 'Visual style of the button.',
+    control: 'segmented',
+    options: ['primary', 'outline', 'ghost', 'plain', 'danger'],
   },
   {
     name: 'size',
     type: "'2xs' | 'xs' | 'sm' | 'md' | 'lg'",
-    default: "'md'",
+    default: 'md',
     description: 'Size of the button.',
+    control: 'segmented',
+    options: ['2xs', 'xs', 'sm', 'md', 'lg'],
+  },
+  {
+    name: 'rounded',
+    type: 'boolean',
+    default: false,
+    description: 'Fully round corners.',
+    control: 'toggle',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    default: false,
+    description: 'Prevents interaction and dims the button.',
+    control: 'toggle',
+  },
+  {
+    name: 'loading',
+    type: 'boolean',
+    default: false,
+    description: 'Shows a spinner and disables the button.',
+    control: 'toggle',
   },
   {
     name: 'as',
     type: 'string',
     default: "'button'",
     description: 'HTML element or component to render as.',
-  },
-  {
-    name: 'rounded',
-    type: 'boolean',
-    default: 'false',
-    description: 'Fully round corners — use for pills and avatar-style buttons.',
-  },
-  {
-    name: 'disabled',
-    type: 'boolean',
-    default: 'false',
-    description: 'Prevents interaction and dims the button.',
-  },
-  {
-    name: 'loading',
-    type: 'boolean',
-    default: 'false',
-    description: 'Shows a spinner and disables the button.',
+    control: 'none',
   },
 ]
-
-const variantsCode = `<SwIconButton icon="pencil" label="Edit" variant="primary" />
-<SwIconButton icon="pencil" label="Edit" variant="outline" />
-<SwIconButton icon="pencil" label="Edit" variant="ghost" />
-<SwIconButton icon="pencil" label="Edit" variant="plain" />
-<SwIconButton icon="trash-2" label="Delete" variant="danger" />`
-
-const sizesCode = `<SwIconButton icon="star" label="Star" size="2xs" variant="outline" />
-<SwIconButton icon="star" label="Star" size="xs" variant="outline" />
-<SwIconButton icon="star" label="Star" size="sm" variant="outline" />
-<SwIconButton icon="star" label="Star" size="md" variant="outline" />
-<SwIconButton icon="star" label="Star" size="lg" variant="outline" />`
-
-const roundedCode = `<SwIconButton icon="plus"    label="Add"    variant="primary" rounded />
-<SwIconButton icon="pencil" label="Edit"   variant="outline" rounded />
-<SwIconButton icon="x" label="Close"  variant="ghost" rounded />
-<SwIconButton icon="trash-2" label="Delete" variant="danger" rounded />`
-
-const disabledCode = `<SwIconButton icon="pencil" label="Edit" variant="primary"  disabled />
-<SwIconButton icon="pencil" label="Edit" variant="outline" disabled />
-<SwIconButton icon="pencil" label="Edit" variant="ghost" disabled />
-<SwIconButton icon="pencil" label="Edit" variant="plain" disabled />
-<SwIconButton icon="pencil" label="Edit" variant="danger" disabled />`
-
-const loadingCode = `<SwIconButton label="Saving" variant="primary" loading />
-<SwIconButton label="Saving" variant="outline" loading />
-<SwIconButton label="Saving" variant="danger" loading />`
 </script>
 
 <template>
@@ -89,53 +73,18 @@ const loadingCode = `<SwIconButton label="Saving" variant="primary" loading />
     title="Icon Button"
     description="A square button that contains only an icon. Always provide a label prop for accessibility — it becomes the aria-label."
   >
-    <div class="sg-section">
-      <SwPropsTable :rows="propRows" />
-
-      <SwExample title="Variants" :code="variantsCode" preview-class="items-end">
-        <SwIconButton icon="pencil" label="Edit" variant="primary" />
-        <SwIconButton icon="pencil" label="Edit" variant="outline" />
-        <SwIconButton icon="pencil" label="Edit" variant="ghost" />
-        <SwIconButton icon="pencil" label="Edit" variant="plain" />
-        <SwIconButton icon="trash-2" label="Delete" variant="danger" />
-      </SwExample>
-
-      <SwExample title="Sizes" :code="sizesCode" preview-class="items-end">
-        <SwIconButton icon="star" label="Star" size="2xs" variant="outline" />
-        <SwIconButton icon="star" label="Star" size="xs" variant="outline" />
-        <SwIconButton icon="star" label="Star" size="sm" variant="outline" />
-        <SwIconButton icon="star" label="Star" size="md" variant="outline" />
-        <SwIconButton icon="star" label="Star" size="lg" variant="outline" />
-      </SwExample>
-
-      <SwExample title="Rounded" :code="roundedCode">
-        <SwIconButton icon="plus" label="Add" variant="primary" rounded />
-        <SwIconButton icon="pencil" label="Edit" variant="outline" rounded />
-        <SwIconButton icon="x" label="Close" variant="ghost" rounded />
-        <SwIconButton icon="trash-2" label="Delete" variant="danger" rounded />
-      </SwExample>
-
-      <SwExample title="Disabled" :code="disabledCode">
-        <SwIconButton icon="pencil" label="Edit" variant="primary" disabled />
-        <SwIconButton icon="pencil" label="Edit" variant="outline" disabled />
-        <SwIconButton icon="pencil" label="Edit" variant="ghost" disabled />
-        <SwIconButton icon="pencil" label="Edit" variant="plain" disabled />
-        <SwIconButton icon="pencil" label="Edit" variant="danger" disabled />
-      </SwExample>
-
-      <SwExample title="Loading" :code="loadingCode">
-        <SwIconButton label="Saving" variant="primary" loading />
-        <SwIconButton label="Saving" variant="outline" loading />
-        <SwIconButton label="Saving" variant="danger" loading />
-      </SwExample>
-    </div>
+    <SwPlayground :props-config="playgroundConfig" component-name="SwIconButton">
+      <template #default="{ values }">
+        <SwIconButton
+          :label="values.label"
+          :icon="values.icon || undefined"
+          :variant="values.variant"
+          :size="values.size"
+          :rounded="values.rounded"
+          :disabled="values.disabled"
+          :loading="values.loading"
+        />
+      </template>
+    </SwPlayground>
   </SwPage>
 </template>
-
-<style scoped>
-@reference "@/styles/tailwind.css";
-
-.sg-section {
-  @apply flex flex-col gap-4;
-}
-</style>
