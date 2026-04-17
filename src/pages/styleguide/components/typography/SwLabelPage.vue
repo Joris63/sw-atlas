@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue'
-import SwLabel from '@/components/ui/SwLabel.vue'
-import SwPlayground from '@/components/ui/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/SwPlayground.vue'
+import SwLabel from '@/components/ui/typography/SwLabel.vue'
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {

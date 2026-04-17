@@ -15,7 +15,7 @@ import {
   type ComboboxInputValueChangeDetails,
   type ComboboxValueChangeDetails,
 } from '@ark-ui/vue'
-import SwIcon from './SwIcon.vue'
+import SwIcon from '../SwIcon.vue'
 
 const props = defineProps<{ modelValue: string }>()
 const emit = defineEmits<{ 'update:modelValue': [string] }>()

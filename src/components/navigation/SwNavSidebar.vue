@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 import type { Ref } from 'vue'
-import SwIconButton from '@/components/ui/SwIconButton.vue'
+import SwIconButton from '@/components/ui/buttons/SwIconButton.vue'
 
 const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
 const isMobile = inject<Ref<boolean>>('isMobile', ref(false))

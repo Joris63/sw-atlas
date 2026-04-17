@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue'
 import { codeToHtml } from 'shiki'
-import SwButton from './SwButton.vue'
+import SwButton from '../buttons/SwButton.vue'
 
 const props = defineProps<{
   code: string

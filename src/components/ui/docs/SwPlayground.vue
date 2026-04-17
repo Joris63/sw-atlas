@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed, reactive } from 'vue'
-import SwIcon from './SwIcon.vue'
+import SwIcon from '../SwIcon.vue'
 import SwCodeBlock from './SwCodeBlock.vue'
-import SwButton from './SwButton.vue'
-import SwInput from './SwInput.vue'
-import SwSwitch from './SwSwitch.vue'
-import SwIconInput from './SwIconInput.vue'
+import SwButton from '../buttons/SwButton.vue'
+import SwInput from '../forms/SwInput.vue'
+import SwSwitch from '../forms/SwSwitch.vue'
+import SwIconInput from '../forms/SwIconInput.vue'
 
 export interface PlaygroundPropConfig {
   name: string

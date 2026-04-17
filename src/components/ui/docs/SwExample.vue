@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import SwCodeBlock from './SwCodeBlock.vue'
-import SwButton from './SwButton.vue'
+import SwButton from '../buttons/SwButton.vue'
 
 defineProps<{
   title?: string

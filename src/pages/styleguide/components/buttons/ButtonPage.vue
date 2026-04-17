@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import SwButton from '@/components/ui/SwButton.vue'
+import SwButton from '@/components/ui/buttons/SwButton.vue'
 import SwPage from '@/components/layout/SwPage.vue'
-import SwPlayground from '@/components/ui/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/SwPlayground.vue'
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {

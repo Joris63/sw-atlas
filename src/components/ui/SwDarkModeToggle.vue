@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SwIconButton from '@/components/ui/SwIconButton.vue'
+import SwIconButton from '@/components/ui/buttons/SwIconButton.vue'
 import { useDarkMode } from '@/composables/useDarkMode'
 
 const { isDark, toggle } = useDarkMode()

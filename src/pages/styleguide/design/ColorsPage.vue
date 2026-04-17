@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue'
-import SwHeading from '@/components/ui/SwHeading.vue'
+import SwHeading from '@/components/ui/typography/SwHeading.vue'
 
 interface Stop {
   step: string

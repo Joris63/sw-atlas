@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SwHeading from '@/components/ui/SwHeading.vue'
-import SwText from '@/components/ui/SwText.vue'
+import SwHeading from '@/components/ui/typography/SwHeading.vue'
+import SwText from '@/components/ui/typography/SwText.vue'
 import SwIcon from '@/components/ui/SwIcon.vue'
 
 const pillars = [
