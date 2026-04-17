@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue'
+import { computed, reactive } from 'vue'
 import SwIcon from './SwIcon.vue'
 import SwCodeBlock from './SwCodeBlock.vue'
 import SwButton from './SwButton.vue'
 import SwInput from './SwInput.vue'
 import SwSwitch from './SwSwitch.vue'
+import SwIconInput from './SwIconInput.vue'
 
 export interface PlaygroundPropConfig {
   name: string
@@ -12,7 +13,7 @@ export interface PlaygroundPropConfig {
   default?: any
   required?: boolean
   description?: string
-  control: 'text' | 'segmented' | 'toggle' | 'none'
+  control: 'text' | 'segmented' | 'toggle' | 'icon' | 'none'
   options?: string[]
   initialValue?: any
   isSlotContent?: boolean // rendered as children between open/close tags in code output
@@ -23,9 +24,8 @@ const props = defineProps<{
   propsConfig: PlaygroundPropConfig[]
   componentName: string
   previewClass?: string
+  stacked?: boolean
 }>()
-
-const showCode = ref(false)
 
 const values = reactive<Record<string, any>>(
   Object.fromEntries(
@@ -98,65 +98,63 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
 </script>
 
 <template>
-  <div class="sw-pg">
-    <!-- Props header -->
-    <div class="sw-pg__header">
-      <SwIcon name="sliders-horizontal" :size="14" />
-      Props
-      <span class="sw-pg__badge">{{ controlCount }}</span>
-    </div>
+  <div class="sw-playground">
+    <!-- Main body: controls left, preview right on desktop (unless stacked) -->
+    <div class="sw-playground__body" :class="{ 'sw-playground__body--stacked': stacked }">
+      <!-- Controls panel -->
+      <div class="sw-playground__controls">
+        <div class="sw-playground__controls-header">
+          <SwIcon name="sliders-horizontal" :size="13" />
+          <span>Props</span>
+          <span class="sw-playground__badge">{{ controlCount }}</span>
+        </div>
 
-    <!-- Prop rows -->
-    <div v-for="p in visibleControls" :key="p.name" class="sw-pg__row">
-      <span class="sw-pg__prop-name">
-        {{ toKebab(p.name) }}
-        <span v-if="p.required" class="sw-pg__required">req</span>
-      </span>
-
-      <!-- Text input -->
-      <SwInput
-        v-if="p.control === 'text'"
-        v-model="values[p.name]"
-        :placeholder="p.default !== undefined ? String(p.default) : ''"
-      />
-
-      <!-- Segmented control -->
-      <div v-else-if="p.control === 'segmented'" class="sw-pg__seg">
-        <SwButton
-          v-for="opt in p.options"
-          :key="opt"
-          :variant="String(values[p.name]) === opt ? 'primary' : 'ghost'"
-          :label="opt"
-          @click="values[p.name] = opt"
-        />
+        <div class="sw-playground__controls-list">
+          <div v-for="p in visibleControls" :key="p.name" class="sw-playground__row">
+            <span class="sw-playground__prop-name">
+              {{ toKebab(p.name) }}
+              <span v-if="p.required" class="sw-playground__required">req</span>
+            </span>
+            <div class="sw-playground__control">
+              <!-- Text input -->
+              <SwInput
+                v-if="p.control === 'text'"
+                v-model="values[p.name]"
+                :placeholder="p.default !== undefined ? String(p.default) : ''"
+              />
+              <!-- Segmented control -->
+              <div v-else-if="p.control === 'segmented'" class="sw-playground__seg">
+                <SwButton
+                  v-for="opt in p.options"
+                  :key="opt"
+                  size="xs"
+                  :variant="String(values[p.name]) === opt ? 'primary' : 'outline'"
+                  :label="opt"
+                  @click="values[p.name] = opt"
+                />
+              </div>
+              <!-- Toggle switch -->
+              <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
+              <!-- Icon picker -->
+              <SwIconInput v-else-if="p.control === 'icon'" v-model="values[p.name]" />
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- Toggle switch -->
-      <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
-    </div>
-
-    <!-- Live preview -->
-    <div class="sw-pg__preview" :class="previewClass">
-      <slot :values="values" />
-    </div>
-
-    <!-- Code toggle footer -->
-    <div class="sw-pg__footer">
-      <SwButton
-        size="xs"
-        variant="ghost"
-        icon-left="code-2"
-        :icon-right="showCode ? 'chevron-up' : 'chevron-down'"
-        :label="showCode ? 'Hide Code' : 'Code'"
-        @click="showCode = !showCode"
-      />
-    </div>
-
-    <!-- Expandable code block -->
-    <div class="sw-pg__code-wrap" :class="{ 'sw-pg__code-wrap--open': showCode }">
-      <div class="sw-pg__code-inner">
-        <SwCodeBlock :code="codeString" />
+      <!-- Preview panel -->
+      <div class="sw-playground__preview" :class="previewClass">
+        <slot :values="values" />
       </div>
+    </div>
+
+    <!-- Code block — always visible -->
+    <div class="sw-playground__code">
+      <div class="sw-playground__code-label">
+        <SwIcon name="code-2" :size="13" />
+        Code
+      </div>
+      <SwCodeBlock :code="codeString" />
     </div>
   </div>
 </template>
@@ -164,65 +162,99 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
 <style scoped>
 @reference "@/styles/tailwind.css";
 
-.sw-pg {
-  @apply rounded-xl border border-border overflow-hidden;
+/* ---- Shell ---- */
+.sw-playground {
+  @apply rounded-2xl border border-border shadow-sm;
 }
 
-/* ---- Header ---- */
-.sw-pg__header {
+/* ---- Body: side-by-side on lg (unless stacked) ---- */
+.sw-playground__body {
+  @apply flex flex-col lg:flex-row;
+}
+
+.sw-playground__body--stacked {
+  @apply lg:flex-col;
+}
+
+/* ---- Controls panel ---- */
+.sw-playground__controls {
+  @apply bg-surface-subtle border-b border-border
+         rounded-t-2xl
+         lg:border-b-0 lg:border-r lg:w-2xs lg:shrink-0
+         lg:rounded-t-none lg:rounded-tl-2xl;
+}
+
+.sw-playground__body--stacked .sw-playground__controls {
+  @apply lg:border-r-0 lg:border-b lg:w-auto lg:shrink lg:rounded-tl-2xl lg:rounded-tr-2xl;
+}
+
+.sw-playground__controls-header {
   @apply flex items-center gap-2 px-4 py-3
-         text-sm font-medium text-text-muted bg-surface-subtle
-         select-none;
+         text-xs font-semibold tracking-wider uppercase
+         text-text-subtle border-b border-border select-none;
 }
 
-.sw-pg__badge {
-  @apply inline-flex items-center justify-center
+.sw-playground__badge {
+  @apply ml-auto inline-flex items-center justify-center
          rounded-full text-xs font-semibold px-1.5 min-w-5 h-5
          bg-surface-hover text-text-muted;
 }
 
+.sw-playground__controls-list {
+  @apply py-1;
+}
+
 /* ---- Prop rows ---- */
-.sw-pg__row {
-  @apply flex items-center gap-4 px-4 py-2.5 border-t border-border bg-surface;
+.sw-playground__row {
+  @apply flex items-center gap-3 px-4 py-2;
 }
 
-.sw-pg__prop-name {
-  @apply font-mono text-xs text-text-muted w-24 shrink-0 flex items-center gap-1.5 flex-wrap;
+.sw-playground__prop-name {
+  @apply font-mono text-xs text-text-muted w-24 shrink-0
+         flex items-center gap-1.5 flex-wrap leading-tight;
 }
 
-.sw-pg__required {
+.sw-playground__required {
   @apply text-[10px] font-sans font-semibold px-1 py-px rounded-sm
          text-text-inverse bg-danger leading-none;
 }
 
-/* ---- Segmented control ---- */
-.sw-pg__seg {
+.sw-playground__control {
+  @apply flex-1 min-w-0;
+}
+
+.sw-playground__seg {
   @apply flex flex-wrap gap-1;
 }
 
-/* ---- Preview ---- */
-.sw-pg__preview {
+/* ---- Ensure controls stand out against the subtle panel bg ---- */
+.sw-playground__controls :deep(.sw-input__input) {
+  @apply bg-surface-strong;
+}
+
+.sw-playground__controls :deep(.sw-button--outline) {
+  @apply bg-surface-strong;
+}
+
+/* ---- Preview panel ---- */
+.sw-playground__preview {
   @apply flex flex-wrap items-center justify-center gap-3
-         p-8 min-h-24 bg-surface border-t border-border;
+         p-10 bg-surface flex-1 lg:rounded-tr-2xl min-h-40;
+  background-image: radial-gradient(
+    var(--border) 1px,
+    transparent 1px
+  ); /* no @apply for gradients with CSS vars */
+  background-size: 20px 20px;
 }
 
-/* ---- Code footer ---- */
-.sw-pg__footer {
-  @apply flex justify-end px-3 py-2 border-t border-border;
+/* ---- Code section ---- */
+.sw-playground__code {
+  @apply border-t border-border rounded-b-2xl overflow-hidden;
 }
 
-/* ---- Code accordion ---- */
-.sw-pg__code-wrap {
-  @apply grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 200ms ease;
-}
-
-.sw-pg__code-wrap--open {
-  grid-template-rows: 1fr;
-}
-
-.sw-pg__code-inner {
-  @apply overflow-hidden;
+.sw-playground__code-label {
+  @apply flex items-center gap-2 px-4 py-2.5
+         text-xs font-semibold tracking-wider uppercase
+         text-text-subtle bg-surface-subtle border-b border-border select-none;
 }
 </style>

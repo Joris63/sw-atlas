@@ -19,22 +19,19 @@ const inputValue = computed({
 </script>
 
 <template>
-  <FieldRoot
-    :class="['sw-input-field', `sw-input-field--${props.size}`]"
-    :disabled="props.disabled"
-  >
-    <FieldInput v-model="inputValue" class="sw-input" :placeholder="props.placeholder" />
+  <FieldRoot :class="['sw-input', `sw-input--${props.size}`]" :disabled="props.disabled">
+    <FieldInput v-model="inputValue" class="sw-input__input" :placeholder="props.placeholder" />
   </FieldRoot>
 </template>
 
 <style scoped>
 @reference "@/styles/tailwind.css";
 
-.sw-input-field {
+.sw-input {
   @apply flex-1;
 }
 
-.sw-input {
+.sw-input__input {
   @apply w-full px-3 rounded-md
          bg-surface-subtle border border-border text-text
          placeholder:text-text-subtle
@@ -43,19 +40,19 @@ const inputValue = computed({
 }
 
 /* ---- Sizes ---- */
-.sw-input-field--sm .sw-input {
+.sw-input--sm .sw-input__input {
   @apply h-7 text-xs px-2;
 }
 
-.sw-input-field--md .sw-input {
+.sw-input--md .sw-input__input {
   @apply h-9 text-sm px-3;
 }
 
-.sw-input-field--lg .sw-input {
+.sw-input--lg .sw-input__input {
   @apply h-10 text-base px-3;
 }
 
-.sw-input:disabled {
+.sw-input__input:disabled {
   @apply opacity-50 cursor-not-allowed;
 }
 </style>

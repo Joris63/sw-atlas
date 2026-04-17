@@ -34,14 +34,14 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: 'string',
     default: '',
     description: 'Lucide icon name to display before the label.',
-    control: 'text',
+    control: 'icon',
   },
   {
     name: 'iconRight',
     type: 'string',
     default: '',
     description: 'Lucide icon name to display after the label.',
-    control: 'text',
+    control: 'icon',
   },
   {
     name: 'disabled',

@@ -138,9 +138,8 @@ onUnmounted(() => {
 }
 
 .sw-layout__backdrop {
-  @apply fixed inset-x-0 bottom-0 z-40;
-  top: 4rem; /* below topbar h-16 */
-  background: rgba(0, 0, 0, 0.45);
+  @apply fixed inset-x-0 bottom-0 top-16 z-40;
+  background: rgba(0, 0, 0, 0.45); /* no theme token for raw overlay opacity */
 }
 
 .sw-layout__logo {
@@ -148,8 +147,7 @@ onUnmounted(() => {
 }
 
 .sw-layout__logo :deep(svg) {
-  height: 2.25rem;
-  width: auto;
+  @apply h-9 w-auto;
 }
 
 .sw-page {
@@ -164,25 +162,25 @@ onUnmounted(() => {
   @apply bg-surface rounded-xl md:rounded-2xl border border-border p-4 md:p-6 lg:p-8 flex-1 w-full min-w-0 shadow-md;
 }
 
-.sw-hamburger :deep(.sw-icon-btn) {
+.sw-hamburger :deep(.sw-icon-button) {
   @apply text-text-on-primary;
 }
 
-.sw-hamburger :deep(.sw-icon-btn:not(:disabled):hover) {
-  background: rgba(0, 0, 0, 0.1);
+.sw-hamburger :deep(.sw-icon-button:not(:disabled):hover) {
+  background: rgba(0, 0, 0, 0.1); /* no theme token for raw overlay opacity */
 }
 
-.dark .sw-hamburger :deep(.sw-icon-btn:not(:disabled):hover) {
-  background: rgba(255, 255, 255, 0.15);
+.dark .sw-hamburger :deep(.sw-icon-button:not(:disabled):hover) {
+  background: rgba(255, 255, 255, 0.15); /* no theme token for raw overlay opacity */
 }
 
 .sw-fade-enter-active,
 .sw-fade-leave-active {
-  transition: opacity 200ms ease;
+  @apply transition-opacity duration-200;
 }
 
 .sw-fade-enter-from,
 .sw-fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

@@ -28,11 +28,11 @@ const iconSize = computed(() => {
 <template>
   <component
     :is="as"
-    class="sw-icon-btn"
+    class="sw-icon-button"
     :class="[
-      `sw-icon-btn--${variant}`,
-      `sw-icon-btn--${size}`,
-      { 'sw-icon-btn--loading': loading, 'sw-icon-btn--rounded': rounded },
+      `sw-icon-button--${variant}`,
+      `sw-icon-button--${size}`,
+      { 'sw-icon-button--loading': loading, 'sw-icon-button--rounded': rounded },
     ]"
     :disabled="as === 'button' ? disabled || loading : undefined"
     :aria-label="label"
@@ -41,7 +41,7 @@ const iconSize = computed(() => {
       v-if="loading"
       name="loader-2"
       :size="iconSize"
-      class="sw-icon-btn__spinner"
+      class="sw-icon-button__spinner"
       aria-hidden="true"
     />
 
@@ -55,7 +55,7 @@ const iconSize = computed(() => {
 <style scoped>
 @reference "@/styles/tailwind.css";
 
-.sw-icon-btn {
+.sw-icon-button {
   @apply inline-flex items-center justify-center shrink-0
          cursor-pointer select-none rounded-lg
          transition-colors duration-150
@@ -63,67 +63,67 @@ const iconSize = computed(() => {
          disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
-.sw-icon-btn__spinner {
+.sw-icon-button__spinner {
   @apply animate-spin;
 }
 
-.sw-icon-btn--loading {
+.sw-icon-button--loading {
   @apply cursor-wait;
 }
-.sw-icon-btn--rounded {
+.sw-icon-button--rounded {
   @apply rounded-full;
 }
 
 /* --- Sizes --- */
-.sw-icon-btn--2xs {
+.sw-icon-button--2xs {
   @apply size-6;
 }
-.sw-icon-btn--xs {
+.sw-icon-button--xs {
   @apply size-7;
 }
-.sw-icon-btn--sm {
+.sw-icon-button--sm {
   @apply size-8;
 }
-.sw-icon-btn--md {
+.sw-icon-button--md {
   @apply size-9;
 }
-.sw-icon-btn--lg {
+.sw-icon-button--lg {
   @apply size-10;
 }
 
 /* --- Variants --- */
-.sw-icon-btn--primary {
+.sw-icon-button--primary {
   @apply bg-primary text-text-on-primary;
 }
-.sw-icon-btn--primary:not(:disabled):hover {
+.sw-icon-button--primary:not(:disabled):hover {
   @apply bg-primary-hover;
 }
 
-.sw-icon-btn--outline {
-  @apply bg-transparent border border-border-strong text-text;
+.sw-icon-button--outline {
+  @apply bg-surface border border-border-strong text-text;
 }
-.sw-icon-btn--outline:not(:disabled):hover {
+.sw-icon-button--outline:not(:disabled):hover {
   @apply bg-surface-subtle;
 }
 
-.sw-icon-btn--ghost {
+.sw-icon-button--ghost {
   @apply bg-surface-subtle text-text;
 }
-.sw-icon-btn--ghost:not(:disabled):hover {
+.sw-icon-button--ghost:not(:disabled):hover {
   @apply bg-surface-hover;
 }
 
-.sw-icon-btn--plain {
+.sw-icon-button--plain {
   @apply bg-transparent text-text;
 }
-.sw-icon-btn--plain:not(:disabled):hover {
+.sw-icon-button--plain:not(:disabled):hover {
   @apply bg-surface-subtle;
 }
 
-.sw-icon-btn--danger {
+.sw-icon-button--danger {
   @apply bg-danger text-neutral-0;
 }
-.sw-icon-btn--danger:not(:disabled):hover {
+.sw-icon-button--danger:not(:disabled):hover {
   @apply bg-danger-dark;
 }
 </style>

@@ -6,7 +6,7 @@ const { isDark, toggle } = useDarkMode()
 </script>
 
 <template>
-  <span class="sw-dark-toggle">
+  <span class="sw-dark-mode-toggle">
     <SwIconButton
       :icon="isDark ? 'sun' : 'moon'"
       :label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
@@ -19,15 +19,15 @@ const { isDark, toggle } = useDarkMode()
 <style scoped>
 @reference "@/styles/tailwind.css";
 
-.sw-dark-toggle :deep(.sw-icon-btn) {
+.sw-dark-mode-toggle :deep(.sw-icon-button) {
   @apply text-text-on-primary;
 }
 
-.sw-dark-toggle :deep(.sw-icon-btn:not(:disabled):hover) {
+.sw-dark-mode-toggle :deep(.sw-icon-button:not(:disabled):hover) {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.dark .sw-dark-toggle :deep(.sw-icon-btn:not(:disabled):hover) {
+.dark .sw-dark-mode-toggle :deep(.sw-icon-button:not(:disabled):hover) {
   background: rgba(255, 255, 255, 0.15);
 }
 </style>

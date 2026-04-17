@@ -56,10 +56,8 @@ const emit = defineEmits<{ 'update:modelValue': [boolean] }>()
 .sw-switch__control {
   @apply inline-flex items-center rounded-full
          bg-surface-hover border border-border
-         transition-colors duration-200;
-  width: var(--sw-w);
-  height: var(--sw-h);
-  padding: 3px;
+         transition-colors duration-200
+         w-(--sw-w) h-(--sw-h) p-[3px];
 }
 
 .sw-switch__control[data-state='checked'] {
@@ -71,13 +69,11 @@ const emit = defineEmits<{ 'update:modelValue': [boolean] }>()
 }
 
 .sw-switch__thumb {
-  @apply rounded-full bg-neutral-400 shrink-0 transition-transform duration-200;
-  width: var(--sw-t);
-  height: var(--sw-t);
+  @apply rounded-full bg-neutral-400 shrink-0 transition-transform duration-200
+         w-(--sw-t) h-(--sw-t);
 }
 
 .sw-switch__thumb[data-state='checked'] {
-  @apply bg-neutral-0;
-  transform: translateX(var(--sw-travel));
+  @apply bg-neutral-0 translate-x-(--sw-travel);
 }
 </style>

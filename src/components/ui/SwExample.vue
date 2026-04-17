@@ -66,13 +66,11 @@ const showCode = ref(false)
 
 /* Animated code reveal */
 .sw-example__code-wrap {
-  @apply grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 200ms ease;
+  @apply grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-in-out;
 }
 
 .sw-example__code-wrap--open {
-  grid-template-rows: 1fr;
+  @apply grid-rows-[1fr];
 }
 
 .sw-example__code-inner {

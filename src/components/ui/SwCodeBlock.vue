@@ -57,11 +57,11 @@ async function copy() {
   @apply text-xs font-medium font-mono text-neutral-500;
 }
 
-:deep(.sw-code-block__copy.sw-btn) {
+:deep(.sw-code-block__copy.sw-button) {
   @apply bg-transparent text-neutral-400;
 }
 
-:deep(.sw-code-block__copy.sw-btn:not(:disabled):hover) {
+:deep(.sw-code-block__copy.sw-button:not(:disabled):hover) {
   @apply text-neutral-0 bg-neutral-800;
 }
 

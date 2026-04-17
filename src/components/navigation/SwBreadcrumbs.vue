@@ -14,7 +14,7 @@ defineProps<{ items: Item[] }>()
   <nav class="sw-breadcrumbs" aria-label="Breadcrumb">
     <ol class="sw-breadcrumbs__list">
       <li v-for="(item, index) in items" :key="index" class="sw-breadcrumbs__item">
-        <span v-if="index > 0" class="sw-breadcrumbs__sep" aria-hidden="true">/</span>
+        <span v-if="index > 0" class="sw-breadcrumbs__separator" aria-hidden="true">/</span>
         <a v-if="item.to" :href="item.to" class="sw-breadcrumbs__link" :aria-label="item.label">
           <SwIcon v-if="item.icon" :name="item.icon" :size="15" />
           <span v-else>{{ item.label }}</span>
@@ -39,7 +39,7 @@ defineProps<{ items: Item[] }>()
   @apply flex items-center gap-1.5;
 }
 
-.sw-breadcrumbs__sep {
+.sw-breadcrumbs__separator {
   @apply text-text-subtle;
 }
 

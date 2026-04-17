@@ -84,10 +84,13 @@ function handleClick() {
   <div class="sw-nav-item">
     <button
       type="button"
-      class="sw-nav-item__btn"
+      class="sw-nav-item__button"
       :class="[
-        depth > 0 ? 'sw-nav-item__btn--child' : 'sw-nav-item__btn--root',
-        { 'sw-nav-item__btn--active': showAsActive, 'sw-nav-item__btn--collapsed': !sidebarOpen },
+        depth > 0 ? 'sw-nav-item__button--child' : 'sw-nav-item__button--root',
+        {
+          'sw-nav-item__button--active': showAsActive,
+          'sw-nav-item__button--collapsed': !sidebarOpen,
+        },
       ]"
       @click="handleClick"
     >
@@ -125,28 +128,25 @@ function handleClick() {
 }
 
 /* Root level items */
-.sw-nav-item__btn--root {
+.sw-nav-item__button--root {
   @apply flex items-center gap-2.5 w-full px-2 h-8 rounded-md
          text-sm text-text-muted
          cursor-pointer select-none
+         transition-all duration-150
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus;
-  transition:
-    color 150ms ease,
-    background-color 150ms ease,
-    padding 200ms ease;
 }
 
-.sw-nav-item__btn--root:hover {
+.sw-nav-item__button--root:hover {
   @apply text-text bg-surface-subtle;
 }
 
-.sw-nav-item__btn--root.sw-nav-item__btn--active {
+.sw-nav-item__button--root.sw-nav-item__button--active {
   @apply text-primary font-semibold;
   background-color: color-mix(in srgb, var(--color-primary) 10%, var(--surface));
 }
 
 /* Child items */
-.sw-nav-item__btn--child {
+.sw-nav-item__button--child {
   @apply flex items-center gap-2.5 w-full px-2 h-7 rounded-md
          text-sm text-text-muted
          cursor-pointer select-none
@@ -154,16 +154,16 @@ function handleClick() {
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus;
 }
 
-.sw-nav-item__btn--child:hover {
+.sw-nav-item__button--child:hover {
   @apply text-text bg-surface-subtle;
 }
 
-.sw-nav-item__btn--child.sw-nav-item__btn--active {
+.sw-nav-item__button--child.sw-nav-item__button--active {
   @apply text-primary font-semibold;
   background-color: color-mix(in srgb, var(--color-primary) 10%, var(--surface));
 }
 
-.sw-nav-item__btn--collapsed {
+.sw-nav-item__button--collapsed {
   @apply px-5;
 }
 
@@ -172,13 +172,11 @@ function handleClick() {
 }
 
 .sw-nav-item__label {
-  @apply text-left flex-1 overflow-hidden whitespace-nowrap text-ellipsis max-w-48 opacity-100;
-  transition:
-    max-width 200ms ease,
-    opacity 150ms ease;
+  @apply text-left flex-1 overflow-hidden whitespace-nowrap text-ellipsis max-w-48 opacity-100
+         transition-all duration-200;
 }
 
-.sw-nav-item__btn--collapsed .sw-nav-item__label {
+.sw-nav-item__button--collapsed .sw-nav-item__label {
   @apply max-w-0 opacity-0 flex-none;
 }
 
@@ -187,13 +185,11 @@ function handleClick() {
 }
 
 .sw-nav-item__children-wrap {
-  @apply grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 200ms ease;
+  @apply grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-in-out;
 }
 
 .sw-nav-item__children-wrap--open {
-  grid-template-rows: 1fr;
+  @apply grid-rows-[1fr];
 }
 
 .sw-nav-item__children {

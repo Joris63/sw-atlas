@@ -11,16 +11,16 @@ const toggle = inject<() => void>('toggleSidebar', () => {})
 
 <template>
   <aside
-    class="sw-sidebar"
+    class="sw-nav-sidebar"
     :class="{
-      'sw-sidebar--collapsed': !sidebarOpen && !isMobile,
-      'sw-sidebar--mobile': isMobile,
-      'sw-sidebar--tablet': !isMobile && !isDesktop,
-      'sw-sidebar--open': sidebarOpen,
+      'sw-nav-sidebar--collapsed': !sidebarOpen && !isMobile,
+      'sw-nav-sidebar--mobile': isMobile,
+      'sw-nav-sidebar--tablet': !isMobile && !isDesktop,
+      'sw-nav-sidebar--open': sidebarOpen,
     }"
   >
-    <div class="sw-sidebar__inner">
-      <nav class="sw-sidebar__nav">
+    <div class="sw-nav-sidebar__inner">
+      <nav class="sw-nav-sidebar__nav">
         <slot />
       </nav>
     </div>
@@ -32,7 +32,7 @@ const toggle = inject<() => void>('toggleSidebar', () => {})
       variant="outline"
       rounded
       size="sm"
-      class="sw-sidebar__toggle"
+      class="sw-nav-sidebar__toggle"
       @click="toggle"
     />
   </aside>
@@ -42,65 +42,53 @@ const toggle = inject<() => void>('toggleSidebar', () => {})
 @reference "@/styles/tailwind.css";
 
 /* ── Desktop (default) ──────────────────────────────────────── */
-.sw-sidebar {
+.sw-nav-sidebar {
   @apply relative flex flex-col h-full border-r border-border
-         transition-[width] duration-200 ease-in-out overflow-visible shrink-0;
-  width: 15rem;
+         transition-[width] duration-200 ease-in-out overflow-visible shrink-0
+         w-[15rem];
 }
 
-.sw-sidebar--collapsed {
-  width: 4.5rem;
+.sw-nav-sidebar--collapsed {
+  @apply w-[4.5rem];
 }
 
-.sw-sidebar__inner {
+.sw-nav-sidebar__inner {
   @apply flex flex-col flex-1 bg-surface overflow-hidden h-full shadow-md;
-  clip-path: inset(0 -20px 0 0); /* only cast shadow to the right */
+  clip-path: inset(0 -20px 0 0); /* no @apply equivalent for clip-path */
 }
 
-.sw-sidebar__nav {
+.sw-nav-sidebar__nav {
   @apply flex flex-col gap-1 p-2 overflow-y-auto overflow-x-hidden flex-1;
 }
 
 /* Toggle button — floats on the right border, near the top */
-:deep(.sw-sidebar__toggle) {
+:deep(.sw-nav-sidebar__toggle) {
   @apply absolute bg-surface text-text-muted z-50 -right-[1em] top-6 shadow-md;
 }
 
 /* ── Mobile ─────────────────────────────────────────────────── */
-.sw-sidebar--mobile {
-  position: fixed;
-  left: 0;
-  top: 4rem; /* below h-16 topbar */
-  height: calc(100vh - 4rem);
-  width: 15rem;
-  z-index: 50;
-  transform: translateX(-100%);
-  transition: transform 200ms ease;
-  border-right: none;
+.sw-nav-sidebar--mobile {
+  @apply fixed left-0 top-16 h-[calc(100vh-4rem)] w-[15rem] z-50
+         -translate-x-full transition-transform duration-200 ease-in-out
+         border-r-0;
 }
 
-.sw-sidebar--mobile.sw-sidebar--open {
-  transform: translateX(0);
+.sw-nav-sidebar--mobile.sw-nav-sidebar--open {
+  @apply translate-x-0;
 }
 
 /* ── Tablet ──────────────────────────────────────────────────── */
-.sw-sidebar--tablet {
-  width: 4.5rem;
-  transition: none;
+.sw-nav-sidebar--tablet {
+  @apply w-[4.5rem] transition-none;
 }
 
 /* When expanded on tablet: inner becomes an overlay, sidebar keeps its 4.5rem footprint */
-.sw-sidebar--tablet.sw-sidebar--open .sw-sidebar__inner {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 15rem;
-  height: 100%;
-  z-index: 50;
+.sw-nav-sidebar--tablet.sw-nav-sidebar--open .sw-nav-sidebar__inner {
+  @apply absolute left-0 top-0 w-[15rem] h-full z-50;
 }
 
 /* Move toggle button to track the right edge of the expanded inner (15rem - 4.5rem = 10.5rem offset) */
-.sw-sidebar--tablet.sw-sidebar--open :deep(.sw-sidebar__toggle) {
-  right: calc(-1em - (15rem - 4.5rem));
+.sw-nav-sidebar--tablet.sw-nav-sidebar--open :deep(.sw-nav-sidebar__toggle) {
+  right: calc(-1em - (15rem - 4.5rem)); /* complex calc — no @apply equivalent */
 }
 </style>

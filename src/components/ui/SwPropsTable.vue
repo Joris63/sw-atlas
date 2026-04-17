@@ -89,13 +89,11 @@ const open = ref(false)
 
 /* Accordion body */
 .sw-props-table__body {
-  @apply grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 200ms ease;
+  @apply grid grid-rows-[0fr] transition-[grid-template-rows] duration-200 ease-in-out;
 }
 
 .sw-props-table__body--open {
-  grid-template-rows: 1fr;
+  @apply grid-rows-[1fr];
 }
 
 .sw-props-table__inner {
@@ -105,26 +103,14 @@ const open = ref(false)
 /* Table */
 .sw-props-table__header {
   @apply grid px-4 py-2 text-xs font-semibold uppercase text-text-muted
-         bg-surface-subtle border-t border-border tracking-wider gap-4;
-  grid-template-columns: 8rem 1fr;
-}
-
-@media (min-width: 768px) {
-  .sw-props-table__header {
-    grid-template-columns: 9rem 10rem 7rem 1fr;
-  }
+         bg-surface-subtle border-t border-border tracking-wider gap-4
+         grid-cols-[8rem_1fr] md:grid-cols-[9rem_10rem_7rem_1fr];
 }
 
 .sw-props-table__row {
   @apply grid items-baseline px-4 py-3 text-sm
-         border-t border-border bg-surface gap-4;
-  grid-template-columns: 8rem 1fr;
-}
-
-@media (min-width: 768px) {
-  .sw-props-table__row {
-    grid-template-columns: 9rem 10rem 7rem 1fr;
-  }
+         border-t border-border bg-surface gap-4
+         grid-cols-[8rem_1fr] md:grid-cols-[9rem_10rem_7rem_1fr];
 }
 
 .sw-props-table__row:last-child {
@@ -140,8 +126,7 @@ const open = ref(false)
 }
 
 .sw-props-table__type {
-  @apply hidden md:block font-mono text-xs text-primary-700 leading-relaxed;
-  word-break: break-word;
+  @apply hidden md:block font-mono text-xs text-primary-700 leading-relaxed wrap-break-word;
 }
 
 .sw-props-table__default {
