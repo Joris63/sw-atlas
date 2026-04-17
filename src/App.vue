@@ -37,6 +37,9 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue'
           <SwNavItem label="SwInput" to="/styleguide/components/input" />
           <SwNavItem label="SwSwitch" to="/styleguide/components/switch" />
         </SwNavItem>
+        <SwNavItem icon="tag" label="Display">
+          <SwNavItem label="SwBadge" to="/styleguide/components/badge" />
+        </SwNavItem>
       </SwNavGroup>
     </template>
 

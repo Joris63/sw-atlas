@@ -23,6 +23,9 @@ import SwCodePage from '@/pages/styleguide/components/typography/SwCodePage.vue'
 import SwInputPage from '@/pages/styleguide/components/forms/SwInputPage.vue'
 import SwSwitchPage from '@/pages/styleguide/components/forms/SwSwitchPage.vue'
 
+/* DISPLAY */
+import SwBadgePage from '@/pages/styleguide/components/display/SwBadgePage.vue'
+
 type Crumb = { label: string; icon?: string; to?: string }
 
 function sgCrumbs(...labels: string[]): Crumb[] {
@@ -112,6 +115,13 @@ const router = createRouter({
       path: '/styleguide/components/switch',
       component: SwSwitchPage,
       meta: { breadcrumbs: sgCrumbs('SwSwitch') },
+    },
+
+    // Display
+    {
+      path: '/styleguide/components/badge',
+      component: SwBadgePage,
+      meta: { breadcrumbs: sgCrumbs('SwBadge') },
     },
   ],
 })
