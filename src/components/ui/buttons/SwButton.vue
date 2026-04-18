@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import SwIcon from '../SwIcon.vue'
+import { computed } from 'vue';
+import SwIcon from '../SwIcon.vue';
 
 interface Props {
-  label: string
-  variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger'
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg'
-  as?: string
-  disabled?: boolean
-  loading?: boolean
-  loadingText?: string
-  iconLeft?: string
-  iconRight?: string
+  label: string;
+  variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger';
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg';
+  as?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  loadingText?: string;
+  iconLeft?: string;
+  iconRight?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
   as: 'button',
-})
+});
 
-const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 12 : 16))
+const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 12 : 16));
 </script>
 
 <template>

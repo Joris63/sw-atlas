@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwIconButton from '@/components/ui/buttons/SwIconButton.vue'
-import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwIconButton from '@/components/ui/buttons/SwIconButton.vue';
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
@@ -12,30 +12,34 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Accessible label — rendered as aria-label. Always required.',
     control: 'text',
     initialValue: 'Edit',
+    category: 'content',
   },
   {
     name: 'icon',
     type: 'string',
     default: '',
     description: 'Lucide icon name.',
-    control: 'text',
+    control: 'icon',
     initialValue: 'pencil',
+    category: 'content',
   },
   {
     name: 'variant',
     type: "'primary' | 'outline' | 'ghost' | 'plain' | 'danger'",
     default: 'primary',
     description: 'Visual style of the button.',
-    control: 'segmented',
+    control: 'select',
     options: ['primary', 'outline', 'ghost', 'plain', 'danger'],
+    category: 'appearance',
   },
   {
     name: 'size',
     type: "'2xs' | 'xs' | 'sm' | 'md' | 'lg'",
     default: 'md',
     description: 'Size of the button.',
-    control: 'segmented',
+    control: 'select',
     options: ['2xs', 'xs', 'sm', 'md', 'lg'],
+    category: 'appearance',
   },
   {
     name: 'rounded',
@@ -43,6 +47,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Fully round corners.',
     control: 'toggle',
+    category: 'appearance',
   },
   {
     name: 'disabled',
@@ -50,6 +55,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Prevents interaction and dims the button.',
     control: 'toggle',
+    category: 'state',
   },
   {
     name: 'loading',
@@ -57,6 +63,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Shows a spinner and disables the button.',
     control: 'toggle',
+    category: 'state',
   },
   {
     name: 'as',
@@ -64,8 +71,9 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: "'button'",
     description: 'HTML element or component to render as.',
     control: 'none',
+    category: 'advanced',
   },
-]
+];
 </script>
 
 <template>

@@ -1,0 +1,118 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import {
+  SegmentGroupRoot,
+  SegmentGroupIndicator,
+  SegmentGroupItem,
+  SegmentGroupItemText,
+  SegmentGroupItemHiddenInput,
+} from '@ark-ui/vue';
+import SwIcon from '../SwIcon.vue';
+
+export interface SwSelectButtonOption {
+  value: string;
+  label?: string;
+  icon?: string;
+}
+
+interface Props {
+  modelValue: string;
+  options: SwSelectButtonOption[];
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), { size: 'md', disabled: false });
+const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
+
+const iconSize = computed(() => {
+  if (props.size === 'sm') {
+    return 12;
+  }
+
+  if (props.size === 'lg') {
+    return 16;
+  }
+
+  return 14;
+});
+</script>
+
+<template>
+  <SegmentGroupRoot
+    class="sw-select-button"
+    :class="`sw-select-button--${size}`"
+    :model-value="modelValue"
+    :disabled="disabled"
+    @value-change="emit('update:modelValue', $event.value)"
+  >
+    <SegmentGroupIndicator class="sw-select-button__indicator" />
+    <SegmentGroupItem
+      v-for="opt in options"
+      :key="opt.value"
+      :value="opt.value"
+      class="sw-select-button__item"
+      :class="{ 'sw-select-button__item--icon-only': opt.icon && !opt.label }"
+    >
+      <SwIcon v-if="opt.icon" :name="opt.icon" :size="iconSize" />
+      <SegmentGroupItemText v-if="opt.label">{{ opt.label }}</SegmentGroupItemText>
+      <SegmentGroupItemHiddenInput />
+    </SegmentGroupItem>
+  </SegmentGroupRoot>
+</template>
+
+<style scoped>
+@reference "@/styles/tailwind.css";
+
+.sw-select-button {
+  @apply relative inline-flex items-center gap-0.5 p-1 rounded-lg bg-surface-subtle;
+}
+
+.sw-select-button__indicator {
+  @apply absolute rounded-md bg-surface shadow-sm border border-border;
+  transition:
+    left 180ms cubic-bezier(0.4, 0, 0.2, 1),
+    width 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sw-select-button__item {
+  @apply relative z-10 inline-flex items-center justify-center gap-1.5
+         font-medium cursor-pointer select-none rounded-md
+         text-text-muted transition-colors duration-150
+         focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus;
+}
+
+.sw-select-button__item[data-state='checked'] {
+  @apply text-text bg-surface-strong;
+}
+
+.sw-select-button[data-disabled] .sw-select-button__item {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+/* ---- Sizes ---- */
+.sw-select-button--sm .sw-select-button__item {
+  @apply h-6 px-2 text-xs;
+}
+
+.sw-select-button--md .sw-select-button__item {
+  @apply h-7 px-2.5 text-sm;
+}
+
+.sw-select-button--lg .sw-select-button__item {
+  @apply h-8 px-3 text-sm;
+}
+
+/* ---- Icon-only: square aspect ---- */
+.sw-select-button--sm .sw-select-button__item--icon-only {
+  @apply w-6 px-0;
+}
+
+.sw-select-button--md .sw-select-button__item--icon-only {
+  @apply w-7 px-0;
+}
+
+.sw-select-button--lg .sw-select-button__item--icon-only {
+  @apply w-8 px-0;
+}
+</style>

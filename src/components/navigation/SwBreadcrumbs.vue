@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import SwIcon from '@/components/ui/SwIcon.vue'
+import SwIcon from '@/components/ui/SwIcon.vue';
 
 interface Item {
-  label: string
-  icon?: string
-  to?: string
+  label: string;
+  icon?: string;
+  to?: string;
 }
 
-defineProps<{ items: Item[] }>()
+defineProps<{ items: Item[] }>();
 </script>
 
 <template>

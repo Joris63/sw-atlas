@@ -1,24 +1,25 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwSwitch from '@/components/ui/forms/SwSwitch.vue'
-import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
+import { ref } from 'vue';
+import SwPage from '@/components/layout/SwPage.vue';
+import SwSwitch from '@/components/ui/forms/SwSwitch.vue';
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
+
+const checked = ref(false);
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'modelValue',
     type: 'boolean',
-    default: false,
-    description: 'Controlled checked state. Use v-model to bind.',
-    control: 'toggle',
-    initialValue: true,
+    description: 'Checked state of the switch. Bind with v-model.',
+    control: 'none',
   },
   {
     name: 'size',
     type: "'sm' | 'md' | 'lg'",
     default: 'md',
     description: 'Physical size of the switch track and thumb.',
-    control: 'segmented',
+    control: 'select',
     options: ['sm', 'md', 'lg'],
   },
   {
@@ -28,7 +29,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Prevents interaction and dims the switch.',
     control: 'toggle',
   },
-]
+];
 </script>
 
 <template>
@@ -38,12 +39,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   >
     <SwPlayground :props-config="playgroundConfig" component-name="SwSwitch">
       <template #default="{ values }">
-        <SwSwitch
-          :model-value="values.modelValue"
-          :size="values.size"
-          :disabled="values.disabled"
-          @update:model-value="values.modelValue = $event"
-        />
+        <SwSwitch v-model="checked" :size="values.size" :disabled="values.disabled" />
       </template>
     </SwPlayground>
   </SwPage>

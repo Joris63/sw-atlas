@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 interface Props {
-  level?: 1 | 2 | 3 | 4 | 5 | 6
-  size?: '5xl' | '4xl' | '3xl' | '2xl' | 'xl' | 'lg' | 'base' | 'sm'
+  level?: 1 | 2 | 3 | 4 | 5 | 6;
+  size?: '5xl' | '4xl' | '3xl' | '2xl' | 'xl' | 'lg' | 'base' | 'sm';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   level: 2,
-})
+});
 
-const tag = computed(() => `h${props.level}`)
+const tag = computed(() => `h${props.level}`);
 
 const defaultSize: Record<number, string> = {
   1: '4xl',
@@ -19,9 +19,9 @@ const defaultSize: Record<number, string> = {
   4: 'xl',
   5: 'lg',
   6: 'base',
-}
+};
 
-const sizeClass = computed(() => `sw-heading--${props.size ?? defaultSize[props.level ?? 2]}`)
+const sizeClass = computed(() => `sw-heading--${props.size ?? defaultSize[props.level ?? 2]}`);
 </script>
 
 <template>

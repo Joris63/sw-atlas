@@ -1,16 +1,13 @@
 <script setup lang="ts">
 defineProps<{
-  title: string
-  description?: string
-}>()
+  title: string;
+  description?: string;
+}>();
 </script>
 
 <template>
   <div class="sw-page-content">
-    <div class="sw-page-content__header">
-      <h1 class="sw-page-content__title">{{ title }}</h1>
-      <p v-if="description" class="sw-page-content__desc">{{ description }}</p>
-    </div>
+    <p v-if="description" class="sw-page-content__desc">{{ description }}</p>
     <slot />
   </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
+import SwPage from '@/components/layout/SwPage.vue';
 
 const shadows = [
   { name: 'xs', token: 'shadow-xs', desc: 'Tooltips, badges, inline highlights' },
@@ -7,7 +7,7 @@ const shadows = [
   { name: 'md', token: 'shadow-md', desc: 'Cards, sidebars, sticky headers' },
   { name: 'lg', token: 'shadow-lg', desc: 'Modals, drawers, dialogs' },
   { name: 'xl', token: 'shadow-xl', desc: 'Floating panels, command palettes' },
-]
+];
 </script>
 
 <template>

@@ -1,110 +1,137 @@
 <script setup lang="ts">
-import { ref, inject, provide, useSlots, computed, watch } from 'vue'
-import type { Ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import SwIcon from '@/components/ui/SwIcon.vue'
+import { ref, inject, provide, useSlots, computed, watch } from 'vue';
+import type { Ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import SwIcon from '@/components/ui/SwIcon.vue';
+import SwTooltip from '../ui/SwTooltip.vue';
 
 interface Props {
-  icon?: string
-  label: string
-  active?: boolean
-  to?: string
+  icon?: string;
+  label: string;
+  active?: boolean;
+  to?: string;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
-const router = useRouter()
-const route = useRoute()
+const router = useRouter();
+const route = useRoute();
 
-const slots = useSlots()
-const hasChildren = computed(() => !!slots.default)
+const slots = useSlots();
+const hasChildren = computed(() => !!slots.default);
 
-const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
-const depth = inject<number>('navDepth', 0)
-const openItemId = inject<Ref<symbol | null>>('openNavItemId', ref(null))
+const groupLabel = inject<string>('groupLabel', '');
+const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true));
+const depth = inject<number>('navDepth', 0);
+const openItemId = inject<Ref<symbol | null>>('openNavItemId', ref(null));
 
 // Each root-level item gets a stable identity for accordion coordination
-const id = Symbol()
-const localExpanded = ref(false)
+const id = Symbol();
+const localExpanded = ref(false);
 
-provide('navDepth', depth + 1)
+provide('navDepth', depth + 1);
 
 const isExpanded = computed({
   get: () => (depth === 0 ? openItemId.value === id : localExpanded.value),
   set: (val: boolean) => {
-    if (depth === 0) openItemId.value = val ? id : null
-    else localExpanded.value = val
+    if (depth === 0) {
+      openItemId.value = val ? id : null;
+    } else {
+      localExpanded.value = val;
+    }
   },
-})
+});
 
-const isActive = computed(() => props.active || (!!props.to && route.path === props.to))
+const isActive = computed(() => props.active || (!!props.to && route.path === props.to));
 
 // Bubble active state up so a collapsed parent highlights when a child route is active.
 // Track a Set of active child IDs so multiple siblings reporting don't overwrite each other.
-const activeChildIds = new Set<symbol>()
-const hasActiveDescendant = ref(false)
+const activeChildIds = new Set<symbol>();
+const hasActiveDescendant = ref(false);
 const reportToParent = inject<((childId: symbol, active: boolean) => void) | null>(
   'reportActiveChild',
   null,
-)
+);
 
 provide('reportActiveChild', (childId: symbol, active: boolean) => {
-  if (active) activeChildIds.add(childId)
-  else activeChildIds.delete(childId)
-  hasActiveDescendant.value = activeChildIds.size > 0
-})
+  if (active) {
+    activeChildIds.add(childId);
+  } else {
+    activeChildIds.delete(childId);
+  }
+
+  hasActiveDescendant.value = activeChildIds.size > 0;
+});
 
 watch(
   [isActive, hasActiveDescendant],
   () => reportToParent?.(id, isActive.value || hasActiveDescendant.value),
   { immediate: true },
-)
+);
 
-const showAsActive = computed(() => isActive.value || hasActiveDescendant.value)
+const showAsActive = computed(() => isActive.value || hasActiveDescendant.value);
+const tooltipContent = computed(() => {
+  if (groupLabel === '') {
+    return props.label;
+  }
+
+  return groupLabel + ' · ' + props.label;
+});
 
 function handleClick() {
   if (!sidebarOpen.value) {
     if (props.to) {
-      router.push(props.to)
+      router.push(props.to);
     } else {
-      sidebarOpen.value = true
-      if (hasChildren.value) isExpanded.value = true
+      sidebarOpen.value = true;
+      if (hasChildren.value) {
+        isExpanded.value = true;
+      }
     }
-    return
+    
+    return;
   }
+
   if (props.to) {
-    router.push(props.to)
+    router.push(props.to);
   } else if (hasChildren.value) {
-    isExpanded.value = !isExpanded.value
+    isExpanded.value = !isExpanded.value;
   }
 }
 </script>
 
 <template>
   <div class="sw-nav-item">
-    <button
-      type="button"
-      class="sw-nav-item__button"
-      :class="[
-        depth > 0 ? 'sw-nav-item__button--child' : 'sw-nav-item__button--root',
-        {
-          'sw-nav-item__button--active': showAsActive,
-          'sw-nav-item__button--collapsed': !sidebarOpen,
-        },
-      ]"
-      @click="handleClick"
+    <SwTooltip
+      :content="tooltipContent"
+      placement="right"
+      :open-delay="200"
+      :disabled="sidebarOpen"
     >
-      <SwIcon v-if="icon && depth === 0" :name="icon" :size="16" class="sw-nav-item__icon" />
+      <button
+        type="button"
+        class="sw-nav-item__button"
+        :class="[
+          depth > 0 ? 'sw-nav-item__button--child' : 'sw-nav-item__button--root',
+          {
+            'sw-nav-item__button--active': showAsActive,
+            'sw-nav-item__button--collapsed': !sidebarOpen,
+          },
+        ]"
+        @click="handleClick"
+      >
+        <SwIcon v-if="icon && depth === 0" :name="icon" :size="16" class="sw-nav-item__icon" />
 
-      <span class="sw-nav-item__label">{{ label }}</span>
+        <span class="sw-nav-item__label">{{ label }}</span>
 
-      <SwIcon
-        v-if="hasChildren && sidebarOpen"
-        :name="isExpanded ? 'chevron-up' : 'chevron-down'"
-        :size="14"
-        class="sw-nav-item__chevron"
-      />
-    </button>
+        <SwIcon
+          v-if="hasChildren && sidebarOpen"
+          :name="isExpanded ? 'chevron-up' : 'chevron-down'"
+          :size="14"
+          class="sw-nav-item__chevron"
+        />
+      </button>
+    </SwTooltip>
 
     <div
       v-if="hasChildren"

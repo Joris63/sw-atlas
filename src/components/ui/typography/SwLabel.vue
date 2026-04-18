@@ -1,15 +1,15 @@
 <script setup lang="ts">
 const props = withDefaults(
   defineProps<{
-    for?: string
-    size?: 'xs' | 'sm'
-    uppercase?: boolean
-    required?: boolean
+    for?: string;
+    size?: 'xs' | 'sm';
+    uppercase?: boolean;
+    required?: boolean;
   }>(),
   {
     size: 'sm',
   },
-)
+);
 </script>
 
 <template>

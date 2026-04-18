@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwHeading from '@/components/ui/typography/SwHeading.vue'
-import SwText from '@/components/ui/typography/SwText.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwHeading from '@/components/ui/typography/SwHeading.vue';
+import SwText from '@/components/ui/typography/SwText.vue';
 
 const widths = [
   { token: 'border-0', value: '0px', usage: 'Remove a border (reset)' },
   { token: 'border-1', value: '1px', usage: 'Default — most UI elements' },
   { token: 'border-2', value: '2px', usage: 'Emphasis — selected state, focus ring' },
   { token: 'border-4', value: '4px', usage: '' },
-]
+];
 
 const radii = [
   { token: 'rounded-sm', value: '0.25rem', px: '4px', usage: 'Badges, tags, chips' },
@@ -17,7 +17,7 @@ const radii = [
   { token: 'rounded-xl', value: '0.75rem', px: '12px', usage: 'Cards, panels, modals' },
   { token: 'rounded-2xl', value: '1rem', px: '16px', usage: 'Feature cards, content areas' },
   { token: 'rounded-full', value: '9999px', px: '9999px', usage: 'Pills, avatars, icon buttons' },
-]
+];
 </script>
 
 <template>

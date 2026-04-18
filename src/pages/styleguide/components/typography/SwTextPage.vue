@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwText from '@/components/ui/typography/SwText.vue'
-import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwText from '@/components/ui/typography/SwText.vue';
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
-    name: '_content',
+    name: 'content',
     type: 'slot',
     description: 'Text content.',
     control: 'text',
@@ -18,7 +18,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: "'xs' | 'sm' | 'base' | 'lg' | 'xl'",
     default: 'base',
     description: 'Font size.',
-    control: 'segmented',
+    control: 'select',
     options: ['xs', 'sm', 'base', 'lg', 'xl'],
   },
   {
@@ -26,15 +26,15 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: "'normal' | 'medium' | 'semibold'",
     default: 'normal',
     description: 'Font weight.',
-    control: 'segmented',
+    control: 'select',
     options: ['normal', 'medium', 'semibold'],
   },
   {
     name: 'color',
-    type: "'default' | 'muted' | 'subtle' | 'inverse'",
+    type: "'default' | 'muted' | 'subtle'",
     default: 'default',
     description: 'Text color token.',
-    control: 'segmented',
+    control: 'select',
     options: ['default', 'muted', 'subtle'],
   },
   {
@@ -44,7 +44,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'HTML element to render as.',
     control: 'none',
   },
-]
+];
 </script>
 
 <template>
@@ -55,7 +55,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     <SwPlayground :props-config="playgroundConfig" component-name="SwText">
       <template #default="{ values }">
         <SwText :size="values.size" :weight="values.weight" :color="values.color">
-          {{ values._content }}
+          {{ values.content }}
         </SwText>
       </template>
     </SwPlayground>

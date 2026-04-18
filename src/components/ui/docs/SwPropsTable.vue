@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import SwIcon from '../SwIcon.vue'
+import { ref } from 'vue';
+import SwIcon from '../SwIcon.vue';
 
 export interface PropRow {
-  name: string
-  type: string
-  default?: string
-  required?: boolean
-  description: string
+  name: string;
+  type: string;
+  default?: string;
+  required?: boolean;
+  description: string;
 }
 
-const props = defineProps<{ rows: PropRow[] }>()
+const props = defineProps<{ rows: PropRow[] }>();
 
-const open = ref(false)
+const open = ref(false);
 </script>
 
 <template>

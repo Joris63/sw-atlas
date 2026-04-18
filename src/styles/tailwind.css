@@ -366,6 +366,16 @@
    BASE STYLES
    ============================================================ */
 @layer base {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #app {
+    height: 100%;
+  }
+
   html {
     font-family: 'Outfit', sans-serif;
     color: var(--text);

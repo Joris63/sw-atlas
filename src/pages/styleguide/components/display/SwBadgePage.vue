@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwBadge from '@/components/ui/SwBadge.vue'
-import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwBadge from '@/components/ui/SwBadge.vue';
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
-    name: 'default',
-    type: 'string',
+    name: 'content',
+    type: 'slot',
     description: 'Badge label text.',
     control: 'text',
     initialValue: 'Badge',
@@ -18,7 +18,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: "'neutral' | 'primary' | 'success' | 'warning' | 'danger'",
     default: 'neutral',
     description: 'Color variant.',
-    control: 'segmented',
+    control: 'select',
     options: ['neutral', 'primary', 'success', 'warning', 'danger'],
   },
   {
@@ -26,7 +26,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: "'sm' | 'md'",
     default: 'md',
     description: 'Physical size of the badge.',
-    control: 'segmented',
+    control: 'select',
     options: ['sm', 'md'],
   },
   {
@@ -36,7 +36,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Show a colored dot indicator before the label.',
     control: 'toggle',
   },
-]
+];
 </script>
 
 <template>
@@ -44,7 +44,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     <SwPlayground :props-config="playgroundConfig" component-name="SwBadge">
       <template #default="{ values }">
         <SwBadge :variant="values.variant" :size="values.size" :dot="values.dot">
-          {{ values.default }}
+          {{ values.content }}
         </SwBadge>
       </template>
     </SwPlayground>

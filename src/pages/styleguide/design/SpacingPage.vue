@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
+import SwPage from '@/components/layout/SwPage.vue';
 
 const steps = [
   { name: '0', rem: '0rem', px: '0px', usage: 'Reset / remove spacing' },
@@ -28,7 +28,7 @@ const steps = [
   { name: '64', rem: '16rem', px: '256px', usage: null },
   { name: '80', rem: '20rem', px: '320px', usage: null },
   { name: '96', rem: '24rem', px: '384px', usage: null },
-]
+];
 </script>
 
 <template>

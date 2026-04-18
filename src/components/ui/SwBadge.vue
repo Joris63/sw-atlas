@@ -1,14 +1,14 @@
 <script setup lang="ts">
 interface Props {
-  variant?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger'
-  size?: 'sm' | 'md'
-  dot?: boolean
+  variant?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger';
+  size?: 'sm' | 'md';
+  dot?: boolean;
 }
 
 withDefaults(defineProps<Props>(), {
   variant: 'neutral',
   size: 'md',
-})
+});
 </script>
 
 <template>

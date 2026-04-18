@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { SwitchRoot, SwitchControl, SwitchThumb, SwitchHiddenInput } from '@ark-ui/vue'
+import { SwitchRoot, SwitchControl, SwitchThumb, SwitchHiddenInput } from '@ark-ui/vue';
 
 interface Props {
-  modelValue: boolean
-  size?: 'sm' | 'md' | 'lg'
-  disabled?: boolean
+  modelValue: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), { size: 'md', disabled: false })
-const emit = defineEmits<{ 'update:modelValue': [boolean] }>()
+const props = withDefaults(defineProps<Props>(), { size: 'md', disabled: false });
+const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 </script>
 
 <template>

@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { FieldRoot, FieldInput } from '@ark-ui/vue'
+import { computed } from 'vue';
+import { FieldRoot, FieldInput } from '@ark-ui/vue';
 
 interface Props {
-  modelValue?: string
-  placeholder?: string
-  size?: 'sm' | 'md' | 'lg'
-  disabled?: boolean
+  modelValue?: string;
+  placeholder?: string;
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), { modelValue: '', size: 'md', disabled: false })
-const emit = defineEmits<{ 'update:modelValue': [string] }>()
+const props = withDefaults(defineProps<Props>(), { modelValue: '', size: 'md', disabled: false });
+const emit = defineEmits<{ 'update:modelValue': [string] }>();
 
 const inputValue = computed({
   get: () => props.modelValue ?? '',
   set: (v: string) => emit('update:modelValue', v),
-})
+});
 </script>
 
 <template>
@@ -41,7 +41,7 @@ const inputValue = computed({
 
 /* ---- Sizes ---- */
 .sw-input--sm .sw-input__input {
-  @apply h-7 text-xs px-2;
+  @apply h-8 text-xs px-2;
 }
 
 .sw-input--md .sw-input__input {

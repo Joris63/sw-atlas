@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
+import SwPage from '@/components/layout/SwPage.vue';
 
 const sizes = [
   { name: 'xs', px: '12px', rem: '0.75rem', usage: 'Captions, metadata, badges' },
@@ -11,7 +11,7 @@ const sizes = [
   { name: '3xl', px: '30px', rem: '1.875rem', usage: 'Page section headings (h3)' },
   { name: '4xl', px: '36px', rem: '2.25rem', usage: 'Primary page heading (h1/h2)' },
   { name: '5xl', px: '48px', rem: '3rem', usage: 'Display / hero heading' },
-]
+];
 </script>
 
 <template>

@@ -1,33 +1,34 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { codeToHtml } from 'shiki'
-import SwButton from '../buttons/SwButton.vue'
+import { ref, watchEffect } from 'vue';
+import { codeToHtml } from 'shiki';
+import SwButton from '../buttons/SwButton.vue';
 
 const props = defineProps<{
-  code: string
-  language?: string
-}>()
+  code: string;
+  language?: string;
+  showToolbar?: boolean;
+}>();
 
-const highlighted = ref('')
-const copied = ref(false)
+const highlighted = ref('');
+const copied = ref(false);
 
 watchEffect(async () => {
   highlighted.value = await codeToHtml(props.code.trim(), {
     lang: props.language ?? 'vue',
-    theme: 'nord',
-  })
-})
+    theme: 'dark-plus',
+  });
+});
 
 async function copy() {
-  await navigator.clipboard.writeText(props.code)
-  copied.value = true
-  setTimeout(() => (copied.value = false), 2000)
+  await navigator.clipboard.writeText(props.code);
+  copied.value = true;
+  setTimeout(() => (copied.value = false), 2000);
 }
 </script>
 
 <template>
   <div class="sw-code-block">
-    <div class="sw-code-block__toolbar">
+    <div v-if="showToolbar !== false" class="sw-code-block__toolbar">
       <span class="sw-code-block__lang">{{ props.language ?? 'vue' }}</span>
       <SwButton
         size="xs"

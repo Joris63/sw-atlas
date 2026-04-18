@@ -1,10 +1,10 @@
 <script setup lang="ts">
 withDefaults(
   defineProps<{
-    as?: string
-    size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl'
-    weight?: 'normal' | 'medium' | 'semibold'
-    color?: 'default' | 'muted' | 'subtle' | 'inverse'
+    as?: string;
+    size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
+    weight?: 'normal' | 'medium' | 'semibold';
+    color?: 'default' | 'muted' | 'subtle' | 'inverse';
   }>(),
   {
     as: 'p',
@@ -12,7 +12,7 @@ withDefaults(
     weight: 'normal',
     color: 'default',
   },
-)
+);
 </script>
 
 <template>

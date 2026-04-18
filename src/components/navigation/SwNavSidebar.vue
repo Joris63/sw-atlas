@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue'
-import type { Ref } from 'vue'
-import SwIconButton from '@/components/ui/buttons/SwIconButton.vue'
+import { inject, ref } from 'vue';
+import type { Ref } from 'vue';
+import SwIconButton from '@/components/ui/buttons/SwIconButton.vue';
 
-const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
-const isMobile = inject<Ref<boolean>>('isMobile', ref(false))
-const isDesktop = inject<Ref<boolean>>('isDesktop', ref(true))
-const toggle = inject<() => void>('toggleSidebar', () => {})
+const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true));
+const isMobile = inject<Ref<boolean>>('isMobile', ref(false));
+const isDesktop = inject<Ref<boolean>>('isDesktop', ref(true));
+const toggle = inject<() => void>('toggleSidebar', () => {});
 </script>
 
 <template>

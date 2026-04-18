@@ -1,10 +1,16 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwInput from '@/components/ui/forms/SwInput.vue'
-import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwInput from '@/components/ui/forms/SwInput.vue';
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
 const playgroundConfig: PlaygroundPropConfig[] = [
+  {
+    name: 'modelValue',
+    type: 'string',
+    description: 'The current value of the input. Bind with v-model.',
+    control: 'none',
+  },
   {
     name: 'placeholder',
     type: 'string',
@@ -18,7 +24,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: "'sm' | 'md' | 'lg'",
     default: 'md',
     description: 'Height and font size of the input.',
-    control: 'segmented',
+    control: 'select',
     options: ['sm', 'md', 'lg'],
   },
   {
@@ -28,7 +34,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Prevents interaction and dims the input.',
     control: 'toggle',
   },
-]
+];
 </script>
 
 <template>

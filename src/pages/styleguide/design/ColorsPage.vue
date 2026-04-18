@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwHeading from '@/components/ui/typography/SwHeading.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwHeading from '@/components/ui/typography/SwHeading.vue';
 
 interface Stop {
-  step: string
-  hex: string
-  dark: boolean
+  step: string;
+  hex: string;
+  dark: boolean;
 }
 
 const primary: Stop[] = [
@@ -20,7 +20,7 @@ const primary: Stop[] = [
   { step: '800', hex: '#0d5f6e', dark: true },
   { step: '900', hex: '#004050', dark: true },
   { step: '950', hex: '#002d38', dark: true },
-]
+];
 
 const neutral: Stop[] = [
   { step: '0', hex: '#ffffff', dark: false },
@@ -35,7 +35,7 @@ const neutral: Stop[] = [
   { step: '800', hex: '#1c3038', dark: true },
   { step: '900', hex: '#0e2028', dark: true },
   { step: '950', hex: '#071418', dark: true },
-]
+];
 
 const accent: Stop[] = [
   { step: '50', hex: '#fff1f2', dark: false },
@@ -49,20 +49,20 @@ const accent: Stop[] = [
   { step: '800', hex: '#8c1520', dark: true },
   { step: '900', hex: '#741319', dark: true },
   { step: '950', hex: '#420a0e', dark: true },
-]
+];
 
 interface SemanticToken {
-  name: string
-  var: string
-  light: string
-  dark: string
-  usage: string
+  name: string;
+  var: string;
+  light: string;
+  dark: string;
+  usage: string;
 }
 
 interface SemanticGroup {
-  label: string
-  desc: string
-  tokens: SemanticToken[]
+  label: string;
+  desc: string;
+  tokens: SemanticToken[];
 }
 
 const semanticGroups: SemanticGroup[] = [
@@ -278,7 +278,7 @@ const semanticGroups: SemanticGroup[] = [
       },
     ],
   },
-]
+];
 </script>
 
 <template>

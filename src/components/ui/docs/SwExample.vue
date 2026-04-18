@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import SwCodeBlock from './SwCodeBlock.vue'
-import SwButton from '../buttons/SwButton.vue'
+import { ref } from 'vue';
+import SwCodeBlock from './SwCodeBlock.vue';
+import SwButton from '../buttons/SwButton.vue';
 
 defineProps<{
-  title?: string
-  code?: string
-  previewClass?: string
-}>()
+  title?: string;
+  code?: string;
+  previewClass?: string;
+}>();
 
-const showCode = ref(false)
+const showCode = ref(false);
 </script>
 
 <template>

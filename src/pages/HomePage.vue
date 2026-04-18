@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SwHeading from '@/components/ui/typography/SwHeading.vue'
-import SwText from '@/components/ui/typography/SwText.vue'
-import SwIcon from '@/components/ui/SwIcon.vue'
+import SwHeading from '@/components/ui/typography/SwHeading.vue';
+import SwText from '@/components/ui/typography/SwText.vue';
+import SwIcon from '@/components/ui/SwIcon.vue';
 
 const pillars = [
   {
@@ -24,7 +24,7 @@ const pillars = [
     title: 'Coding guidelines',
     desc: 'Conventions and patterns to follow when building with or contributing to SwAtlas — from component structure to token usage to file organization.',
   },
-]
+];
 </script>
 
 <template>

@@ -1,82 +1,89 @@
 <script setup lang="ts">
-import { computed, ref, provide, watch, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vue-router'
-import SwTopBar from '@/components/navigation/SwTopBar.vue'
-import SwBreadcrumbs from '@/components/navigation/SwBreadcrumbs.vue'
-import SwNavSidebar from '@/components/navigation/SwNavSidebar.vue'
-import SwIconButton from '@/components/ui/buttons/SwIconButton.vue'
-import logoNl from '@/assets/logo-nl.svg?raw'
-import logoBe from '@/assets/logo-be.svg?raw'
+import { computed, ref, provide, watch, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
+import SwTopBar from '@/components/navigation/SwTopBar.vue';
+import SwBreadcrumbs from '@/components/navigation/SwBreadcrumbs.vue';
+import SwNavSidebar from '@/components/navigation/SwNavSidebar.vue';
+import SwIconButton from '@/components/ui/buttons/SwIconButton.vue';
+import logoNl from '@/assets/logo-nl.svg?raw';
+import logoBe from '@/assets/logo-be.svg?raw';
 
 interface BreadcrumbItem {
-  label: string
-  icon?: string
-  to?: string
+  label: string;
+  icon?: string;
+  to?: string;
 }
 
 const props = defineProps<{
-  logo: 'nl' | 'be'
-}>()
+  logo: 'nl' | 'be';
+}>();
 
-const logoSvg = computed(() => (props.logo === 'be' ? logoBe : logoNl))
+const logoSvg = computed(() => (props.logo === 'be' ? logoBe : logoNl));
 
-const route = useRoute()
+const route = useRoute();
 const breadcrumbs = computed(
   () =>
     (route.meta.breadcrumbs as BreadcrumbItem[] | undefined) ?? [
       { label: 'Home', icon: 'house', to: '/' },
     ],
-)
+);
 
 // Tier state
-const isMobile = ref(false)
-const isDesktop = ref(false)
+const isMobile = ref(false);
+const isDesktop = ref(false);
 
 // Sidebar state (lifted from SwNavSidebar)
-const sidebarOpen = ref(false)
-const openNavItemId = ref<symbol | null>(null)
+const sidebarOpen = ref(false);
+const openNavItemId = ref<symbol | null>(null);
 
-provide('sidebarOpen', sidebarOpen)
-provide('openNavItemId', openNavItemId)
-provide('isMobile', isMobile)
-provide('isDesktop', isDesktop)
+provide('sidebarOpen', sidebarOpen);
+provide('openNavItemId', openNavItemId);
+provide('isMobile', isMobile);
+provide('isDesktop', isDesktop);
 
 function toggle() {
-  sidebarOpen.value = !sidebarOpen.value
-  if (!sidebarOpen.value) openNavItemId.value = null
+  sidebarOpen.value = !sidebarOpen.value;
+
+  if (!sidebarOpen.value) {
+    openNavItemId.value = null;
+  }
 }
-provide('toggleSidebar', toggle)
+provide('toggleSidebar', toggle);
 
 // Close sidebar on navigation (mobile only)
 watch(
   () => route.path,
   () => {
-    if (isMobile.value) sidebarOpen.value = false
+    if (isMobile.value) {
+      sidebarOpen.value = false;
+    }
   },
-)
+);
 
 // matchMedia — detect tier and set initial open state
-let mqMobile: MediaQueryList
-let mqDesktop: MediaQueryList
+let mqMobile: MediaQueryList;
+let mqDesktop: MediaQueryList;
 
 function applyTier() {
-  isMobile.value = mqMobile.matches
-  isDesktop.value = mqDesktop.matches
-  sidebarOpen.value = mqDesktop.matches
+  isMobile.value = mqMobile.matches;
+  isDesktop.value = mqDesktop.matches;
+  sidebarOpen.value = mqDesktop.matches;
 }
 
 onMounted(() => {
-  mqMobile = window.matchMedia('(max-width: 767px)')
-  mqDesktop = window.matchMedia('(min-width: 1024px)')
-  applyTier()
-  mqMobile.addEventListener('change', applyTier)
-  mqDesktop.addEventListener('change', applyTier)
-})
+  mqMobile = window.matchMedia('(max-width: 767px)');
+  mqDesktop = window.matchMedia('(min-width: 1024px)');
+
+  applyTier();
+
+  mqMobile.addEventListener('change', applyTier);
+  mqDesktop.addEventListener('change', applyTier);
+});
 
 onUnmounted(() => {
-  mqMobile?.removeEventListener('change', applyTier)
-  mqDesktop?.removeEventListener('change', applyTier)
-})
+  mqMobile?.removeEventListener('change', applyTier);
+  mqDesktop?.removeEventListener('change', applyTier);
+});
 </script>
 
 <template>

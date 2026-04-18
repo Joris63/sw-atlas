@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import SwPage from '@/components/layout/SwPage.vue'
-import SwLabel from '@/components/ui/typography/SwLabel.vue'
-import SwPlayground from '@/components/ui/docs/SwPlayground.vue'
-import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue'
+import SwPage from '@/components/layout/SwPage.vue';
+import SwLabel from '@/components/ui/typography/SwLabel.vue';
+import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
+import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
-    name: '_content',
+    name: 'content',
     type: 'slot',
     description: 'Label text content.',
     control: 'text',
@@ -18,7 +18,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: "'xs' | 'sm'",
     default: 'sm',
     description: 'Font size.',
-    control: 'segmented',
+    control: 'select',
     options: ['xs', 'sm'],
   },
   {
@@ -42,7 +42,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: "Associates the label with an input's id.",
     control: 'none',
   },
-]
+];
 </script>
 
 <template>
@@ -53,7 +53,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     <SwPlayground :props-config="playgroundConfig" component-name="SwLabel">
       <template #default="{ values }">
         <SwLabel :size="values.size" :uppercase="values.uppercase" :required="values.required">
-          {{ values._content }}
+          {{ values.content }}
         </SwLabel>
       </template>
     </SwPlayground>

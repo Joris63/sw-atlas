@@ -23,4 +23,11 @@ export default defineConfigWithVueTs(
   ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   skipFormatting,
+
+  {
+    name: 'app/rules',
+    rules: {
+      curly: ['error', 'all'],
+    },
+  },
 )

@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
-import SwHeading from '@/components/ui/typography/SwHeading.vue'
-import SwText from '@/components/ui/typography/SwText.vue'
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import SwHeading from '@/components/ui/typography/SwHeading.vue';
+import SwText from '@/components/ui/typography/SwText.vue';
 
-const route = useRoute()
+const route = useRoute();
 const title = computed(() => {
-  const crumbs = route.meta.breadcrumbs as Array<{ label: string }> | undefined
-  return crumbs?.at(-1)?.label ?? 'Pagina'
-})
+  const crumbs = route.meta.breadcrumbs as Array<{ label: string }> | undefined;
+  return crumbs?.at(-1)?.label ?? 'Pagina';
+});
 </script>
 
 <template>

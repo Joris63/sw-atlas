@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue'
-import type { Ref } from 'vue'
+import { provide, inject, ref } from 'vue';
+import type { Ref } from 'vue';
 
-defineProps<{ label: string }>()
+const props = defineProps<{ label: string }>();
 
-const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
+provide('groupLabel', props.label);
+const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true));
 </script>
 
 <template>
+  <div v-if="!sidebarOpen" class="sw-nav-group__divider" />
   <div class="sw-nav-group" :class="{ 'sw-nav-group--collapsed': !sidebarOpen }">
     <span v-if="sidebarOpen" class="sw-nav-group__label">{{ label }}</span>
     <slot />
@@ -22,7 +24,12 @@ const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true))
 }
 
 .sw-nav-group--collapsed {
-  @apply pt-2;
+  @apply pt-2 pb-2;
+}
+
+.sw-nav-group__divider {
+  height: 2px;
+  @apply bg-border rounded-2xl;
 }
 
 .sw-nav-group__label {

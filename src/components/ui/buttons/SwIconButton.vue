@@ -1,28 +1,28 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import SwIcon from '../SwIcon.vue'
+import { computed } from 'vue';
+import SwIcon from '../SwIcon.vue';
 
 interface Props {
-  variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger'
-  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg'
-  as?: string
-  disabled?: boolean
-  loading?: boolean
-  rounded?: boolean
-  label: string
-  icon?: string
+  variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger';
+  size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg';
+  as?: string;
+  disabled?: boolean;
+  loading?: boolean;
+  rounded?: boolean;
+  label: string;
+  icon?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
   as: 'button',
-})
+});
 
 const iconSize = computed(() => {
-  const map: Record<string, number> = { '2xs': 12, xs: 14, sm: 16, md: 18, lg: 20 }
-  return map[props.size]
-})
+  const map: Record<string, number> = { '2xs': 12, xs: 14, sm: 16, md: 18, lg: 20 };
+  return map[props.size];
+});
 </script>
 
 <template>
@@ -58,7 +58,7 @@ const iconSize = computed(() => {
 .sw-icon-button {
   @apply inline-flex items-center justify-center shrink-0
          cursor-pointer select-none rounded-lg
-         transition-colors duration-150
+         transition-all duration-150
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus
          disabled:opacity-50 disabled:cursor-not-allowed;
 }

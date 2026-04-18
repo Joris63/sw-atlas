@@ -1,144 +1,335 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
-import SwIcon from '../SwIcon.vue'
-import SwCodeBlock from './SwCodeBlock.vue'
-import SwButton from '../buttons/SwButton.vue'
-import SwInput from '../forms/SwInput.vue'
-import SwSwitch from '../forms/SwSwitch.vue'
-import SwIconInput from '../forms/SwIconInput.vue'
+import { computed, reactive, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import SwIcon from '../SwIcon.vue';
+import SwCodeBlock from './SwCodeBlock.vue';
+import SwInput from '../forms/SwInput.vue';
+import SwSwitch from '../forms/SwSwitch.vue';
+import SwSelect from '../forms/SwSelect.vue';
+import SwIconInput from './SwIconInput.vue';
+import SwTooltip from '../SwTooltip.vue';
 
-export interface PlaygroundPropConfig {
-  name: string
-  type: string
-  default?: any
-  required?: boolean
-  description?: string
-  control: 'text' | 'segmented' | 'toggle' | 'icon' | 'none'
-  options?: string[]
-  initialValue?: any
-  isSlotContent?: boolean // rendered as children between open/close tags in code output
-  isNumeric?: boolean // use :prop="N" binding syntax in code output
+export interface PlaygroundPreset {
+  label: string;
+  value: any;
 }
 
+export interface PlaygroundPropConfig {
+  name: string;
+  label?: string;
+  type?: string;
+  default?: any;
+  required?: boolean;
+  description?: string;
+  control: 'text' | 'select' | 'toggle' | 'icon' | 'preset' | 'none';
+  options?: string[];
+  presets?: PlaygroundPreset[];
+  initialValue?: any;
+  isSlotContent?: boolean;
+  isNumeric?: boolean;
+  category?: 'content' | 'appearance' | 'state' | 'advanced';
+  showWhen?: (values: Record<string, any>) => boolean;
+}
+
+const CATEGORY_LABELS: Record<string, string> = {
+  content: 'Content',
+  appearance: 'Appearance',
+  state: 'State',
+  advanced: 'Advanced',
+};
+
 const props = defineProps<{
-  propsConfig: PlaygroundPropConfig[]
-  componentName: string
-  previewClass?: string
-  stacked?: boolean
-}>()
+  propsConfig: PlaygroundPropConfig[];
+  componentName: string;
+  previewClass?: string;
+  stacked?: boolean;
+}>();
+
+const route = useRoute();
+const router = useRouter();
+
+function getInitialValue(p: PlaygroundPropConfig): any {
+  const urlVal = route.query[p.name];
+  if (urlVal !== undefined) {
+    if (p.control === 'toggle') {
+      return urlVal === 'true';
+    }
+    try {
+      return JSON.parse(String(urlVal));
+    } catch {
+      return String(urlVal);
+    }
+  }
+  if (p.control === 'preset' && p.presets?.length) {
+    return p.presets[0]!.value;
+  }
+  if (p.initialValue !== undefined) {
+    return p.initialValue;
+  }
+  if (p.default !== undefined) {
+    return p.default;
+  }
+  if (p.control === 'toggle') {
+    return false;
+  }
+  return '';
+}
 
 const values = reactive<Record<string, any>>(
   Object.fromEntries(
-    props.propsConfig
-      .filter((p) => p.control !== 'none')
-      .map((p) => {
-        const initial =
-          p.initialValue !== undefined
-            ? p.initialValue
-            : p.default !== undefined
-              ? p.default
-              : p.control === 'toggle'
-                ? false
-                : ''
-        return [p.name, initial]
-      }),
+    props.propsConfig.filter((p) => p.control !== 'none').map((p) => [p.name, getInitialValue(p)]),
   ),
-)
+);
+
+const selectedPresetIndex = reactive<Record<string, number>>(
+  Object.fromEntries(
+    props.propsConfig.filter((p) => p.control === 'preset').map((p) => [p.name, 0]),
+  ),
+);
+
+watch(
+  values,
+  (newVals) => {
+    const query: Record<string, string> = {};
+    for (const [key, val] of Object.entries(newVals)) {
+      if (val !== undefined && val !== null && val !== '') {
+        query[key] = typeof val === 'object' ? JSON.stringify(val) : String(val);
+      }
+    }
+    router.replace({ query });
+  },
+  { deep: true },
+);
 
 function toKebab(name: string): string {
-  return name.replace(/([A-Z])/g, (m) => `-${m.toLowerCase()}`)
+  return name.replace(/([A-Z])/g, (m) => `-${m.toLowerCase()}`);
+}
+
+function getLabel(p: PlaygroundPropConfig): string {
+  return p.label ?? toKebab(p.name);
+}
+
+function getTooltip(p: PlaygroundPropConfig): string {
+  const parts: string[] = [];
+  if (p.description) {
+    parts.push(`<li>${p.description}</li>`);
+  }
+  if (p.type) {
+    parts.push(`<li>Type: ${p.type}</li>`);
+  }
+  if (p.required) {
+    parts.push('<li>Required</li>');
+  }
+  if (p.default !== undefined) {
+    parts.push(`<li>Default: ${p.default}</li>`);
+  }
+  return `<ul>${parts.join('\n')}</ul>`;
+}
+
+const visibleProps = computed(() =>
+  props.propsConfig.filter((p) => !p.showWhen || p.showWhen(values)),
+);
+
+const hasCategories = computed(() => props.propsConfig.some((p) => p.category));
+
+const grouped = computed((): [string, PlaygroundPropConfig[]][] => {
+  if (!hasCategories.value) {
+    return [['', visibleProps.value]];
+  }
+  const order = ['content', 'appearance', 'state', 'advanced'];
+  const map = new Map<string, PlaygroundPropConfig[]>();
+  for (const p of visibleProps.value) {
+    const cat = p.category ?? 'advanced';
+    if (!map.has(cat)) {
+      map.set(cat, []);
+    }
+    map.get(cat)!.push(p);
+  }
+  return order.filter((c) => map.has(c)).map((c) => [c, map.get(c)!]);
+});
+
+const controlCount = computed(() => props.propsConfig.filter((p) => p.control !== 'none').length);
+
+function resetToDefaults() {
+  for (const p of props.propsConfig) {
+    if (p.control === 'none') {
+      continue;
+    }
+    if (p.control === 'preset' && p.presets?.length) {
+      values[p.name] = p.presets[0]!.value;
+      selectedPresetIndex[p.name] = 0;
+    } else {
+      const initial =
+        p.initialValue !== undefined
+          ? p.initialValue
+          : p.default !== undefined
+            ? p.default
+            : p.control === 'toggle'
+              ? false
+              : '';
+      values[p.name] = initial;
+    }
+  }
+}
+
+function selectPreset(p: PlaygroundPropConfig, i: number) {
+  if (!p.presets?.[i]) {
+    return;
+  }
+  selectedPresetIndex[p.name] = i;
+  values[p.name] = p.presets[i].value;
+}
+
+function serializeItem(item: Record<string, any>): string {
+  const entries = Object.entries(item).filter(
+    ([k, v]) => k !== 'value' && v !== '' && v !== false && v != null,
+  );
+  const inner = entries.map(([k, v]) => `${k}: '${v}'`).join(', ');
+  return `{ value: '${item.value}'${inner ? ', ' + inner : ''} }`;
 }
 
 const codeString = computed(() => {
-  const parts: string[] = []
-  let slotContent: string | null = null
+  const parts: string[] = [];
+  let slotContent: string | null = null;
 
   for (const p of props.propsConfig) {
-    if (p.control === 'none') continue
-
-    const v = values[p.name]
+    if (p.control === 'none') {
+      continue;
+    }
+    const v = values[p.name];
 
     if (p.isSlotContent) {
-      slotContent = v || null
-      continue
+      slotContent = v || null;
+      continue;
     }
 
-    const defaultVal = p.default !== undefined ? p.default : p.control === 'toggle' ? false : ''
+    const key = toKebab(p.name);
 
-    const key = toKebab(p.name)
+    if (p.control === 'preset') {
+      if (Array.isArray(v)) {
+        const arr = v.map((item: Record<string, any>) => serializeItem(item)).join(', ');
+        parts.push(`:${key}="[${arr}]"`);
+      } else {
+        parts.push(`${key}="${v}"`);
+      }
+      continue;
+    }
+
+    const def = p.default !== undefined ? p.default : p.control === 'toggle' ? false : '';
 
     if (p.required) {
-      parts.push(p.isNumeric ? `:${key}="${v}"` : `${key}="${v}"`)
+      parts.push(p.isNumeric ? `:${key}="${v}"` : `${key}="${v}"`);
     } else {
-      if (v === defaultVal || v === undefined || v === null || v === '') continue
+      if (v === def || v === undefined || v === null || v === '') {
+        continue;
+      }
       if (v === true) {
-        parts.push(key)
+        parts.push(key);
       } else if (p.isNumeric) {
-        parts.push(`:${key}="${v}"`)
+        parts.push(`:${key}="${v}"`);
       } else {
-        parts.push(`${key}="${v}"`)
+        parts.push(`${key}="${v}"`);
       }
     }
   }
 
-  const attrsStr = parts.length > 0 ? ` ${parts.join(' ')}` : ''
-
+  const attrsStr = parts.length ? ` ${parts.join(' ')}` : '';
   if (slotContent !== null) {
-    return `<${props.componentName}${attrsStr}>${slotContent}</${props.componentName}>`
+    return `<${props.componentName}${attrsStr}>${slotContent}</${props.componentName}>`;
   }
+  const self = `<${props.componentName}${attrsStr} />`;
+  if (self.length <= 80) {
+    return self;
+  }
+  return `<${props.componentName}\n  ${parts.join('\n  ')}\n/>`;
+});
 
-  const selfClose = `<${props.componentName}${attrsStr} />`
-  if (selfClose.length <= 80) return selfClose
+const copied = ref(false);
 
-  return `<${props.componentName}\n  ${parts.join('\n  ')}\n/>`
-})
-
-const visibleControls = computed(() => props.propsConfig.filter((p) => p.control !== 'none'))
-const controlCount = computed(() => props.propsConfig.filter((p) => p.control !== 'none').length)
+async function copyCode() {
+  await navigator.clipboard.writeText(codeString.value);
+  copied.value = true;
+  setTimeout(() => {
+    copied.value = false;
+  }, 1500);
+}
 </script>
 
 <template>
   <div class="sw-playground">
-    <!-- Main body: controls left, preview right on desktop (unless stacked) -->
     <div class="sw-playground__body" :class="{ 'sw-playground__body--stacked': stacked }">
       <!-- Controls panel -->
       <div class="sw-playground__controls">
         <div class="sw-playground__controls-header">
-          <SwIcon name="sliders-horizontal" :size="13" />
+          <SwIcon name="sliders-horizontal" :size="13" class="shrink-0" />
           <span>Props</span>
           <span class="sw-playground__badge">{{ controlCount }}</span>
+          <button class="sw-playground__reset" title="Reset to defaults" @click="resetToDefaults">
+            <SwIcon name="rotate-ccw" :size="13" />
+          </button>
         </div>
 
         <div class="sw-playground__controls-list">
-          <div v-for="p in visibleControls" :key="p.name" class="sw-playground__row">
-            <span class="sw-playground__prop-name">
-              {{ toKebab(p.name) }}
-              <span v-if="p.required" class="sw-playground__required">req</span>
-            </span>
-            <div class="sw-playground__control">
-              <!-- Text input -->
-              <SwInput
-                v-if="p.control === 'text'"
-                v-model="values[p.name]"
-                :placeholder="p.default !== undefined ? String(p.default) : ''"
-              />
-              <!-- Segmented control -->
-              <div v-else-if="p.control === 'segmented'" class="sw-playground__seg">
-                <SwButton
-                  v-for="opt in p.options"
-                  :key="opt"
-                  size="xs"
-                  :variant="String(values[p.name]) === opt ? 'primary' : 'outline'"
-                  :label="opt"
-                  @click="values[p.name] = opt"
-                />
-              </div>
-              <!-- Toggle switch -->
-              <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
-              <!-- Icon picker -->
-              <SwIconInput v-else-if="p.control === 'icon'" v-model="values[p.name]" />
+          <template v-for="[cat, catProps] in grouped" :key="cat">
+            <div v-if="cat" class="sw-playground__category-header">
+              {{ CATEGORY_LABELS[cat] }}
             </div>
-          </div>
+            <div
+              v-for="p in catProps"
+              :key="p.name"
+              class="sw-playground__prop"
+              :class="{ 'sw-playground__prop--none': p.control === 'none' }"
+            >
+              <!-- Prop label row -->
+              <div class="sw-playground__prop-header">
+                <span class="sw-playground__prop-label">{{ getLabel(p) }}</span>
+                <span v-if="p.required" class="sw-playground__required">*</span>
+                <span v-if="p.isSlotContent" class="sw-playground__slot-badge">slot</span>
+                <SwTooltip
+                  v-if="getTooltip(p)"
+                  :content="getTooltip(p)"
+                  placement="right"
+                  :open-delay="200"
+                  content-as-html
+                >
+                  <button class="sw-playground__info-btn">
+                    <SwIcon name="info" :size="11" />
+                  </button>
+                </SwTooltip>
+              </div>
+
+              <!-- Control -->
+              <div v-if="p.control !== 'none'" class="sw-playground__prop-control">
+                <SwInput
+                  v-if="p.control === 'text'"
+                  v-model="values[p.name]"
+                  size="sm"
+                  :placeholder="p.default !== undefined ? String(p.default) : ''"
+                />
+                <SwSelect
+                  v-else-if="p.control === 'select'"
+                  v-model="values[p.name]"
+                  size="sm"
+                  :options="(p.options ?? []).map((o) => ({ value: o, label: o }))"
+                />
+                <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
+                <SwIconInput v-else-if="p.control === 'icon'" v-model="values[p.name]" />
+                <div v-else-if="p.control === 'preset'" class="sw-playground__presets">
+                  <button
+                    v-for="(preset, i) in p.presets"
+                    :key="i"
+                    :class="[
+                      'sw-playground__preset-chip',
+                      { 'sw-playground__preset-chip--active': selectedPresetIndex[p.name] === i },
+                    ]"
+                    @click="selectPreset(p, i)"
+                  >
+                    {{ preset.label }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
 
@@ -148,13 +339,24 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
       </div>
     </div>
 
-    <!-- Code block — always visible -->
+    <!-- Code section -->
     <div class="sw-playground__code">
-      <div class="sw-playground__code-label">
-        <SwIcon name="code-2" :size="13" />
-        Code
+      <div class="sw-playground__code-header">
+        <div class="sw-playground__code-label">
+          <SwIcon name="code-2" :size="13" />
+          Code
+        </div>
+        <div class="sw-playground__code-actions">
+          <button
+            :class="['sw-playground__copy-btn', { 'sw-playground__copy-btn--done': copied }]"
+            @click="copyCode()"
+          >
+            <SwIcon :name="copied ? 'check' : 'copy'" :size="13" />
+            {{ copied ? 'Copied!' : 'Copy' }}
+          </button>
+        </div>
       </div>
-      <SwCodeBlock :code="codeString" />
+      <SwCodeBlock :code="codeString" :show-toolbar="false" />
     </div>
   </div>
 </template>
@@ -162,12 +364,11 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
 <style scoped>
 @reference "@/styles/tailwind.css";
 
-/* ---- Shell ---- */
 .sw-playground {
   @apply rounded-2xl border border-border shadow-sm;
 }
 
-/* ---- Body: side-by-side on lg (unless stacked) ---- */
+/* ---- Body ---- */
 .sw-playground__body {
   @apply flex flex-col lg:flex-row;
 }
@@ -180,12 +381,12 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
 .sw-playground__controls {
   @apply bg-surface-subtle border-b border-border
          rounded-t-2xl
-         lg:border-b-0 lg:border-r lg:w-2xs lg:shrink-0
+         lg:border-b-0 lg:border-r lg:w-64 lg:shrink-0
          lg:rounded-t-none lg:rounded-tl-2xl;
 }
 
 .sw-playground__body--stacked .sw-playground__controls {
-  @apply lg:border-r-0 lg:border-b lg:w-auto lg:shrink lg:rounded-tl-2xl lg:rounded-tr-2xl;
+  @apply lg:border-r-0 lg:border-b lg:w-auto lg:rounded-tl-2xl lg:rounded-tr-2xl;
 }
 
 .sw-playground__controls-header {
@@ -195,55 +396,87 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
 }
 
 .sw-playground__badge {
-  @apply ml-auto inline-flex items-center justify-center
+  @apply inline-flex items-center justify-center
          rounded-full text-xs font-semibold px-1.5 min-w-5 h-5
          bg-surface-hover text-text-muted;
 }
 
-.sw-playground__controls-list {
-  @apply py-1;
+.sw-playground__reset {
+  @apply ml-auto flex items-center justify-center w-6 h-6 rounded-md
+         text-text-subtle hover:text-text hover:bg-surface-hover
+         cursor-pointer transition-colors;
 }
 
-/* ---- Prop rows ---- */
-.sw-playground__row {
-  @apply flex items-center gap-3 px-4 py-2;
+/* ---- Category header ---- */
+.sw-playground__category-header {
+  @apply px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider
+         text-text-subtle bg-surface border-b border-border select-none;
 }
 
-.sw-playground__prop-name {
-  @apply font-mono text-xs text-text-muted w-24 shrink-0
-         flex items-center gap-1.5 flex-wrap leading-tight;
+/* ---- Prop rows (vertical layout) ---- */
+.sw-playground__prop {
+  @apply flex flex-col gap-2 px-4 py-3 border-b border-border last:border-b-0;
+}
+
+.sw-playground__prop--none {
+  @apply py-2.5;
+}
+
+.sw-playground__prop-header {
+  @apply flex items-center gap-1.5 min-h-4;
+}
+
+.sw-playground__prop-label {
+  @apply font-mono text-xs font-medium text-text;
 }
 
 .sw-playground__required {
-  @apply text-[10px] font-sans font-semibold px-1 py-px rounded-sm
-         text-text-inverse bg-danger leading-none;
+  @apply text-xs font-semibold leading-none text-danger select-none;
 }
 
-.sw-playground__control {
-  @apply flex-1 min-w-0;
+.sw-playground__slot-badge {
+  @apply text-[10px] font-semibold px-1.5 py-px rounded-full leading-none
+         text-primary select-none;
+  background: color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
-.sw-playground__seg {
-  @apply flex flex-wrap gap-1;
+.sw-playground__info-btn {
+  @apply flex items-center text-text-subtle hover:text-text transition-colors cursor-default ml-auto;
 }
 
-/* ---- Ensure controls stand out against the subtle panel bg ---- */
-.sw-playground__controls :deep(.sw-input__input) {
-  @apply bg-surface-strong;
+.sw-playground__prop-control {
+  @apply w-full;
 }
 
-.sw-playground__controls :deep(.sw-button--outline) {
-  @apply bg-surface-strong;
+/* ---- Preset chips ---- */
+.sw-playground__presets {
+  @apply flex flex-wrap gap-1.5;
+}
+
+.sw-playground__preset-chip {
+  @apply px-2.5 py-1 rounded-md text-xs font-medium
+         border border-border bg-surface text-text-muted
+         hover:border-border-strong hover:text-text
+         cursor-pointer transition-colors select-none;
+}
+
+.sw-playground__preset-chip--active {
+  @apply text-primary border-primary;
+  background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+}
+
+/* ---- Controls stand out against subtle panel bg ---- */
+.sw-playground__controls :deep(.sw-input__input),
+.sw-playground__controls :deep(.sw-select__trigger),
+.sw-playground__controls :deep(.sw-switch__control[data-state='unchecked']) {
+  @apply bg-surface;
 }
 
 /* ---- Preview panel ---- */
 .sw-playground__preview {
   @apply flex flex-wrap items-center justify-center gap-3
          p-10 bg-surface flex-1 lg:rounded-tr-2xl min-h-40;
-  background-image: radial-gradient(
-    var(--border) 1px,
-    transparent 1px
-  ); /* no @apply for gradients with CSS vars */
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 
@@ -252,9 +485,27 @@ const controlCount = computed(() => props.propsConfig.filter((p) => p.control !=
   @apply border-t border-border rounded-b-2xl overflow-hidden;
 }
 
+.sw-playground__code-header {
+  @apply flex items-center gap-3 px-4 py-2.5
+         bg-surface-subtle border-b border-border;
+}
+
 .sw-playground__code-label {
-  @apply flex items-center gap-2 px-4 py-2.5
+  @apply flex items-center gap-2
          text-xs font-semibold tracking-wider uppercase
-         text-text-subtle bg-surface-subtle border-b border-border select-none;
+         text-text-subtle select-none;
+}
+
+.sw-playground__code-actions {
+  @apply ml-auto flex items-center gap-3;
+}
+
+.sw-playground__copy-btn {
+  @apply flex items-center gap-1.5 text-xs text-text-subtle
+         hover:text-text cursor-pointer transition-colors select-none;
+}
+
+.sw-playground__copy-btn--done {
+  @apply text-success;
 }
 </style>
