@@ -22,7 +22,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), { variant: 'default', disabled: false });
+withDefaults(defineProps<Props>(), { variant: 'default', disabled: false });
 const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
 </script>
 

@@ -42,7 +42,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   },
 ];
 
-const currentValues = ref<Record<string, any>>({
+const currentValues = ref<Record<string, string>>({
   variant: 'success',
   title: 'Changes saved',
   description: 'Your changes have been saved.',
@@ -56,17 +56,13 @@ const ICON_MAP: Record<string, string> = {
   error: 'circle-x',
 };
 
-function triggerToast(values: Record<string, any>) {
+function triggerToast(values: Record<string, string>) {
   currentValues.value = { ...values };
-  const opts: Record<string, any> = {};
-  if (values.description) {
-    opts.description = values.description;
-  }
-  if (values.duration) {
-    opts.duration = Number(values.duration);
-  }
   const method = values.variant as 'success' | 'info' | 'warning' | 'error';
-  toast[method](values.title || 'Toast title', Object.keys(opts).length ? opts : undefined);
+  toast[method](values.title || 'Toast title', {
+    description: values.description || undefined,
+    duration: values.duration ? Number(values.duration) : undefined,
+  });
 }
 
 const customCode = computed(() => {

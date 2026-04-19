@@ -25,17 +25,9 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), { size: 'md', disabled: false });
 const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
 
-const iconSize = computed(() => {
-  if (props.size === 'sm') {
-    return 12;
-  }
+const ICON_SIZES: Record<string, number> = { sm: 12, md: 14, lg: 16 };
 
-  if (props.size === 'lg') {
-    return 16;
-  }
-
-  return 14;
-});
+const iconSize = computed(() => ICON_SIZES[props.size] ?? 14);
 </script>
 
 <template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { computed, reactive, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import SwIcon from '../SwIcon.vue';
@@ -38,6 +39,8 @@ const CATEGORY_LABELS: Record<string, string> = {
   advanced: 'Advanced',
 };
 
+const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
+
 const props = defineProps<{
   propsConfig: PlaygroundPropConfig[];
   componentName: string;
@@ -50,18 +53,7 @@ const props = defineProps<{
 const route = useRoute();
 const router = useRouter();
 
-function getInitialValue(p: PlaygroundPropConfig): any {
-  const urlVal = route.query[p.name];
-  if (urlVal !== undefined) {
-    if (p.control === 'toggle') {
-      return urlVal === 'true';
-    }
-    try {
-      return JSON.parse(String(urlVal));
-    } catch {
-      return String(urlVal);
-    }
-  }
+function getDefaultValue(p: PlaygroundPropConfig): any {
   if (p.control === 'preset' && p.presets?.length) {
     return p.presets[0]!.value;
   }
@@ -75,6 +67,21 @@ function getInitialValue(p: PlaygroundPropConfig): any {
     return false;
   }
   return '';
+}
+
+function getInitialValue(p: PlaygroundPropConfig): any {
+  const urlVal = route.query[p.name];
+  if (urlVal !== undefined) {
+    if (p.control === 'toggle') {
+      return urlVal === 'true';
+    }
+    try {
+      return JSON.parse(String(urlVal));
+    } catch {
+      return String(urlVal);
+    }
+  }
+  return getDefaultValue(p);
 }
 
 const values = reactive<Record<string, any>>(
@@ -104,7 +111,7 @@ watch(
 );
 
 function toKebab(name: string): string {
-  return name.replace(/([A-Z])/g, (m) => `-${m.toLowerCase()}`);
+  return name.replace(/([A-Z])/g, (char) => `-${char.toLowerCase()}`);
 }
 
 function getLabel(p: PlaygroundPropConfig): string {
@@ -138,7 +145,7 @@ const grouped = computed((): [string, PlaygroundPropConfig[]][] => {
   if (!hasCategories.value) {
     return [['', visibleProps.value]];
   }
-  const order = ['content', 'appearance', 'state', 'advanced'];
+  const order = CATEGORY_ORDER;
   const map = new Map<string, PlaygroundPropConfig[]>();
   for (const p of visibleProps.value) {
     const cat = p.category ?? 'advanced';
@@ -157,19 +164,9 @@ function resetToDefaults() {
     if (p.control === 'none') {
       continue;
     }
-    if (p.control === 'preset' && p.presets?.length) {
-      values[p.name] = p.presets[0]!.value;
+    values[p.name] = getDefaultValue(p);
+    if (p.control === 'preset') {
       selectedPresetIndex[p.name] = 0;
-    } else {
-      const initial =
-        p.initialValue !== undefined
-          ? p.initialValue
-          : p.default !== undefined
-            ? p.default
-            : p.control === 'toggle'
-              ? false
-              : '';
-      values[p.name] = initial;
     }
   }
 }
@@ -183,11 +180,11 @@ function selectPreset(p: PlaygroundPropConfig, i: number) {
 }
 
 function serializeItem(item: Record<string, any>): string {
-  const entries = Object.entries(item).filter(
-    ([k, v]) => k !== 'value' && v !== '' && v !== false && v != null,
-  );
-  const inner = entries.map(([k, v]) => `${k}: '${v}'`).join(', ');
-  return `{ value: '${item.value}'${inner ? ', ' + inner : ''} }`;
+  const extras = Object.entries(item)
+    .filter(([key, val]) => key !== 'value' && val !== '' && val !== false && val != null)
+    .map(([key, val]) => `${key}: '${val}'`)
+    .join(', ');
+  return `{ value: '${item.value}'${extras ? `, ${extras}` : ''} }`;
 }
 
 const codeString = computed(() => {
@@ -217,12 +214,12 @@ const codeString = computed(() => {
       continue;
     }
 
-    const def = p.default !== undefined ? p.default : p.control === 'toggle' ? false : '';
+    const defaultValue = p.default !== undefined ? p.default : p.control === 'toggle' ? false : '';
 
     if (p.required) {
       parts.push(p.isNumeric ? `:${key}="${v}"` : `${key}="${v}"`);
     } else {
-      if (v === def || v === undefined || v === null || v === '') {
+      if (v === defaultValue || v === undefined || v === null || v === '') {
         continue;
       }
       if (v === true) {

@@ -4,6 +4,10 @@ import SwHeading from '@/components/ui/typography/SwHeading.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
+function toHeadingLevel(value: string): 1 | 2 | 3 | 4 | 5 | 6 {
+  return Number(value) as 1 | 2 | 3 | 4 | 5 | 6;
+}
+
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'content',
@@ -45,7 +49,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     >
       <template #default="{ values }">
         <SwHeading
-          :level="Number(values.level) as 1 | 2 | 3 | 4 | 5 | 6 | undefined"
+          :level="toHeadingLevel(values.level)"
           :size="values.size === 'auto' ? undefined : values.size"
         >
           {{ values.content }}
