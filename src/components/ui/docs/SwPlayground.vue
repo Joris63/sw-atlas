@@ -293,7 +293,7 @@ async function copyCode() {
                   content-as-html
                 >
                   <button class="sw-playground__info-btn">
-                    <SwIcon name="info" :size="14" />
+                    <SwIcon name="info" :size="13" />
                   </button>
                 </SwTooltip>
               </div>

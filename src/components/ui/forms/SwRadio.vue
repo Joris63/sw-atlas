@@ -42,17 +42,18 @@ const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
       class="sw-radio__item"
       :class="`sw-radio__item--${variant}`"
     >
-      <RadioGroupItemControl class="sw-radio__control">
-        <!-- Inner dot / check rendered via CSS pseudo or child div -->
-        <span class="sw-radio__inner">
-          <SwIcon v-if="variant === 'card'" name="check" :size="10" class="sw-radio__check-icon" />
-        </span>
+      <RadioGroupItemControl v-if="variant === 'default'" class="sw-radio__control">
+        <span class="sw-radio__inner" />
       </RadioGroupItemControl>
 
       <div class="sw-radio__content">
         <RadioGroupItemText class="sw-radio__label">{{ opt.label }}</RadioGroupItemText>
         <span v-if="opt.description" class="sw-radio__description">{{ opt.description }}</span>
       </div>
+
+      <span v-if="variant === 'card'" class="sw-radio__trailing">
+        <SwIcon name="check" :size="14" class="sw-radio__check-icon" />
+      </span>
 
       <RadioGroupItemHiddenInput />
     </RadioGroupItem>
@@ -105,7 +106,7 @@ const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
 
 /* ---- Card item ---- */
 .sw-radio__item--card {
-  @apply flex items-start gap-3 p-4 rounded-xl
+  @apply flex items-center gap-4 px-5 py-4 rounded-xl
          border border-border bg-surface
          cursor-pointer select-none transition-all duration-150
          focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus;
@@ -118,35 +119,28 @@ const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
   @apply opacity-50 cursor-not-allowed;
 }
 
-.sw-radio__item--card .sw-radio__control {
-  @apply flex shrink-0 items-center justify-center mt-0.5
-         w-5 h-5 rounded-full border border-border bg-surface
-         transition-colors duration-150;
+/* Trailing check icon */
+.sw-radio__trailing {
+  @apply ml-auto flex shrink-0 items-center justify-center
+         w-5 h-5 rounded-full bg-primary
+         opacity-0 scale-75 transition-all duration-150;
 }
-.sw-radio__item--card[data-state='checked'] .sw-radio__control {
-  @apply bg-primary border-primary;
-}
-
-/* Check icon — visible only when checked */
-.sw-radio__item--card .sw-radio__inner {
-  @apply flex items-center justify-center;
+.sw-radio__item--card[data-state='checked'] .sw-radio__trailing {
+  @apply opacity-100 scale-100;
 }
 .sw-radio__check-icon {
-  @apply text-text-on-primary opacity-0 transition-opacity duration-150;
-}
-.sw-radio__item--card[data-state='checked'] .sw-radio__check-icon {
-  @apply opacity-100;
+  @apply text-text-on-primary;
 }
 
 /* ---- Shared content ---- */
 .sw-radio__content {
-  @apply flex flex-col gap-0.5;
+  @apply flex flex-col gap-1;
 }
 .sw-radio__label {
   @apply text-sm text-text;
 }
 .sw-radio__item--card .sw-radio__label {
-  @apply font-semibold;
+  @apply font-semibold leading-none;
 }
 .sw-radio__description {
   @apply text-xs text-text-muted;

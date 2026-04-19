@@ -40,6 +40,7 @@ withDefaults(defineProps<Props>(), {
     :open-delay="openDelay"
     :close-delay="closeDelay"
     :positioning="{ placement }"
+    unmount-on-exit
   >
     <TooltipTrigger as-child>
       <slot />
@@ -69,6 +70,10 @@ withDefaults(defineProps<Props>(), {
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
 }
 
+.dark .sw-tooltip {
+  @apply bg-neutral-50 text-neutral-900;
+}
+
 .sw-tooltip[data-state='open'] {
   animation: sw-tooltip-in 120ms ease both;
 }
@@ -90,10 +95,18 @@ withDefaults(defineProps<Props>(), {
 
 .sw-tooltip__arrow {
   --arrow-size: 8px;
-  --arrow-background: var(--color-neutral-900, #0e2028);
+  --arrow-background: var(--neutral-900);
+}
+
+.dark .sw-tooltip__arrow {
+  --arrow-background: var(--neutral-50);
 }
 
 .sw-tooltip__arrow-tip {
   @apply bg-neutral-900;
+}
+
+.dark .sw-tooltip__arrow-tip {
+  @apply bg-neutral-50;
 }
 </style>
