@@ -24,7 +24,7 @@ const emit = defineEmits<{ 'update:modelValue': [string] }>();
 const allNames: string[] = Object.keys(icons)
   .filter((k) => /^[A-Z]/.test(k))
   .map((k) =>
-    k.replace(/([A-Z])/g, (m, l, offset) =>
+    k.replace(/([A-Z])/g, (_m, l, offset) =>
       offset === 0 ? l.toLowerCase() : `-${l.toLowerCase()}`,
     ),
   );
