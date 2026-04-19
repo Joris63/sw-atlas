@@ -74,7 +74,7 @@ const emit = defineEmits<{ 'update:open': [boolean] }>();
   @apply w-96;
 }
 .sw-drawer__content--lg {
-  @apply w-[32rem];
+  @apply w-lg;
 }
 
 .sw-drawer__header {
@@ -109,7 +109,7 @@ const emit = defineEmits<{ 'update:open': [boolean] }>();
 .sw-drawer__backdrop {
   @apply fixed inset-0;
   z-index: 9000;
-  @apply bg-black/40;
+  background: rgba(0, 0, 0, 0.4);
 }
 
 .sw-drawer__backdrop[data-state='open'] {
