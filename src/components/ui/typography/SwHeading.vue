@@ -8,6 +8,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   level: 2,
+  size: undefined,
 });
 
 const tag = computed(() => `h${props.level}`);

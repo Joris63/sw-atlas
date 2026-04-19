@@ -49,7 +49,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'List of options. Each option requires a value and label.',
     control: 'preset',
     presets: optionPresets,
-    initialValue: optionPresets[0]!.value,
+    initialValue: optionPresets[0]?.value,
   },
   {
     name: 'placeholder',

@@ -12,6 +12,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   size: 20,
   strokeWidth: 1.75,
+  color: undefined,
 });
 
 const icon = computed(() => {
@@ -32,5 +33,5 @@ const icon = computed(() => {
 </script>
 
 <template>
-  <component v-if="icon" :is="icon" :size="size" :stroke-width="strokeWidth" :color="color" />
+  <component :is="icon" v-if="icon" :size="size" :stroke-width="strokeWidth" :color="color" />
 </template>

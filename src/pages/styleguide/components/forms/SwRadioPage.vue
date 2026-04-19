@@ -47,7 +47,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
       'The list of radio options. Each option can have a label and optional description.',
     control: 'preset',
     presets: optionPresets,
-    initialValue: optionPresets[0]!.value,
+    initialValue: optionPresets[0]?.value,
   },
   {
     name: 'variant',

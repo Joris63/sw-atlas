@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   size: 'md',
   resize: 'vertical',
   disabled: false,
+  placeholder: undefined,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [string] }>();

@@ -59,7 +59,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Tab definitions. Each tab has a value, label, and optional icon and badge.',
     control: 'preset',
     presets: tabPresets,
-    initialValue: tabPresets[0]!.value,
+    initialValue: tabPresets[0]?.value,
   },
   {
     name: 'orientation',

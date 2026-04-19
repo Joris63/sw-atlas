@@ -58,18 +58,24 @@ const ICON_MAP: Record<string, string> = {
 
 function triggerToast(values: Record<string, string>) {
   currentValues.value = { ...values };
-  const method = values.variant as 'success' | 'info' | 'warning' | 'error';
-  toast[method](values.title || 'Toast title', {
-    description: values.description || undefined,
-    duration: values.duration ? Number(values.duration) : undefined,
+  const method = (values.variant ?? '') as 'success' | 'info' | 'warning' | 'error';
+  const title = values.title ?? '';
+  const description = values.description ?? '';
+  const duration = values.duration ?? '';
+  toast[method](title !== '' ? title : 'Toast title', {
+    description: description !== '' ? description : undefined,
+    duration: duration !== '' ? Number(duration) : undefined,
   });
 }
 
 const customCode = computed(() => {
-  const { variant, title, description, duration } = currentValues.value;
-  const method = variant || 'success';
-  const t = title || 'Toast title';
-  const hasOpts = description || (duration && duration !== '5000');
+  const variant = currentValues.value.variant ?? '';
+  const title = currentValues.value.title ?? '';
+  const description = currentValues.value.description ?? '';
+  const duration = currentValues.value.duration ?? '';
+  const method = variant !== '' ? variant : 'success';
+  const t = title !== '' ? title : 'Toast title';
+  const hasOpts = description !== '' || (duration !== '' && duration !== '5000');
   const lines: string[] = [];
 
   if (hasOpts) {

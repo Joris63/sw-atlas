@@ -8,6 +8,7 @@ const props = withDefaults(
   }>(),
   {
     size: 'sm',
+    for: undefined,
   },
 );
 </script>

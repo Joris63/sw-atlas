@@ -21,9 +21,9 @@ const slots = useSlots();
 const hasChildren = computed(() => !!slots.default);
 
 const groupLabel = inject<string>('groupLabel', '');
-const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true));
+const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref<boolean>(true));
 const depth = inject<number>('navDepth', 0);
-const openItemId = inject<Ref<symbol | null>>('openNavItemId', ref(null));
+const openItemId = inject<Ref<symbol | null>>('openNavItemId', ref<symbol | null>(null));
 
 // Each root-level item gets a stable identity for accordion coordination
 const id = Symbol();
@@ -75,13 +75,13 @@ const tooltipContent = computed(() => {
     return props.label;
   }
 
-  return groupLabel + ' · ' + props.label;
+  return `${groupLabel} · ${props.label}`;
 });
 
 function handleClick() {
   if (!sidebarOpen.value) {
     if (props.to) {
-      router.push(props.to);
+      void router.push(props.to);
     } else {
       sidebarOpen.value = true;
       if (hasChildren.value) {
@@ -93,7 +93,7 @@ function handleClick() {
   }
 
   if (props.to) {
-    router.push(props.to);
+    void router.push(props.to);
   } else if (hasChildren.value) {
     isExpanded.value = !isExpanded.value;
   }

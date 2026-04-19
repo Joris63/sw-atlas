@@ -26,6 +26,11 @@ const props = withDefaults(defineProps<Props>(), {
   decimals: false,
   disabled: false,
   locale: 'nl-NL',
+  modelValue: undefined,
+  placeholder: undefined,
+  min: undefined,
+  max: undefined,
+  step: undefined,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [number | undefined] }>();

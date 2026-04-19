@@ -88,7 +88,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <SwToaster />
+  <SwToast />
   <div class="sw-layout">
     <SwTopBar>
       <template #menu-btn>
@@ -103,6 +103,7 @@ onUnmounted(() => {
       </template>
 
       <template #logo>
+        <!-- eslint-disable-next-line vue/no-v-html -- bundled SVG asset, not user input -->
         <span class="sw-layout__logo" v-html="logoSvg" />
       </template>
 

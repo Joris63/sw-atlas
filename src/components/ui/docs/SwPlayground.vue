@@ -32,15 +32,6 @@ export interface PlaygroundPropConfig {
   showWhen?: (values: Record<string, any>) => boolean;
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
-  content: 'Content',
-  appearance: 'Appearance',
-  state: 'State',
-  advanced: 'Advanced',
-};
-
-const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
-
 const props = defineProps<{
   propsConfig: PlaygroundPropConfig[];
   componentName: string;
@@ -50,12 +41,21 @@ const props = defineProps<{
   language?: string;
 }>();
 
+const CATEGORY_LABELS: Record<string, string> = {
+  content: 'Content',
+  appearance: 'Appearance',
+  state: 'State',
+  advanced: 'Advanced',
+};
+
+const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
+
 const route = useRoute();
 const router = useRouter();
 
 function getDefaultValue(p: PlaygroundPropConfig): any {
   if (p.control === 'preset' && p.presets?.length) {
-    return p.presets[0]!.value;
+    return p.presets[0]?.value;
   }
   if (p.initialValue !== undefined) {
     return p.initialValue;
@@ -105,7 +105,7 @@ watch(
         query[key] = typeof val === 'object' ? JSON.stringify(val) : String(val);
       }
     }
-    router.replace({ query });
+    void router.replace({ query });
   },
   { deep: true },
 );
@@ -145,16 +145,20 @@ const grouped = computed((): [string, PlaygroundPropConfig[]][] => {
   if (!hasCategories.value) {
     return [['', visibleProps.value]];
   }
-  const order = CATEGORY_ORDER;
   const map = new Map<string, PlaygroundPropConfig[]>();
   for (const p of visibleProps.value) {
     const cat = p.category ?? 'advanced';
-    if (!map.has(cat)) {
-      map.set(cat, []);
+    const existing = map.get(cat);
+    if (existing) {
+      existing.push(p);
+    } else {
+      map.set(cat, [p]);
     }
-    map.get(cat)!.push(p);
   }
-  return order.filter((c) => map.has(c)).map((c) => [c, map.get(c)!]);
+  return CATEGORY_ORDER.flatMap((c) => {
+    const items = map.get(c);
+    return items ? [[c, items] as [string, PlaygroundPropConfig[]]] : [];
+  });
 });
 
 const controlCount = computed(() => props.propsConfig.filter((p) => p.control !== 'none').length);
@@ -181,7 +185,10 @@ function selectPreset(p: PlaygroundPropConfig, i: number) {
 
 function serializeItem(item: Record<string, any>): string {
   const extras = Object.entries(item)
-    .filter(([key, val]) => key !== 'value' && val !== '' && val !== false && val != null)
+    .filter(
+      ([key, val]) =>
+        key !== 'value' && val !== '' && val !== false && val !== null && val !== undefined,
+    )
     .map(([key, val]) => `${key}: '${val}'`)
     .join(', ');
   return `{ value: '${item.value}'${extras ? `, ${extras}` : ''} }`;
@@ -198,7 +205,7 @@ const codeString = computed(() => {
     const v = values[p.name];
 
     if (p.isSlotContent) {
-      slotContent = v || null;
+      slotContent = typeof v === 'string' && v !== '' ? v : null;
       continue;
     }
 

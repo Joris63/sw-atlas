@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
   as: 'button',
+  icon: undefined,
 });
 
 const iconSize = computed(() => {

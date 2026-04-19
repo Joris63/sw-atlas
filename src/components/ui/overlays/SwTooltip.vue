@@ -51,6 +51,7 @@ withDefaults(defineProps<Props>(), {
           <TooltipArrow class="sw-tooltip__arrow">
             <TooltipArrowTip class="sw-tooltip__arrow-tip" />
           </TooltipArrow>
+          <!-- eslint-disable-next-line vue/no-v-html -- content is internally constructed, not user input -->
           <div v-if="contentAsHtml" v-html="content" />
           <template v-else>
             {{ content }}

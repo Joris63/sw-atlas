@@ -9,7 +9,12 @@ interface Props {
   disabled?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), { modelValue: '', size: 'md', disabled: false });
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: '',
+  size: 'md',
+  disabled: false,
+  placeholder: undefined,
+});
 const emit = defineEmits<{ 'update:modelValue': [string] }>();
 
 const inputValue = computed({

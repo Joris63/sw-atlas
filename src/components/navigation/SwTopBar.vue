@@ -5,15 +5,15 @@
     <div class="sw-top-bar__inner">
       <slot name="menu-btn" />
 
-      <div class="sw-top-bar__start" v-if="$slots.logo">
+      <div v-if="$slots.logo" class="sw-top-bar__start">
         <slot name="logo" />
       </div>
 
-      <nav class="sw-top-bar__nav" v-if="$slots.nav">
+      <nav v-if="$slots.nav" class="sw-top-bar__nav">
         <slot name="nav" />
       </nav>
 
-      <div class="sw-top-bar__end" v-if="$slots.end">
+      <div v-if="$slots.end" class="sw-top-bar__end">
         <slot name="end" />
       </div>
     </div>

@@ -9,7 +9,12 @@ interface Props {
   disabled?: boolean;
 }
 
-withDefaults(defineProps<Props>(), { modelValue: false, disabled: false });
+withDefaults(defineProps<Props>(), {
+  modelValue: false,
+  disabled: false,
+  label: undefined,
+  hint: undefined,
+});
 const emit = defineEmits<{ 'update:modelValue': [boolean | 'indeterminate'] }>();
 </script>
 

@@ -19,6 +19,7 @@ interface Props {
 withDefaults(defineProps<Props>(), {
   side: 'right',
   width: 'md',
+  title: undefined,
 });
 
 const emit = defineEmits<{ 'update:open': [boolean] }>();

@@ -17,7 +17,7 @@ const open = ref(false);
 
 <template>
   <div class="sw-props-table">
-    <button class="sw-props-table__toggle" @click="open = !open" :aria-expanded="open">
+    <button class="sw-props-table__toggle" :aria-expanded="open" @click="open = !open">
       <span class="sw-props-table__toggle-label">
         <SwIcon name="sliders-horizontal" :size="14" />
         Props

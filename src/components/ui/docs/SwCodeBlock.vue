@@ -12,10 +12,12 @@ const props = defineProps<{
 const highlighted = ref('');
 const copied = ref(false);
 
-watchEffect(async () => {
-  highlighted.value = await codeToHtml(props.code.trim(), {
+watchEffect(() => {
+  void codeToHtml(props.code.trim(), {
     lang: props.language ?? 'vue',
     theme: 'dark-plus',
+  }).then((html) => {
+    highlighted.value = html;
   });
 });
 
@@ -39,6 +41,7 @@ async function copy() {
         @click="copy"
       />
     </div>
+    <!-- eslint-disable-next-line vue/no-v-html -- Shiki-generated HTML, not user input -->
     <div class="sw-code-block__pre" v-html="highlighted" />
   </div>
 </template>

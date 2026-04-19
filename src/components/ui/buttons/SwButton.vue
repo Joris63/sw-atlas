@@ -18,6 +18,9 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
   as: 'button',
+  loadingText: undefined,
+  iconLeft: undefined,
+  iconRight: undefined,
 });
 
 const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 12 : 16));
