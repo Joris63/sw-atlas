@@ -25,13 +25,17 @@ interface Props {
   options: SwSelectOption[];
   placeholder?: string;
   size?: 'sm' | 'md' | 'lg';
+  deselectable?: boolean;
   disabled?: boolean;
+  loadingOptions?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   placeholder: 'Select…',
   size: 'md',
+  deselectable: true,
   disabled: false,
+  loadingOptions: false,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [string] }>();
@@ -49,11 +53,19 @@ const collection = computed(() =>
     :collection="collection"
     :model-value="modelValue ? [modelValue] : []"
     :disabled="disabled"
+    :read-only="loadingOptions"
+    :deselectable="deselectable"
     @value-change="emit('update:modelValue', $event.value[0] ?? '')"
   >
     <SelectTrigger class="sw-select__trigger" :class="`sw-select__trigger--${size}`">
-      <SelectValueText :placeholder="placeholder" class="sw-select__value" />
-      <SwIcon name="chevron-down" :size="14" class="sw-select__chevron" />
+      <div v-if="loadingOptions" class="sw-select__loading">
+        Loading options...
+        <SwIcon name="loader-2" :size="16" class="sw-select__spinner" aria-hidden="true" />
+      </div>
+      <template v-else>
+        <SelectValueText :placeholder="placeholder" class="sw-select__value" />
+        <SwIcon name="chevron-down" :size="14" class="sw-select__chevron" />
+      </template>
     </SelectTrigger>
     <SelectHiddenSelect />
     <Teleport to="body">
@@ -81,6 +93,14 @@ const collection = computed(() =>
 
 .sw-select {
   @apply relative inline-flex flex-col w-full;
+}
+
+.sw-select__loading {
+  @apply flex justify-between items-center w-full;
+}
+
+.sw-select__spinner {
+  @apply animate-spin shrink-0;
 }
 
 .sw-select__trigger {

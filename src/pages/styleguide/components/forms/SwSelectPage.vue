@@ -49,7 +49,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'List of options. Each option requires a value and label.',
     control: 'preset',
     presets: optionPresets,
-    initialValue: optionPresets[0].value,
+    initialValue: optionPresets[0]!.value,
   },
   {
     name: 'placeholder',
@@ -68,10 +68,24 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['sm', 'md', 'lg'],
   },
   {
+    name: 'deselectable',
+    type: 'boolean',
+    default: true,
+    description: 'Allows the value from being deselected.',
+    control: 'toggle',
+  },
+  {
     name: 'disabled',
     type: 'boolean',
     default: false,
     description: 'Prevents interaction and dims the select.',
+    control: 'toggle',
+  },
+  {
+    name: 'loadingOptions',
+    type: 'boolean',
+    default: false,
+    description: 'Loading state when loading in items.',
     control: 'toggle',
   },
 ];
@@ -89,7 +103,9 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :options="values.options"
           :placeholder="values.placeholder"
           :size="values.size"
+          :deselectable="values.deselectable"
           :disabled="values.disabled"
+          :loading-options="values.loadingOptions"
           class="w-64"
         />
       </template>
