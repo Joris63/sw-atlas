@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue';
-import SwTooltip from '@/components/ui/SwTooltip.vue';
+import SwTooltip from '@/components/ui/overlays/SwTooltip.vue';
 import SwIconButton from '@/components/ui/buttons/SwIconButton.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
@@ -34,14 +34,20 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: 'number',
     default: 400,
     description: 'Milliseconds before the tooltip opens.',
-    control: 'none',
+    control: 'select',
+    options: ['0', '200', '400', '600', '1000'],
+    initialValue: '400',
+    isNumeric: true,
   },
   {
     name: 'closeDelay',
     type: 'number',
     default: 100,
     description: 'Milliseconds before the tooltip closes.',
-    control: 'none',
+    control: 'select',
+    options: ['0', '100', '300', '500'],
+    initialValue: '100',
+    isNumeric: true,
   },
 ];
 </script>
@@ -57,6 +63,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :content="values.content"
           :placement="values.placement"
           :disabled="values.disabled"
+          :open-delay="Number(values.openDelay)"
+          :close-delay="Number(values.closeDelay)"
         >
           <SwIconButton icon="refresh-cw" label="Rotate API key" variant="outline" />
         </SwTooltip>

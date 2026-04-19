@@ -180,7 +180,7 @@ const collection = computed(() =>
 
 .sw-select__item {
   @apply flex items-center gap-2 py-1.5 px-2.5 rounded-md text-sm text-text cursor-pointer outline-none;
-  user-select: none;
+  @apply select-none;
   transition: background 100ms;
 }
 
@@ -194,7 +194,7 @@ const collection = computed(() =>
 
 .sw-select__item[data-disabled] {
   @apply opacity-50;
-  cursor: not-allowed;
+  @apply cursor-not-allowed;
 }
 
 .sw-select__item-indicator {

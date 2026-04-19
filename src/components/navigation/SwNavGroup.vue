@@ -28,7 +28,7 @@ const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true));
 }
 
 .sw-nav-group__divider {
-  height: 2px;
+  @apply h-0.5;
   @apply bg-border rounded-2xl;
 }
 

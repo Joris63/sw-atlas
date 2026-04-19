@@ -3,7 +3,7 @@ import { ref, inject, provide, useSlots, computed, watch } from 'vue';
 import type { Ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import SwIcon from '@/components/ui/SwIcon.vue';
-import SwTooltip from '../ui/SwTooltip.vue';
+import SwTooltip from '../ui/overlays/SwTooltip.vue';
 
 interface Props {
   icon?: string;
@@ -88,7 +88,7 @@ function handleClick() {
         isExpanded.value = true;
       }
     }
-    
+
     return;
   }
 

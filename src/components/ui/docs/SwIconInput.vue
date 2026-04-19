@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import * as icons from 'lucide-vue-next';
 import {
   ComboboxRoot,
@@ -31,6 +31,13 @@ const allNames: string[] = Object.keys(icons)
 
 const query = ref(props.modelValue ?? '');
 
+watch(
+  () => props.modelValue,
+  (val) => {
+    query.value = val ?? '';
+  },
+);
+
 const filteredNames = computed(() => {
   const q = query.value.trim().toLowerCase();
   if (!q) {
@@ -61,6 +68,7 @@ function onValueChange(details: ComboboxValueChangeDetails) {
 
 <template>
   <ComboboxRoot
+    :key="modelValue"
     class="sw-icon-input"
     :collection="collection"
     :model-value="modelValue ? [modelValue] : []"

@@ -16,7 +16,7 @@ const sizes = [
 
 <template>
   <SwPage
-    title="Typografie"
+    title="Typography"
     description="The underlying font size scale. All typography components are built on these steps."
   >
     <div class="type-scale">

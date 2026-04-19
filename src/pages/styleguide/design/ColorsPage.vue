@@ -283,7 +283,7 @@ const semanticGroups: SemanticGroup[] = [
 
 <template>
   <SwPage
-    title="Kleuren"
+    title="Colors"
     description="All color tokens available in the design system — raw scales and semantic tokens."
   >
     <!-- Scales -->

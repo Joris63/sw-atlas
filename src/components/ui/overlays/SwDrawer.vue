@@ -7,7 +7,7 @@ import {
   DialogRoot,
   DialogTitle,
 } from '@ark-ui/vue';
-import SwIcon from './SwIcon.vue';
+import SwIcon from '../SwIcon.vue';
 
 interface Props {
   open: boolean;
@@ -74,7 +74,7 @@ const emit = defineEmits<{ 'update:open': [boolean] }>();
   @apply w-96;
 }
 .sw-drawer__content--lg {
-  width: 32rem;
+  @apply w-[32rem];
 }
 
 .sw-drawer__header {
@@ -109,7 +109,7 @@ const emit = defineEmits<{ 'update:open': [boolean] }>();
 .sw-drawer__backdrop {
   @apply fixed inset-0;
   z-index: 9000;
-  background: rgba(0, 0, 0, 0.4);
+  @apply bg-black/40;
 }
 
 .sw-drawer__backdrop[data-state='open'] {

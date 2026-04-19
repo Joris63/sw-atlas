@@ -137,7 +137,7 @@ const open = ref(false);
 @media (max-width: 767px) {
   .sw-props-table__header span:nth-child(2),
   .sw-props-table__header span:nth-child(3) {
-    display: none;
+    @apply hidden;
   }
 }
 

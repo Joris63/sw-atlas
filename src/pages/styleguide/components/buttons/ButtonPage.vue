@@ -86,7 +86,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
 
 <template>
   <SwPage
-    title="Button"
+    title="SwButton"
     description="Trigger actions and navigation. Supports multiple variants, sizes, icons, and states."
   >
     <SwPlayground :props-config="playgroundConfig" component-name="SwButton">

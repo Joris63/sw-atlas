@@ -5,6 +5,7 @@ import SwTopBar from '@/components/navigation/SwTopBar.vue';
 import SwBreadcrumbs from '@/components/navigation/SwBreadcrumbs.vue';
 import SwNavSidebar from '@/components/navigation/SwNavSidebar.vue';
 import SwIconButton from '@/components/ui/buttons/SwIconButton.vue';
+import SwToaster from '@/components/ui/feedback/SwToaster.vue';
 import logoNl from '@/assets/logo-nl.svg?raw';
 import logoBe from '@/assets/logo-be.svg?raw';
 
@@ -87,6 +88,7 @@ onUnmounted(() => {
 </script>
 
 <template>
+  <SwToaster />
   <div class="sw-layout">
     <SwTopBar>
       <template #menu-btn>

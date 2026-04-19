@@ -8,7 +8,6 @@ import SpacingPage from '@/pages/styleguide/design/SpacingPage.vue';
 import ShadowsPage from '@/pages/styleguide/design/ShadowsPage.vue';
 import BordersPage from '@/pages/styleguide/design/BordersPage.vue';
 
-/* COMPONENTS */
 /* BUTTONS */
 import ButtonPage from '@/pages/styleguide/components/buttons/ButtonPage.vue';
 import SwIconButtonPage from '@/pages/styleguide/components/buttons/SwIconButtonPage.vue';
@@ -27,14 +26,19 @@ import SwCheckboxPage from '@/pages/styleguide/components/forms/SwCheckboxPage.v
 import SwRadioPage from '@/pages/styleguide/components/forms/SwRadioPage.vue';
 import SwSelectPage from '@/pages/styleguide/components/forms/SwSelectPage.vue';
 import SwTextareaPage from '@/pages/styleguide/components/forms/SwTextareaPage.vue';
+import SwNumberInputPage from '@/pages/styleguide/components/forms/SwNumberInputPage.vue';
 
 /* DISPLAY */
 import SwBadgePage from '@/pages/styleguide/components/display/SwBadgePage.vue';
-import SwTooltipPage from '@/pages/styleguide/components/display/SwTooltipPage.vue';
+import SwTabsPage from '@/pages/styleguide/components/display/SwTabsPage.vue';
+import SwIconPage from '@/pages/styleguide/components/display/SwIconPage.vue';
 
-/* NAVIGATION */
-import SwTabsPage from '@/pages/styleguide/components/navigation/SwTabsPage.vue';
-import SwDrawerPage from '@/pages/styleguide/components/navigation/SwDrawerPage.vue';
+/* OVERLAYS */
+import SwTooltipPage from '@/pages/styleguide/components/overlays/SwTooltipPage.vue';
+import SwDrawerPage from '@/pages/styleguide/components/overlays/SwDrawerPage.vue';
+
+/* FEEDBACK */
+import SwToastPage from '@/pages/styleguide/components/feedback/SwToastPage.vue';
 
 type Crumb = { label: string; icon?: string; to?: string };
 
@@ -60,12 +64,12 @@ const router = createRouter({
     {
       path: '/styleguide/tokens/colors',
       component: ColorsPage,
-      meta: { breadcrumbs: sgCrumbs('Kleuren') },
+      meta: { breadcrumbs: sgCrumbs('Colors') },
     },
     {
       path: '/styleguide/tokens/typography',
       component: TypographyPage,
-      meta: { breadcrumbs: sgCrumbs('Typografie') },
+      meta: { breadcrumbs: sgCrumbs('Typography') },
     },
     {
       path: '/styleguide/tokens/spacing',
@@ -75,7 +79,7 @@ const router = createRouter({
     {
       path: '/styleguide/tokens/shadows',
       component: ShadowsPage,
-      meta: { breadcrumbs: sgCrumbs('Schaduwen') },
+      meta: { breadcrumbs: sgCrumbs('Shadows') },
     },
     {
       path: '/styleguide/tokens/borders',
@@ -83,22 +87,24 @@ const router = createRouter({
       meta: { breadcrumbs: sgCrumbs('Borders') },
     },
 
-    // Components
+    // Buttons
     {
       path: '/styleguide/components/button',
       component: ButtonPage,
-      meta: { breadcrumbs: sgCrumbs('Button') },
+      meta: { breadcrumbs: sgCrumbs('SwButton') },
     },
     {
       path: '/styleguide/components/icon-button',
       component: SwIconButtonPage,
-      meta: { breadcrumbs: sgCrumbs('Icon Button') },
+      meta: { breadcrumbs: sgCrumbs('SwIconButton') },
     },
     {
       path: '/styleguide/components/select-button',
       component: SwSelectButtonPage,
       meta: { breadcrumbs: sgCrumbs('SwSelectButton') },
     },
+
+    // Typography
     {
       path: '/styleguide/components/heading',
       component: SwHeadingPage,
@@ -141,7 +147,6 @@ const router = createRouter({
       component: SwRadioPage,
       meta: { breadcrumbs: sgCrumbs('SwRadio') },
     },
-
     {
       path: '/styleguide/components/select',
       component: SwSelectPage,
@@ -152,6 +157,11 @@ const router = createRouter({
       component: SwTextareaPage,
       meta: { breadcrumbs: sgCrumbs('SwTextarea') },
     },
+    {
+      path: '/styleguide/components/number-input',
+      component: SwNumberInputPage,
+      meta: { breadcrumbs: sgCrumbs('SwNumberInput') },
+    },
 
     // Display
     {
@@ -160,21 +170,33 @@ const router = createRouter({
       meta: { breadcrumbs: sgCrumbs('SwBadge') },
     },
     {
-      path: '/styleguide/components/tooltip',
-      component: SwTooltipPage,
-      meta: { breadcrumbs: sgCrumbs('SwTooltip') },
-    },
-
-    // Navigation
-    {
       path: '/styleguide/components/tabs',
       component: SwTabsPage,
       meta: { breadcrumbs: sgCrumbs('SwTabs') },
     },
     {
+      path: '/styleguide/components/icon',
+      component: SwIconPage,
+      meta: { breadcrumbs: sgCrumbs('SwIcon') },
+    },
+
+    // Overlays
+    {
+      path: '/styleguide/components/tooltip',
+      component: SwTooltipPage,
+      meta: { breadcrumbs: sgCrumbs('SwTooltip') },
+    },
+    {
       path: '/styleguide/components/drawer',
       component: SwDrawerPage,
       meta: { breadcrumbs: sgCrumbs('SwDrawer') },
+    },
+
+    // Feedback
+    {
+      path: '/styleguide/components/toast',
+      component: SwToastPage,
+      meta: { breadcrumbs: sgCrumbs('SwToast') },
     },
   ],
 });

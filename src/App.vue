@@ -15,25 +15,27 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
       <SwNavItem icon="house" label="Home" to="/" />
 
       <SwNavGroup label="Design Tokens">
-        <SwNavItem icon="palette" label="Kleuren" to="/styleguide/tokens/colors" />
-        <SwNavItem icon="type" label="Typografie" to="/styleguide/tokens/typography" />
+        <SwNavItem icon="palette" label="Colors" to="/styleguide/tokens/colors" />
+        <SwNavItem icon="type" label="Typography" to="/styleguide/tokens/typography" />
         <SwNavItem icon="ruler" label="Spacing" to="/styleguide/tokens/spacing" />
-        <SwNavItem icon="layers" label="Schaduwen" to="/styleguide/tokens/shadows" />
+        <SwNavItem icon="layers" label="Shadows" to="/styleguide/tokens/shadows" />
         <SwNavItem icon="square-dashed" label="Borders" to="/styleguide/tokens/borders" />
       </SwNavGroup>
 
       <SwNavGroup label="Components">
         <SwNavItem icon="mouse-pointer" label="Buttons">
-          <SwNavItem label="Button" to="/styleguide/components/button" />
-          <SwNavItem label="Icon Button" to="/styleguide/components/icon-button" />
-          <SwNavItem label="Select Button" to="/styleguide/components/select-button" />
+          <SwNavItem label="SwButton" to="/styleguide/components/button" />
+          <SwNavItem label="SwIconButton" to="/styleguide/components/icon-button" />
+          <SwNavItem label="SwSelectButton" to="/styleguide/components/select-button" />
         </SwNavItem>
+
         <SwNavItem icon="type" label="Typography">
           <SwNavItem label="SwHeading" to="/styleguide/components/heading" />
           <SwNavItem label="SwText" to="/styleguide/components/text" />
           <SwNavItem label="SwLabel" to="/styleguide/components/label" />
           <SwNavItem label="SwCode" to="/styleguide/components/code" />
         </SwNavItem>
+
         <SwNavItem icon="text-cursor-input" label="Forms">
           <SwNavItem label="SwInput" to="/styleguide/components/input" />
           <SwNavItem label="SwTextarea" to="/styleguide/components/textarea" />
@@ -41,14 +43,22 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
           <SwNavItem label="SwCheckbox" to="/styleguide/components/checkbox" />
           <SwNavItem label="SwRadio" to="/styleguide/components/radio" />
           <SwNavItem label="SwSelect" to="/styleguide/components/select" />
+          <SwNavItem label="SwNumberInput" to="/styleguide/components/number-input" />
         </SwNavItem>
-        <SwNavItem icon="tag" label="Display">
+
+        <SwNavItem icon="layout-panel-top" label="Display">
+          <SwNavItem label="SwIcon" to="/styleguide/components/icon" />
           <SwNavItem label="SwBadge" to="/styleguide/components/badge" />
-          <SwNavItem label="SwTooltip" to="/styleguide/components/tooltip" />
-        </SwNavItem>
-        <SwNavItem icon="layout-panel-top" label="Navigation">
           <SwNavItem label="SwTabs" to="/styleguide/components/tabs" />
+        </SwNavItem>
+
+        <SwNavItem icon="panels-top-left" label="Overlays">
+          <SwNavItem label="SwTooltip" to="/styleguide/components/tooltip" />
           <SwNavItem label="SwDrawer" to="/styleguide/components/drawer" />
+        </SwNavItem>
+
+        <SwNavItem icon="bell" label="Feedback">
+          <SwNavItem label="SwToast" to="/styleguide/components/toast" />
         </SwNavItem>
       </SwNavGroup>
     </template>

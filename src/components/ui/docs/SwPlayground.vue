@@ -7,7 +7,7 @@ import SwInput from '../forms/SwInput.vue';
 import SwSwitch from '../forms/SwSwitch.vue';
 import SwSelect from '../forms/SwSelect.vue';
 import SwIconInput from './SwIconInput.vue';
-import SwTooltip from '../SwTooltip.vue';
+import SwTooltip from '../overlays/SwTooltip.vue';
 
 export interface PlaygroundPreset {
   label: string;
@@ -43,6 +43,8 @@ const props = defineProps<{
   componentName: string;
   previewClass?: string;
   stacked?: boolean;
+  customCode?: string;
+  language?: string;
 }>();
 
 const route = useRoute();
@@ -247,7 +249,7 @@ const codeString = computed(() => {
 const copied = ref(false);
 
 async function copyCode() {
-  await navigator.clipboard.writeText(codeString.value);
+  await navigator.clipboard.writeText(props.customCode ?? codeString.value);
   copied.value = true;
   setTimeout(() => {
     copied.value = false;
@@ -356,7 +358,7 @@ async function copyCode() {
           </button>
         </div>
       </div>
-      <SwCodeBlock :code="codeString" :show-toolbar="false" />
+      <SwCodeBlock :code="customCode ?? codeString" :language="language" :show-toolbar="false" />
     </div>
   </div>
 </template>

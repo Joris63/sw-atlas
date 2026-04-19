@@ -12,7 +12,7 @@ const shadows = [
 
 <template>
   <SwPage
-    title="Schaduwen"
+    title="Shadows"
     description="Box shadows communicate elevation. Pick the level that matches how high the element floats above the page — don't mix levels in the same surface stack."
   >
     <div class="sg-section">

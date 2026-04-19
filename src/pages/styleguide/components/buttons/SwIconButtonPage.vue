@@ -78,7 +78,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
 
 <template>
   <SwPage
-    title="Icon Button"
+    title="SwIconButton"
     description="A square button that contains only an icon. Always provide a label prop for accessibility — it becomes the aria-label."
   >
     <SwPlayground :props-config="playgroundConfig" component-name="SwIconButton">

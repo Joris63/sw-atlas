@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SwPage from '@/components/layout/SwPage.vue';
-import SwDrawer from '@/components/ui/SwDrawer.vue';
+import SwDrawer from '@/components/ui/overlays/SwDrawer.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';

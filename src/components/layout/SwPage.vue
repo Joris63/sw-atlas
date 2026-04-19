@@ -7,7 +7,10 @@ defineProps<{
 
 <template>
   <div class="sw-page-content">
-    <p v-if="description" class="sw-page-content__desc">{{ description }}</p>
+    <div class="sw-page-content__header">
+      <h1 class="sw-page-content__title">{{ title }}</h1>
+      <p v-if="description" class="sw-page-content__desc">{{ description }}</p>
+    </div>
     <slot />
   </div>
 </template>

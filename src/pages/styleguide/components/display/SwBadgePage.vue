@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue';
-import SwBadge from '@/components/ui/SwBadge.vue';
+import SwBadge from '@/components/ui/display/SwBadge.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
