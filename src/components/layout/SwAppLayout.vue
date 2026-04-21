@@ -51,6 +51,12 @@ function toggle() {
 }
 provide('toggleSidebar', toggle);
 
+const sidebarWidth = computed(() => {
+  if (isMobile.value) return '0px';
+  if (!isDesktop.value) return '4.5rem';
+  return sidebarOpen.value ? '15rem' : '4.5rem';
+});
+
 // Close sidebar on navigation (mobile only)
 watch(
   () => route.path,
@@ -117,7 +123,7 @@ onUnmounted(() => {
       <div v-if="!isDesktop && sidebarOpen" class="sw-layout__backdrop" @click="toggle" />
     </Transition>
 
-    <div class="sw-layout__body">
+    <div class="sw-layout__body" :style="{ '--sidebar-w': sidebarWidth }">
       <SwNavSidebar>
         <slot name="nav" />
       </SwNavSidebar>
@@ -140,11 +146,11 @@ onUnmounted(() => {
 @reference "@/styles/tailwind.css";
 
 .sw-layout {
-  @apply flex flex-col h-screen overflow-hidden;
+  /* mount point only */
 }
 
 .sw-layout__body {
-  @apply flex flex-1 overflow-hidden;
+  /* CSS variable host */
 }
 
 .sw-layout__backdrop {
@@ -161,15 +167,17 @@ onUnmounted(() => {
 }
 
 .sw-page {
-  @apply flex-1 overflow-y-auto p-3 md:p-4 lg:p-6 flex flex-col gap-4 bg-bg;
+  @apply fixed top-16 bottom-0 right-0 overflow-y-auto p-3 md:p-4 lg:p-6 bg-bg;
+  left: var(--sidebar-w, 15rem);
+  transition: left 200ms ease-in-out;
 }
 
 .sw-page__breadcrumbs {
-  @apply px-2;
+  @apply px-2 mb-4;
 }
 
 .sw-page__card {
-  @apply bg-surface rounded-xl md:rounded-2xl border border-border p-4 md:p-6 lg:p-8 flex-1 w-full min-w-0 shadow-md;
+  @apply bg-surface rounded-xl md:rounded-2xl border border-border p-4 md:p-6 lg:p-8 w-full min-w-0 shadow-md;
 }
 
 .sw-hamburger :deep(.sw-icon-button) {

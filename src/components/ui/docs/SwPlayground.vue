@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { computed, reactive, ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import SwIcon from '../SwIcon.vue';
 import SwCodeBlock from './SwCodeBlock.vue';
 import SwInput from '../forms/SwInput.vue';
@@ -51,7 +51,6 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
 
 const route = useRoute();
-const router = useRouter();
 
 function getDefaultValue(p: PlaygroundPropConfig): any {
   if (p.control === 'preset' && p.presets?.length) {
@@ -101,11 +100,16 @@ watch(
   (newVals) => {
     const query: Record<string, string> = {};
     for (const [key, val] of Object.entries(newVals)) {
-      if (val !== undefined && val !== null && val !== '') {
+      if (val !== undefined && val !== null && val !== '' && val !== false) {
         query[key] = typeof val === 'object' ? JSON.stringify(val) : String(val);
       }
     }
-    void router.replace({ query });
+    const searchStr = new URLSearchParams(query).toString();
+    const newHash = `#${route.path}${searchStr ? `?${searchStr}` : ''}`;
+    const newUrl = location.pathname + newHash;
+    if (location.pathname + location.hash !== newUrl) {
+      history.replaceState(history.state, '', newUrl);
+    }
   },
   { deep: true },
 );

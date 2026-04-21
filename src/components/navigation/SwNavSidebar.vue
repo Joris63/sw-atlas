@@ -43,8 +43,8 @@ const toggle = inject<() => void>('toggleSidebar', () => {});
 
 /* ── Desktop (default) ──────────────────────────────────────── */
 .sw-nav-sidebar {
-  @apply relative flex flex-col h-full border-r border-border
-         transition-[width] duration-200 ease-in-out overflow-visible shrink-0
+  @apply fixed top-16 left-0 z-40 flex flex-col h-[calc(100vh-4rem)] border-r border-border
+         transition-[width] duration-200 ease-in-out overflow-visible
          w-[15rem];
 }
 

@@ -24,7 +24,7 @@
 @reference "@/styles/tailwind.css";
 
 .sw-top-bar {
-  @apply sticky top-0 z-50 w-full bg-primary border-b border-border h-16 shadow-md;
+  @apply fixed top-0 left-0 right-0 z-50 bg-primary border-b border-border h-16 shadow-md;
 }
 
 .sw-top-bar__inner {
