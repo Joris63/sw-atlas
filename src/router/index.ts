@@ -32,6 +32,7 @@ import SwNumberInputPage from '@/pages/styleguide/components/forms/SwNumberInput
 import SwBadgePage from '@/pages/styleguide/components/display/SwBadgePage.vue';
 import SwTabsPage from '@/pages/styleguide/components/display/SwTabsPage.vue';
 import SwIconPage from '@/pages/styleguide/components/display/SwIconPage.vue';
+import SwPaginationPage from '@/pages/styleguide/components/display/SwPaginationPage.vue';
 
 /* OVERLAYS */
 import SwTooltipPage from '@/pages/styleguide/components/overlays/SwTooltipPage.vue';
@@ -178,6 +179,11 @@ const router = createRouter({
       path: '/styleguide/components/icon',
       component: SwIconPage,
       meta: { breadcrumbs: sgCrumbs('SwIcon') },
+    },
+    {
+      path: '/styleguide/components/pagination',
+      component: SwPaginationPage,
+      meta: { breadcrumbs: sgCrumbs('SwPagination') },
     },
 
     // Overlays

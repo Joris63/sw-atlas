@@ -39,6 +39,7 @@ const props = defineProps<{
   stacked?: boolean;
   customCode?: string;
   language?: string;
+  overrides?: Record<string, any>;
 }>();
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -93,6 +94,17 @@ const selectedPresetIndex = reactive<Record<string, number>>(
   Object.fromEntries(
     props.propsConfig.filter((p) => p.control === 'preset').map((p) => [p.name, 0]),
   ),
+);
+
+watch(
+  () => props.overrides,
+  (newOverrides) => {
+    if (!newOverrides) return;
+    for (const [key, val] of Object.entries(newOverrides)) {
+      if (key in values) values[key] = val;
+    }
+  },
+  { deep: true },
 );
 
 watch(

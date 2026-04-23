@@ -50,6 +50,7 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
           <SwNavItem label="SwIcon" to="/styleguide/components/icon" />
           <SwNavItem label="SwBadge" to="/styleguide/components/badge" />
           <SwNavItem label="SwTabs" to="/styleguide/components/tabs" />
+          <SwNavItem label="SwPagination" to="/styleguide/components/pagination" />
         </SwNavItem>
 
         <SwNavItem icon="panels-top-left" label="Overlays">
