@@ -1,26 +1,30 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, type Component } from 'vue';
 import SwIcon from '../SwIcon.vue';
 
 interface Props {
   label: string;
   variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger';
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg';
-  as?: string;
+  as?: string | Component;
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   loading?: boolean;
   loadingText?: string;
   iconLeft?: string;
   iconRight?: string;
+  block?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
   as: 'button',
+  type: 'button',
   loadingText: undefined,
   iconLeft: undefined,
   iconRight: undefined,
+  block: false,
 });
 
 const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 12 : 16));
@@ -30,7 +34,12 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 1
   <component
     :is="as"
     class="sw-button"
-    :class="[`sw-button--${variant}`, `sw-button--${size}`, { 'sw-button--loading': loading }]"
+    :class="[
+      `sw-button--${variant}`,
+      `sw-button--${size}`,
+      { 'sw-button--loading': loading, 'sw-button--block': block },
+    ]"
+    :type="as === 'button' ? type : undefined"
     :disabled="as === 'button' ? disabled || loading : undefined"
   >
     <SwIcon
@@ -77,6 +86,10 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 1
 
 .sw-button--loading {
   @apply cursor-wait;
+}
+
+.sw-button--block {
+  @apply w-full;
 }
 
 /* --- Sizes --- */

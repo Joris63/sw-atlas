@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, type Component } from 'vue';
 import SwIcon from '../SwIcon.vue';
 
 interface Props {
   variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger';
   size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg';
-  as?: string;
+  as?: string | Component;
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   loading?: boolean;
   rounded?: boolean;
@@ -17,6 +18,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
   as: 'button',
+  type: 'button',
   icon: undefined,
 });
 
@@ -35,6 +37,7 @@ const iconSize = computed(() => {
       `sw-icon-button--${size}`,
       { 'sw-icon-button--loading': loading, 'sw-icon-button--rounded': rounded },
     ]"
+    :type="as === 'button' ? type : undefined"
     :disabled="as === 'button' ? disabled || loading : undefined"
     :aria-label="label"
   >

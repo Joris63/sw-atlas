@@ -49,6 +49,14 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     category: 'appearance',
   },
   {
+    name: 'block',
+    type: 'boolean',
+    default: false,
+    description: 'Makes the button full-width.',
+    control: 'toggle',
+    category: 'appearance',
+  },
+  {
     name: 'disabled',
     type: 'boolean',
     default: false,
@@ -74,10 +82,19 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     showWhen: (v) => !!v.loading,
   },
   {
-    name: 'as',
-    type: 'string',
+    name: 'type',
+    type: "'button' | 'submit' | 'reset'",
     default: "'button'",
-    description: 'HTML element or component to render as.',
+    description: 'Native button type. Only applies when as is "button".',
+    control: 'select',
+    options: ['button', 'submit', 'reset'],
+    category: 'advanced',
+  },
+  {
+    name: 'as',
+    type: 'string | Component',
+    default: "'button'",
+    description: 'HTML tag or Vue component to render as (e.g. "a", RouterLink).',
     control: 'none',
     category: 'advanced',
   },
@@ -95,8 +112,10 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :label="values.label"
           :variant="values.variant"
           :size="values.size"
+          :type="values.type"
           :icon-left="values.iconLeft || undefined"
           :icon-right="values.iconRight || undefined"
+          :block="values.block"
           :disabled="values.disabled"
           :loading="values.loading"
           :loading-text="values.loadingText || undefined"

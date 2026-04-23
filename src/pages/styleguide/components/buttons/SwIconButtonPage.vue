@@ -66,10 +66,19 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     category: 'state',
   },
   {
-    name: 'as',
-    type: 'string',
+    name: 'type',
+    type: "'button' | 'submit' | 'reset'",
     default: "'button'",
-    description: 'HTML element or component to render as.',
+    description: 'Native button type. Only applies when as is "button".',
+    control: 'select',
+    options: ['button', 'submit', 'reset'],
+    category: 'advanced',
+  },
+  {
+    name: 'as',
+    type: 'string | Component',
+    default: "'button'",
+    description: 'HTML tag or Vue component to render as (e.g. "a", RouterLink).',
     control: 'none',
     category: 'advanced',
   },
@@ -88,6 +97,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :icon="values.icon || undefined"
           :variant="values.variant"
           :size="values.size"
+          :type="values.type"
           :rounded="values.rounded"
           :disabled="values.disabled"
           :loading="values.loading"
