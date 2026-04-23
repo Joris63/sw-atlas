@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue';
 import SwIcon from '../SwIcon.vue';
+import SwTooltip from '../overlays/SwTooltip.vue';
+
+type TooltipPlacement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'right';
 
 interface Props {
   variant?: 'primary' | 'outline' | 'ghost' | 'plain' | 'danger';
@@ -12,6 +23,8 @@ interface Props {
   rounded?: boolean;
   label: string;
   icon?: string;
+  tooltip?: boolean;
+  tooltipPlacement?: TooltipPlacement;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -20,6 +33,8 @@ const props = withDefaults(defineProps<Props>(), {
   as: 'button',
   type: 'button',
   icon: undefined,
+  tooltip: true,
+  tooltipPlacement: 'top',
 });
 
 const iconSize = computed(() => {
@@ -29,31 +44,33 @@ const iconSize = computed(() => {
 </script>
 
 <template>
-  <component
-    :is="as"
-    class="sw-icon-button"
-    :class="[
-      `sw-icon-button--${variant}`,
-      `sw-icon-button--${size}`,
-      { 'sw-icon-button--loading': loading, 'sw-icon-button--rounded': rounded },
-    ]"
-    :type="as === 'button' ? type : undefined"
-    :disabled="as === 'button' ? disabled || loading : undefined"
-    :aria-label="label"
-  >
-    <SwIcon
-      v-if="loading"
-      name="loader-2"
-      :size="iconSize"
-      class="sw-icon-button__spinner"
-      aria-hidden="true"
-    />
+  <SwTooltip :content="label" :placement="tooltipPlacement" :disabled="!tooltip || !!disabled">
+    <component
+      :is="as"
+      class="sw-icon-button"
+      :class="[
+        `sw-icon-button--${variant}`,
+        `sw-icon-button--${size}`,
+        { 'sw-icon-button--loading': loading, 'sw-icon-button--rounded': rounded },
+      ]"
+      :type="as === 'button' ? type : undefined"
+      :disabled="as === 'button' ? disabled || loading : undefined"
+      :aria-label="label"
+    >
+      <SwIcon
+        v-if="loading"
+        name="loader-2"
+        :size="iconSize"
+        class="sw-icon-button__spinner"
+        aria-hidden="true"
+      />
 
-    <template v-else>
-      <SwIcon v-if="icon" :name="icon" :size="iconSize" />
-      <slot v-else />
-    </template>
-  </component>
+      <template v-else>
+        <SwIcon v-if="icon" :name="icon" :size="iconSize" />
+        <slot v-else />
+      </template>
+    </component>
+  </SwTooltip>
 </template>
 
 <style scoped>

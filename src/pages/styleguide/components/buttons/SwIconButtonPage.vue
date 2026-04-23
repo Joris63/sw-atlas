@@ -66,6 +66,24 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     category: 'state',
   },
   {
+    name: 'tooltip',
+    type: 'boolean',
+    default: true,
+    description: 'Show the label as a tooltip on hover.',
+    control: 'toggle',
+    category: 'content',
+  },
+  {
+    name: 'tooltipPlacement',
+    type: "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'right'",
+    default: "top",
+    description: 'Placement of the tooltip relative to the button.',
+    control: 'select',
+    options: ['top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left', 'right'],
+    category: 'content',
+    showWhen: (v) => !!v.tooltip,
+  },
+  {
     name: 'type',
     type: "'button' | 'submit' | 'reset'",
     default: "'button'",
@@ -99,6 +117,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :size="values.size"
           :type="values.type"
           :rounded="values.rounded"
+          :tooltip="values.tooltip"
+          :tooltip-placement="values.tooltipPlacement"
           :disabled="values.disabled"
           :loading="values.loading"
         />
