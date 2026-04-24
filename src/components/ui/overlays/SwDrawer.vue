@@ -3,47 +3,69 @@ import {
   DialogBackdrop,
   DialogCloseTrigger,
   DialogContent,
+  DialogDescription,
   DialogPositioner,
   DialogRoot,
   DialogTitle,
 } from '@ark-ui/vue';
+import { computed } from 'vue';
 import SwIcon from '../SwIcon.vue';
+
+const PRESET_WIDTHS = ['sm', 'md', 'lg'] as const;
 
 interface Props {
   open: boolean;
   title?: string;
+  description?: string;
   side?: 'right' | 'left';
-  width?: 'sm' | 'md' | 'lg';
+  width?: 'sm' | 'md' | 'lg' | (string & {});
+  persistent?: boolean;
+  lazy?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   side: 'right',
   width: 'md',
-  title: undefined,
+  persistent: false,
+  lazy: true,
 });
 
 const emit = defineEmits<{ 'update:open': [boolean] }>();
+
+const isPresetWidth = computed(() =>
+  (PRESET_WIDTHS as readonly string[]).includes(props.width ?? 'md'),
+);
 </script>
 
 <template>
   <DialogRoot
     :open="open"
-    :lazy-mount="false"
-    :unmount-on-exit="false"
+    :lazy-mount="lazy"
+    :unmount-on-exit="lazy"
+    :close-on-interact-outside="!persistent"
+    :close-on-escape="!persistent"
     @open-change="emit('update:open', $event.open)"
   >
-    <Teleport to="body">
+    <Teleport to="#sw-portal">
       <DialogBackdrop class="sw-drawer__backdrop" />
       <DialogPositioner :class="['sw-drawer__positioner', `sw-drawer__positioner--${side}`]">
         <DialogContent
           :class="[
             'sw-drawer__content',
-            `sw-drawer__content--${width}`,
+            isPresetWidth ? `sw-drawer__content--${width}` : null,
             `sw-drawer__content--${side}`,
           ]"
+          :style="!isPresetWidth ? { width } : undefined"
         >
           <header class="sw-drawer__header">
-            <DialogTitle v-if="title" class="sw-drawer__title">{{ title }}</DialogTitle>
+            <div class="sw-drawer__header-title">
+              <DialogTitle v-if="title || $slots.title" class="sw-drawer__title">
+                <slot name="title">{{ title }}</slot>
+              </DialogTitle>
+              <DialogDescription v-if="description" class="sw-drawer__description">
+                {{ description }}
+              </DialogDescription>
+            </div>
             <div class="sw-drawer__header-actions">
               <slot name="header-actions" />
               <DialogCloseTrigger class="sw-drawer__close">
@@ -79,16 +101,24 @@ const emit = defineEmits<{ 'update:open': [boolean] }>();
 }
 
 .sw-drawer__header {
-  @apply flex items-center justify-between gap-3
+  @apply flex items-start justify-between gap-3
          px-5 py-4 border-b border-border shrink-0;
+}
+
+.sw-drawer__header-title {
+  @apply flex flex-col gap-1 min-w-0;
 }
 
 .sw-drawer__title {
   @apply text-base font-semibold text-text leading-none;
 }
 
+.sw-drawer__description {
+  @apply text-sm text-text-muted leading-snug;
+}
+
 .sw-drawer__header-actions {
-  @apply flex items-center gap-1;
+  @apply flex items-center gap-1 shrink-0;
 }
 
 .sw-drawer__close {
@@ -162,56 +192,32 @@ const emit = defineEmits<{ 'update:open': [boolean] }>();
 }
 
 @keyframes sw-drawer-backdrop-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes sw-drawer-backdrop-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
 @keyframes sw-drawer-slide-in-right {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
 }
 
 @keyframes sw-drawer-slide-out-right {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(100%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
 }
 
 @keyframes sw-drawer-slide-in-left {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
 }
 
 @keyframes sw-drawer-slide-out-left {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-100%);
-  }
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }
 </style>

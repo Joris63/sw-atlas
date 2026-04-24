@@ -55,6 +55,8 @@ const collection = computed(() =>
     :disabled="disabled"
     :read-only="loadingOptions"
     :deselectable="deselectable"
+    lazy-mount
+    unmount-on-exit
     @value-change="emit('update:modelValue', $event.value[0] ?? '')"
   >
     <SelectTrigger class="sw-select__trigger" :class="`sw-select__trigger--${size}`">
@@ -68,7 +70,7 @@ const collection = computed(() =>
       </template>
     </SelectTrigger>
     <SelectHiddenSelect />
-    <Teleport to="body">
+    <Teleport to="#sw-portal">
       <SelectPositioner class="sw-select__positioner">
         <SelectContent class="sw-select__content">
           <SelectItem

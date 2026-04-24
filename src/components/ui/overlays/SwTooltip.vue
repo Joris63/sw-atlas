@@ -40,12 +40,13 @@ withDefaults(defineProps<Props>(), {
     :open-delay="openDelay"
     :close-delay="closeDelay"
     :positioning="{ placement }"
+    lazy-mount
     unmount-on-exit
   >
     <TooltipTrigger as-child>
       <slot />
     </TooltipTrigger>
-    <Teleport to="body">
+    <Teleport to="#sw-portal">
       <TooltipPositioner>
         <TooltipContent class="sw-tooltip">
           <TooltipArrow class="sw-tooltip__arrow">

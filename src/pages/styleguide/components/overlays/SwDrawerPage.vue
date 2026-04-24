@@ -19,9 +19,16 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'title',
     type: 'string',
     default: '',
-    description: 'Title shown in the drawer header.',
+    description: 'Title shown in the drawer header. Also accepts a #title slot for rich content.',
     control: 'text',
     initialValue: 'Member details',
+  },
+  {
+    name: 'description',
+    type: 'string',
+    default: '',
+    description: 'Subtext below the title. Also used by screen readers as the dialog description.',
+    control: 'text',
   },
   {
     name: 'side',
@@ -34,12 +41,25 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   },
   {
     name: 'width',
-    type: "'sm' | 'md' | 'lg'",
+    type: "'sm' | 'md' | 'lg' | string",
     default: 'md',
-    description: 'Width of the drawer panel.',
-    control: 'select',
-    options: ['sm', 'md', 'lg'],
+    description: "Width of the drawer panel. Accepts 'sm', 'md', 'lg' or any CSS value (e.g. '500px').",
+    control: 'text',
     initialValue: 'md',
+  },
+  {
+    name: 'persistent',
+    type: 'boolean',
+    default: false,
+    description: 'Disable closing via backdrop click or Escape. Useful for forms with unsaved changes.',
+    control: 'toggle',
+  },
+  {
+    name: 'lazy',
+    type: 'boolean',
+    default: true,
+    description: 'Unmount content when closed and defer mount until first open.',
+    control: 'toggle',
   },
 ];
 </script>
@@ -56,8 +76,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
         <SwDrawer
           v-model:open="isOpen"
           :title="values.title"
+          :description="values.description || undefined"
           :side="values.side"
           :width="values.width"
+          :persistent="values.persistent"
+          :lazy="values.lazy"
         >
           <p class="text-sm text-text-muted">
             Drawer content goes here. Use the default slot to render anything inside the body.

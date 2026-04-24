@@ -81,7 +81,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'lazy',
     type: 'boolean',
-    default: false,
+    default: true,
     description: 'Defer rendering tab content until the tab is first activated.',
     control: 'toggle',
   },

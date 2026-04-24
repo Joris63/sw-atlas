@@ -20,7 +20,7 @@ interface Props {
 
 withDefaults(defineProps<Props>(), {
   orientation: 'horizontal',
-  lazy: false,
+  lazy: true,
   labelWidth: '10rem',
 });
 const emit = defineEmits<{ 'update:modelValue': [string] }>();
