@@ -9,9 +9,7 @@ import {
   DialogTitle,
 } from '@ark-ui/vue';
 import { computed } from 'vue';
-import SwIcon from '../SwIcon.vue';
-
-const PRESET_WIDTHS = ['sm', 'md', 'lg'] as const;
+import SwIconButton from '../buttons/SwIconButton.vue';
 
 interface Props {
   open: boolean;
@@ -24,6 +22,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  title: undefined,
+  description: undefined,
   side: 'right',
   width: 'md',
   persistent: false,
@@ -31,6 +31,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ 'update:open': [boolean] }>();
+
+const PRESET_WIDTHS = ['sm', 'md', 'lg'] as const;
 
 const isPresetWidth = computed(() =>
   (PRESET_WIDTHS as readonly string[]).includes(props.width ?? 'md'),
@@ -57,7 +59,7 @@ const isPresetWidth = computed(() =>
           ]"
           :style="!isPresetWidth ? { width } : undefined"
         >
-          <header class="sw-drawer__header">
+          <header class="sw-drawer__header" :class="description ? 'items-start' : 'items-center'">
             <div class="sw-drawer__header-title">
               <DialogTitle v-if="title || $slots.title" class="sw-drawer__title">
                 <slot name="title">{{ title }}</slot>
@@ -68,8 +70,8 @@ const isPresetWidth = computed(() =>
             </div>
             <div class="sw-drawer__header-actions">
               <slot name="header-actions" />
-              <DialogCloseTrigger class="sw-drawer__close">
-                <SwIcon name="x" :size="16" />
+              <DialogCloseTrigger as-child>
+                <SwIconButton label="Close" icon="x" variant="plain" size="xs" :disabled="persistent" />
               </DialogCloseTrigger>
             </div>
           </header>
@@ -101,7 +103,7 @@ const isPresetWidth = computed(() =>
 }
 
 .sw-drawer__header {
-  @apply flex items-start justify-between gap-3
+  @apply flex justify-between gap-3
          px-5 py-4 border-b border-border shrink-0;
 }
 
@@ -119,13 +121,6 @@ const isPresetWidth = computed(() =>
 
 .sw-drawer__header-actions {
   @apply flex items-center gap-1 shrink-0;
-}
-
-.sw-drawer__close {
-  @apply flex items-center justify-center w-7 h-7 rounded-md
-         text-text-muted cursor-pointer
-         hover:bg-surface-hover hover:text-text
-         transition-colors duration-150;
 }
 
 .sw-drawer__body {
@@ -192,32 +187,56 @@ const isPresetWidth = computed(() =>
 }
 
 @keyframes sw-drawer-backdrop-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes sw-drawer-backdrop-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes sw-drawer-slide-in-right {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes sw-drawer-slide-out-right {
-  from { transform: translateX(0); }
-  to { transform: translateX(100%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
 }
 
 @keyframes sw-drawer-slide-in-left {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
 
 @keyframes sw-drawer-slide-out-left {
-  from { transform: translateX(0); }
-  to { transform: translateX(-100%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 </style>
