@@ -9,7 +9,7 @@ import ShadowsPage from '@/pages/styleguide/design/ShadowsPage.vue';
 import BordersPage from '@/pages/styleguide/design/BordersPage.vue';
 
 /* BUTTONS */
-import ButtonPage from '@/pages/styleguide/components/buttons/ButtonPage.vue';
+import SwButtonPage from '@/pages/styleguide/components/buttons/SwButtonPage.vue';
 import SwIconButtonPage from '@/pages/styleguide/components/buttons/SwIconButtonPage.vue';
 import SwSelectButtonPage from '@/pages/styleguide/components/buttons/SwSelectButtonPage.vue';
 
@@ -91,7 +91,7 @@ const router = createRouter({
     // Buttons
     {
       path: '/styleguide/components/button',
-      component: ButtonPage,
+      component: SwButtonPage,
       meta: { breadcrumbs: sgCrumbs('SwButton') },
     },
     {
