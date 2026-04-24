@@ -24,7 +24,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'variant',
     type: "'default' | 'compact'",
     default: 'default',
-    description: 'Layout variant. Default shows numbered pages; compact shows previous/next links only.',
+    description:
+      'Layout variant. Default shows numbered pages; compact shows previous/next links only.',
     control: 'select',
     options: ['default', 'compact'],
     initialValue: 'default',

@@ -7,28 +7,42 @@ export interface SwTab {
   label: string;
   icon?: string;
   badge?: number | string;
+  disabled?: boolean;
 }
 
 interface Props {
   modelValue: string;
   tabs: SwTab[];
   orientation?: 'horizontal' | 'vertical';
+  lazy?: boolean;
+  labelWidth?: string;
 }
 
-withDefaults(defineProps<Props>(), { orientation: 'horizontal' });
+withDefaults(defineProps<Props>(), {
+  orientation: 'horizontal',
+  lazy: false,
+  labelWidth: '10rem',
+});
 const emit = defineEmits<{ 'update:modelValue': [string] }>();
 </script>
 
 <template>
   <TabsRoot
     :class="['sw-tabs', `sw-tabs--${orientation}`]"
+    :style="orientation === 'vertical' ? { '--sw-tabs-label-width': labelWidth } : undefined"
     :model-value="modelValue"
     :orientation="orientation"
     @value-change="emit('update:modelValue', $event.value)"
   >
     <TabList class="sw-tabs__list">
       <TabIndicator class="sw-tabs__indicator" />
-      <TabTrigger v-for="tab in tabs" :key="tab.value" :value="tab.value" class="sw-tabs__trigger">
+      <TabTrigger
+        v-for="tab in tabs"
+        :key="tab.value"
+        :value="tab.value"
+        :disabled="tab.disabled"
+        class="sw-tabs__trigger"
+      >
         <SwIcon v-if="tab.icon" :name="tab.icon" :size="15" class="sw-tabs__icon" />
         {{ tab.label }}
         <span v-if="tab.badge !== undefined && tab.badge !== ''" class="sw-tabs__badge">
@@ -37,7 +51,13 @@ const emit = defineEmits<{ 'update:modelValue': [string] }>();
       </TabTrigger>
     </TabList>
 
-    <TabContent v-for="tab in tabs" :key="tab.value" :value="tab.value" class="sw-tabs__content">
+    <TabContent
+      v-for="tab in tabs"
+      :key="tab.value"
+      :value="tab.value"
+      :lazy-mount="lazy"
+      class="sw-tabs__content"
+    >
       <slot :name="tab.value" />
     </TabContent>
   </TabsRoot>
@@ -69,7 +89,8 @@ const emit = defineEmits<{ 'update:modelValue': [string] }>();
 }
 
 .sw-tabs--vertical .sw-tabs__list {
-  @apply flex-col gap-0.5 border-r border-border shrink-0 pr-1 py-1 min-w-40;
+  @apply flex-col gap-0.5 border-r border-border shrink-0 pr-1 py-1;
+  min-width: var(--sw-tabs-label-width, 10rem);
 }
 
 /* ---- Sliding indicator ---- */

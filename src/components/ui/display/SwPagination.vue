@@ -33,7 +33,9 @@ const rangeStart = computed(() => (props.page - 1) * props.pageSize + 1);
 const rangeEnd = computed(() => Math.min(props.page * props.pageSize, props.count));
 
 function goTo(n: number | null) {
-  if (n !== null) emit('update:page', n);
+  if (n !== null) {
+    emit('update:page', n);
+  }
 }
 </script>
 

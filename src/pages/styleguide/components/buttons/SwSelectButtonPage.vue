@@ -11,7 +11,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'modelValue',
     type: 'string | null',
-    description: 'The currently selected option value, or null when nothing is selected. Bind with v-model.',
+    description:
+      'The currently selected option value, or null when nothing is selected. Bind with v-model.',
     control: 'none',
   },
   {

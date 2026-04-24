@@ -22,7 +22,6 @@ const sidebarOpen = inject<Ref<boolean>>('sidebarOpen', ref(true));
   @apply flex flex-col gap-0.5 pt-4 first:pt-2;
 }
 
-
 .sw-nav-group__label {
   @apply px-2 pb-1 text-xs font-semibold uppercase text-text-muted select-none tracking-wider;
 }

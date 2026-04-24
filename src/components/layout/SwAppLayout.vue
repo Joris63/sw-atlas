@@ -52,8 +52,12 @@ function toggle() {
 provide('toggleSidebar', toggle);
 
 const sidebarWidth = computed(() => {
-  if (isMobile.value) return '0px';
-  if (!isDesktop.value) return '4.5rem';
+  if (isMobile.value) {
+    return '0px';
+  }
+  if (!isDesktop.value) {
+    return '4.5rem';
+  }
   return sidebarOpen.value ? '15rem' : '4.5rem';
 });
 

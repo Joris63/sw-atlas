@@ -128,7 +128,7 @@ function onValueChange(details: ComboboxValueChangeDetails) {
 /* ---- Input field ---- */
 .sw-icon-input__field {
   @apply flex items-center gap-1.5 px-2.5 h-9 rounded-md
-         bg-surface-strong border border-border
+         bg-surface border border-border
          transition-colors focus-within:border-border-focus;
 }
 

@@ -99,9 +99,14 @@ const selectedPresetIndex = reactive<Record<string, number>>(
 watch(
   () => props.overrides,
   (newOverrides) => {
-    if (!newOverrides) return;
+    if (!newOverrides) {
+      return;
+    }
+    
     for (const [key, val] of Object.entries(newOverrides)) {
-      if (key in values) values[key] = val;
+      if (key in values) {
+        values[key] = val;
+      }
     }
   },
   { deep: true },

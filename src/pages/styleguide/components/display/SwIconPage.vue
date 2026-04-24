@@ -87,7 +87,11 @@ async function copyName(name: string) {
     title="SwIcon"
     description="Renders any Lucide icon by kebab-case name. Backed by lucide-vue-next — over 1 400 icons available."
   >
-    <SwPlayground :props-config="playgroundConfig" :overrides="{ name: selectedIcon }" component-name="SwIcon">
+    <SwPlayground
+      :props-config="playgroundConfig"
+      :overrides="{ name: selectedIcon }"
+      component-name="SwIcon"
+    >
       <template #default="{ values }">
         <SwIcon
           :name="values.name || 'star'"

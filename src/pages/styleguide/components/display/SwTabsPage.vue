@@ -44,6 +44,15 @@ const tabPresets: PlaygroundPreset[] = [
       { value: 'settings', label: 'Settings', badge: '', icon: 'settings' },
     ],
   },
+  {
+    label: 'With disabled',
+    value: [
+      { value: 'overview', label: 'Overview', badge: '', icon: '' },
+      { value: 'members', label: 'Members', badge: '', icon: '' },
+      { value: 'activity', label: 'Activity', badge: '', icon: '', disabled: true },
+      { value: 'settings', label: 'Settings', badge: '', icon: '', disabled: true },
+    ],
+  },
 ];
 
 const playgroundConfig: PlaygroundPropConfig[] = [
@@ -69,6 +78,21 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['horizontal', 'vertical'],
   },
+  {
+    name: 'lazy',
+    type: 'boolean',
+    default: false,
+    description: 'Defer rendering tab content until the tab is first activated.',
+    control: 'toggle',
+  },
+  {
+    name: 'labelWidth',
+    type: 'string',
+    default: '10rem',
+    description: 'Min-width of the vertical tab list column.',
+    control: 'text',
+    showWhen: (v) => v.orientation === 'vertical',
+  },
 ];
 </script>
 
@@ -87,6 +111,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           "
           :tabs="values.tabs"
           :orientation="values.orientation"
+          :lazy="values.lazy"
+          :label-width="values.labelWidth"
           class="w-full"
           @update:model-value="activeTab = $event"
         >

@@ -30,11 +30,26 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['sm', 'md'],
   },
   {
+    name: 'icon',
+    type: 'string',
+    default: '',
+    description: 'Lucide icon name shown before the label.',
+    control: 'icon',
+  },
+  {
     name: 'dot',
     type: 'boolean',
     default: false,
     description: 'Show a colored dot indicator before the label.',
     control: 'toggle',
+  },
+  {
+    name: 'animated',
+    type: 'boolean',
+    default: false,
+    description: 'Pulse-animate the dot (requires dot=true).',
+    control: 'toggle',
+    showWhen: (v) => !!v.dot,
   },
 ];
 </script>
@@ -43,7 +58,13 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   <SwPage title="SwBadge" description="Compact labels for status, categories, or counts.">
     <SwPlayground :props-config="playgroundConfig" component-name="SwBadge">
       <template #default="{ values }">
-        <SwBadge :variant="values.variant" :size="values.size" :dot="values.dot">
+        <SwBadge
+          :variant="values.variant"
+          :size="values.size"
+          :icon="values.icon || undefined"
+          :dot="values.dot"
+          :animated="values.animated"
+        >
           {{ values.content }}
         </SwBadge>
       </template>
