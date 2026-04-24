@@ -8,29 +8,38 @@ import {
   TooltipTrigger,
 } from '@ark-ui/vue';
 
+type Placement =
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end';
+
 interface Props {
-  content: string;
-  placement?:
-    | 'top'
-    | 'top-start'
-    | 'top-end'
-    | 'bottom'
-    | 'bottom-start'
-    | 'bottom-end'
-    | 'left'
-    | 'right';
+  content?: string;
+  placement?: Placement;
   disabled?: boolean;
   openDelay?: number;
   closeDelay?: number;
-  contentAsHtml?: boolean;
+  interactive?: boolean;
+  maxWidth?: string;
 }
 
 withDefaults(defineProps<Props>(), {
+  content: undefined,
   placement: 'top',
   disabled: false,
   openDelay: 400,
   closeDelay: 100,
-  contentAsHtml: false,
+  interactive: false,
+  maxWidth: '16rem',
 });
 </script>
 
@@ -39,6 +48,7 @@ withDefaults(defineProps<Props>(), {
     :disabled="disabled"
     :open-delay="openDelay"
     :close-delay="closeDelay"
+    :interactive="interactive"
     :positioning="{ placement }"
     lazy-mount
     unmount-on-exit
@@ -48,15 +58,11 @@ withDefaults(defineProps<Props>(), {
     </TooltipTrigger>
     <Teleport to="#sw-portal">
       <TooltipPositioner>
-        <TooltipContent class="sw-tooltip">
+        <TooltipContent class="sw-tooltip" :style="{ maxWidth }">
           <TooltipArrow class="sw-tooltip__arrow">
             <TooltipArrowTip class="sw-tooltip__arrow-tip" />
           </TooltipArrow>
-          <!-- eslint-disable-next-line vue/no-v-html -- content is internally constructed, not user input -->
-          <div v-if="contentAsHtml" v-html="content" />
-          <template v-else>
-            {{ content }}
-          </template>
+          <slot name="content">{{ content }}</slot>
         </TooltipContent>
       </TooltipPositioner>
     </Teleport>
@@ -67,7 +73,7 @@ withDefaults(defineProps<Props>(), {
 @reference "@/styles/tailwind.css";
 
 .sw-tooltip {
-  @apply relative bg-neutral-900 text-neutral-0 text-xs font-medium leading-normal py-1.5 px-2.5 rounded-lg max-w-64;
+  @apply relative bg-neutral-900 text-neutral-0 text-xs font-medium leading-normal py-1.5 px-2.5 rounded-lg;
   z-index: 9000;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
 }

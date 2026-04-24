@@ -314,14 +314,14 @@ async function copyCode() {
                 <span v-if="p.isSlotContent" class="sw-playground__slot-badge">slot</span>
                 <SwTooltip
                   v-if="getTooltip(p)"
-                  :content="getTooltip(p)"
                   placement="right"
                   :open-delay="200"
-                  content-as-html
                 >
                   <button class="sw-playground__info-btn">
                     <SwIcon name="info" :size="13" />
                   </button>
+                  <!-- eslint-disable-next-line vue/no-v-html -->
+                  <template #content><span v-html="getTooltip(p)" /></template>
                 </SwTooltip>
               </div>
 

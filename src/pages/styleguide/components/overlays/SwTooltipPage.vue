@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue';
 import SwTooltip from '@/components/ui/overlays/SwTooltip.vue';
-import SwIconButton from '@/components/ui/buttons/SwIconButton.vue';
+import SwButton from '@/components/ui/buttons/SwButton.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
@@ -9,18 +9,37 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'content',
     type: 'string',
-    description: 'Text shown inside the tooltip.',
+    description: 'Text shown inside the tooltip. Also accepts a #content slot for rich content.',
     control: 'text',
-    initialValue: 'Rotate API key',
+    initialValue: 'More info',
     required: true,
   },
   {
     name: 'placement',
-    type: "'top' | 'bottom' | 'left' | 'right'",
+    type: "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end'",
     default: 'top',
-    description: 'Preferred side relative to the trigger.',
+    description: 'Preferred placement relative to the trigger.',
     control: 'select',
-    options: ['top', 'bottom', 'left', 'right'],
+    options: [
+      'top', 'top-start', 'top-end',
+      'bottom', 'bottom-start', 'bottom-end',
+      'left', 'left-start', 'left-end',
+      'right', 'right-start', 'right-end',
+    ],
+  },
+  {
+    name: 'interactive',
+    type: 'boolean',
+    default: false,
+    description: 'Allow the pointer to move into the tooltip without it closing. Required for tooltips with links or buttons.',
+    control: 'toggle',
+  },
+  {
+    name: 'maxWidth',
+    type: 'string',
+    default: '16rem',
+    description: 'Maximum width of the tooltip panel.',
+    control: 'text',
   },
   {
     name: 'disabled',
@@ -62,11 +81,13 @@ const playgroundConfig: PlaygroundPropConfig[] = [
         <SwTooltip
           :content="values.content"
           :placement="values.placement"
+          :interactive="values.interactive"
+          :max-width="values.maxWidth"
           :disabled="values.disabled"
           :open-delay="Number(values.openDelay)"
           :close-delay="Number(values.closeDelay)"
         >
-          <SwIconButton icon="refresh-cw" label="Rotate API key" variant="outline" />
+          <SwButton label="Hover me" variant="outline" />
         </SwTooltip>
       </template>
     </SwPlayground>
