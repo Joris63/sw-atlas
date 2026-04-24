@@ -51,6 +51,23 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     initialValue: '1',
     category: 'appearance',
   },
+  {
+    name: 'size',
+    type: "'sm' | 'md'",
+    default: 'md',
+    description: 'Size of the pagination controls.',
+    control: 'select',
+    options: ['sm', 'md'],
+    category: 'appearance',
+  },
+  {
+    name: 'showInfo',
+    type: 'boolean',
+    default: true,
+    description: "Show or hide the range label (e.g. 'Showing 1–20 of 100').",
+    control: 'toggle',
+    category: 'appearance',
+  },
 ];
 </script>
 
@@ -67,6 +84,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :page-size="Number(values.pageSize)"
           :sibling-count="Number(values.siblingCount)"
           :variant="values.variant"
+          :size="values.size"
+          :show-info="values.showInfo"
           class="w-full"
         />
       </template>
