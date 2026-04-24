@@ -27,6 +27,8 @@ interface Props {
   tooltipPlacement?: TooltipPlacement;
 }
 
+defineOptions({ inheritAttrs: false });
+
 const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
   size: 'md',
@@ -47,6 +49,7 @@ const iconSize = computed(() => {
   <SwTooltip :content="label" :placement="tooltipPlacement" :disabled="!tooltip || !!disabled">
     <component
       :is="as"
+      v-bind="$attrs"
       class="sw-icon-button"
       :class="[
         `sw-icon-button--${variant}`,

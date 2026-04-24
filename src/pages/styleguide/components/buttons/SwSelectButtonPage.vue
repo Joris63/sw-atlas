@@ -5,19 +5,19 @@ import SwSelectButton from '@/components/ui/buttons/SwSelectButton.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
-const selected = ref('week');
+const selected = ref<string | null>('week');
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'modelValue',
-    type: 'string',
-    description: 'The currently selected option value. Bind with v-model.',
+    type: 'string | null',
+    description: 'The currently selected option value, or null when nothing is selected. Bind with v-model.',
     control: 'none',
   },
   {
     name: 'options',
     type: 'SwSelectButtonOption[]',
-    description: 'The list of selectable options.',
+    description: 'The list of selectable options. Each option supports an optional disabled field.',
     control: 'preset',
     presets: [
       {
@@ -44,6 +44,15 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           { value: 'off', label: 'Off', icon: '' },
         ],
       },
+      {
+        label: 'With disabled options',
+        value: [
+          { value: 'day', label: 'Day' },
+          { value: 'week', label: 'Week' },
+          { value: 'month', label: 'Month', disabled: true },
+          { value: 'year', label: 'Year', disabled: true },
+        ],
+      },
     ],
   },
   {
@@ -61,6 +70,13 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Prevents interaction and dims all options.',
     control: 'toggle',
   },
+  {
+    name: 'deselectable',
+    type: 'boolean',
+    default: false,
+    description: 'Allows clicking the active option to deselect it, setting modelValue to null.',
+    control: 'toggle',
+  },
 ];
 </script>
 
@@ -76,6 +92,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :options="values.options"
           :size="values.size"
           :disabled="values.disabled"
+          :deselectable="values.deselectable"
         />
       </template>
     </SwPlayground>

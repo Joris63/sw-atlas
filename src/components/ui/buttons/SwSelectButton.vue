@@ -13,42 +13,64 @@ export interface SwSelectButtonOption {
   value: string;
   label?: string;
   icon?: string;
-}
-
-interface Props {
-  modelValue: string;
-  options: SwSelectButtonOption[];
-  size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
 }
 
-const props = withDefaults(defineProps<Props>(), { size: 'md', disabled: false });
+interface Props {
+  modelValue: string | null;
+  options: SwSelectButtonOption[];
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  deselectable?: boolean;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md',
+  disabled: false,
+  deselectable: false,
+});
+
 const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
 
 const ICON_SIZES: Record<string, number> = { sm: 12, md: 14, lg: 16 };
-
 const iconSize = computed(() => ICON_SIZES[props.size] ?? 14);
+
+const onValueUpdate = (eventValue: string | null) => {
+  emit('update:modelValue', eventValue);
+};
+
+const handleItemClick = (opt: SwSelectButtonOption, event: MouseEvent) => {
+  if (props.deselectable && props.modelValue === opt.value) {
+    event.preventDefault();
+    emit('update:modelValue', null);
+  }
+};
 </script>
 
 <template>
   <SegmentGroupRoot
     class="sw-select-button"
     :class="`sw-select-button--${size}`"
-    :model-value="modelValue"
+    :model-value="modelValue ?? ''"
     :disabled="disabled"
-    @value-change="emit('update:modelValue', $event.value)"
+    @update:model-value="onValueUpdate"
   >
-    <SegmentGroupIndicator class="sw-select-button__indicator" />
+    <SegmentGroupIndicator
+      class="sw-select-button__indicator"
+      :class="{ 'sw-select-button__indicator--hidden': modelValue == null }"
+    />
     <SegmentGroupItem
       v-for="opt in options"
       :key="opt.value"
       :value="opt.value"
+      :disabled="opt.disabled"
       class="sw-select-button__item"
       :class="{ 'sw-select-button__item--icon-only': opt.icon && !opt.label }"
+      @click="handleItemClick(opt, $event)"
     >
       <SwIcon v-if="opt.icon" :name="opt.icon" :size="iconSize" />
       <SegmentGroupItemText v-if="opt.label">{{ opt.label }}</SegmentGroupItemText>
-      <SegmentGroupItemHiddenInput />
+      <SegmentGroupItemHiddenInput @click.stop />
     </SegmentGroupItem>
   </SegmentGroupRoot>
 </template>
@@ -62,9 +84,17 @@ const iconSize = computed(() => ICON_SIZES[props.size] ?? 14);
 
 .sw-select-button__indicator {
   @apply absolute rounded-md bg-surface shadow-sm border border-border;
-  transition:
-    left 180ms cubic-bezier(0.4, 0, 0.2, 1),
-    width 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: var(--width);
+  height: var(--height);
+  top: var(--top);
+  left: var(--left);
+  transition-property: width, height, left, top;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+}
+
+.sw-select-button__indicator--hidden {
+  @apply opacity-0 pointer-events-none;
 }
 
 .sw-select-button__item {
@@ -75,10 +105,11 @@ const iconSize = computed(() => ICON_SIZES[props.size] ?? 14);
 }
 
 .sw-select-button__item[data-state='checked'] {
-  @apply text-text bg-surface-strong;
+  @apply text-text;
 }
 
-.sw-select-button[data-disabled] .sw-select-button__item {
+.sw-select-button[data-disabled] .sw-select-button__item,
+.sw-select-button__item[data-disabled] {
   @apply opacity-50 cursor-not-allowed;
 }
 
