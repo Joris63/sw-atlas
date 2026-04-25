@@ -9,22 +9,46 @@ const RADIUS = 11;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 const remaining = ref(props.duration);
-let start = 0;
+const svgRef = ref<SVGElement | null>(null);
+
+let startedAt = 0;
+let elapsedWhenPaused = 0;
 let raf = 0;
+let toastRoot: Element | null = null;
 
 function tick() {
-  remaining.value = Math.max(0, props.duration - (Date.now() - start));
-  if (remaining.value > 0) {
-    raf = requestAnimationFrame(tick);
-  }
+  remaining.value = Math.max(0, props.duration - elapsedWhenPaused - (Date.now() - startedAt));
+  if (remaining.value > 0) raf = requestAnimationFrame(tick);
+}
+
+function pause() {
+  cancelAnimationFrame(raf);
+  elapsedWhenPaused += Date.now() - startedAt;
+}
+
+function resume() {
+  startedAt = Date.now();
+  raf = requestAnimationFrame(tick);
 }
 
 onMounted(() => {
-  start = Date.now();
+  startedAt = Date.now();
   raf = requestAnimationFrame(tick);
+
+  toastRoot = svgRef.value?.closest('[data-scope="toast"]') ?? null;
+  if (toastRoot) {
+    toastRoot.addEventListener('mouseenter', pause);
+    toastRoot.addEventListener('mouseleave', resume);
+  }
 });
 
-onUnmounted(() => cancelAnimationFrame(raf));
+onUnmounted(() => {
+  cancelAnimationFrame(raf);
+  if (toastRoot) {
+    toastRoot.removeEventListener('mouseenter', pause);
+    toastRoot.removeEventListener('mouseleave', resume);
+  }
+});
 
 const dashOffset = computed(() => {
   const progress = remaining.value / props.duration;
@@ -35,7 +59,7 @@ const seconds = computed(() => Math.ceil(remaining.value / 1000));
 </script>
 
 <template>
-  <svg width="28" height="28" viewBox="0 0 28 28" class="sw-toast__ring" aria-hidden="true">
+  <svg ref="svgRef" width="28" height="28" viewBox="0 0 28 28" class="sw-toast__ring" aria-hidden="true">
     <circle cx="14" cy="14" :r="RADIUS" class="sw-toast__ring-track" fill="none" stroke-width="2" />
     <circle
       cx="14"
