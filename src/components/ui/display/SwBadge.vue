@@ -65,24 +65,15 @@ const isInteractive = computed(() => props.as !== 'span');
 }
 
 .sw-badge--success {
-  @apply bg-success-light text-success-dark;
-}
-.dark .sw-badge--success {
-  color: color-mix(in srgb, var(--success) 40%, var(--neutral-0));
+  @apply bg-success-subtle text-success-strong;
 }
 
 .sw-badge--warning {
-  @apply bg-warning-light text-warning-dark;
-}
-.dark .sw-badge--warning {
-  color: color-mix(in srgb, var(--warning) 50%, var(--neutral-0));
+  @apply bg-warning-subtle text-warning-strong;
 }
 
 .sw-badge--danger {
-  @apply bg-danger-light text-danger-dark;
-}
-.dark .sw-badge--danger {
-  color: color-mix(in srgb, var(--danger) 50%, var(--neutral-0));
+  @apply bg-danger-subtle text-danger-strong;
 }
 
 /* ---- Interactive state (as="button" / as="a") ---- */

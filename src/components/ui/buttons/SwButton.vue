@@ -142,6 +142,6 @@ const iconSize = computed(() => (props.size === '2xs' || props.size === 'xs' ? 1
   @apply bg-danger text-neutral-0;
 }
 .sw-button--danger:not(:disabled):hover {
-  @apply bg-danger-dark;
+  @apply bg-danger-hover;
 }
 </style>

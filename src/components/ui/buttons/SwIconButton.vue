@@ -148,6 +148,6 @@ const iconSize = computed(() => {
   @apply bg-danger text-neutral-0;
 }
 .sw-icon-button--danger:not(:disabled):hover {
-  @apply bg-danger-dark;
+  @apply bg-danger-hover;
 }
 </style>
