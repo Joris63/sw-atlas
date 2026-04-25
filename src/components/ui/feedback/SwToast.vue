@@ -12,7 +12,6 @@ const ICON_MAP: Record<string, string> = {
   loading: 'loader',
 };
 
-// Match zag-js defaults exactly
 const DURATIONS: Record<string, number> = {
   success: 2000,
   info: 5000,
@@ -25,11 +24,10 @@ const DURATIONS: Record<string, number> = {
   <Toaster :toaster="toaster" class="sw-toaster">
     <template #default="toast">
       <ToastRoot :class="['sw-toast', `sw-toast--${toast.type ?? 'info'}`]">
-        <span class="sw-toast__stripe" />
 
         <SwIcon
           :name="ICON_MAP[toast.type ?? 'info'] ?? 'info'"
-          :size="18"
+          :size="20"
           class="sw-toast__icon"
         />
 
@@ -39,27 +37,25 @@ const DURATIONS: Record<string, number> = {
         </div>
 
         <div class="sw-toast__actions">
-          <!-- Action toast: text button only -->
-          <button
-            v-if="toast.meta?.action"
-            class="sw-toast__action"
-            @click="toast.meta.action.onClick()"
-          >
-            {{ toast.meta.action.label }}
-          </button>
-
-          <!-- Default: countdown ring + close -->
-          <template v-else>
-            <SwToastRing
-              :duration="toast.duration ?? DURATIONS[toast.type ?? 'info'] ?? 5000"
-              :variant="toast.type ?? 'info'"
-            />
-
+          <!-- Action toast: text button + close -->
+          <template v-if="toast.meta?.action">
+            <button class="sw-toast__action" @click="toast.meta.action.onClick()">
+              {{ toast.meta.action.label }}
+            </button>
             <ToastCloseTrigger class="sw-toast__close">
               <SwIcon name="x" :size="14" />
             </ToastCloseTrigger>
           </template>
+
+          <!-- Default: countdown ring acts as close -->
+          <SwToastRing
+            v-else
+            :duration="toast.duration ?? DURATIONS[toast.type ?? 'info'] ?? 5000"
+            :variant="toast.type ?? 'info'"
+            @close="toaster.dismiss(toast.id)"
+          />
         </div>
+
       </ToastRoot>
     </template>
   </Toaster>
@@ -74,11 +70,9 @@ const DURATIONS: Record<string, number> = {
 
 /* ---- Toast card ---- */
 .sw-toast {
-  @apply relative flex items-center gap-3 pl-4 pr-3 py-3.5
-         bg-surface-strong border border-border rounded-xl
-         overflow-hidden shadow-lg;
+  @apply relative flex items-center gap-3 px-3 py-3
+         border rounded-xl overflow-hidden shadow-lg;
 
-  /* Ark UI drives stacking via these CSS vars on each item */
   translate: var(--x) var(--y);
   scale: var(--scale);
   z-index: var(--z-index);
@@ -102,22 +96,22 @@ const DURATIONS: Record<string, number> = {
   transition-timing-function: cubic-bezier(0.06, 0.71, 0.55, 1);
 }
 
-/* ---- Colored left stripe ---- */
-.sw-toast__stripe {
-  @apply absolute left-0 top-0 bottom-0 w-1 rounded-l-xl;
+/* ---- Per-variant card backgrounds and borders ---- */
+.sw-toast--success {
+  background: var(--success-subtle);
+  border-color: color-mix(in srgb, var(--success) 30%, transparent);
 }
-
-.sw-toast--success .sw-toast__stripe {
-  @apply bg-success;
+.sw-toast--warning {
+  background: var(--warning-subtle);
+  border-color: color-mix(in srgb, var(--warning) 30%, transparent);
 }
-.sw-toast--info .sw-toast__stripe {
-  @apply bg-primary-400;
+.sw-toast--error {
+  background: var(--danger-subtle);
+  border-color: color-mix(in srgb, var(--danger) 30%, transparent);
 }
-.sw-toast--warning .sw-toast__stripe {
-  @apply bg-warning;
-}
-.sw-toast--error .sw-toast__stripe {
-  @apply bg-danger;
+.sw-toast--info {
+  background: color-mix(in srgb, var(--primary-400) 10%, var(--surface-strong));
+  border-color: color-mix(in srgb, var(--primary-400) 30%, transparent);
 }
 
 /* ---- Icon ---- */
@@ -125,18 +119,10 @@ const DURATIONS: Record<string, number> = {
   @apply shrink-0;
 }
 
-.sw-toast--success .sw-toast__icon {
-  @apply text-success;
-}
-.sw-toast--info .sw-toast__icon {
-  @apply text-primary-400;
-}
-.sw-toast--warning .sw-toast__icon {
-  @apply text-warning;
-}
-.sw-toast--error .sw-toast__icon {
-  @apply text-danger;
-}
+.sw-toast--success .sw-toast__icon { color: var(--success-strong); }
+.sw-toast--warning .sw-toast__icon { color: var(--warning-strong); }
+.sw-toast--error   .sw-toast__icon { color: var(--danger-strong); }
+.sw-toast--info    .sw-toast__icon { @apply text-primary-400; }
 
 /* ---- Body ---- */
 .sw-toast__body {
@@ -160,18 +146,10 @@ const DURATIONS: Record<string, number> = {
   @apply text-sm font-semibold cursor-pointer transition-opacity duration-150;
 }
 
-.sw-toast--success .sw-toast__action {
-  @apply text-success;
-}
-.sw-toast--info .sw-toast__action {
-  @apply text-primary-400;
-}
-.sw-toast--warning .sw-toast__action {
-  @apply text-warning;
-}
-.sw-toast--error .sw-toast__action {
-  @apply text-danger;
-}
+.sw-toast--success .sw-toast__action { color: var(--success-strong); }
+.sw-toast--info    .sw-toast__action { @apply text-primary-400; }
+.sw-toast--warning .sw-toast__action { color: var(--warning-strong); }
+.sw-toast--error   .sw-toast__action { color: var(--danger-strong); }
 
 .sw-toast__action:hover {
   @apply opacity-70;
@@ -185,4 +163,10 @@ const DURATIONS: Record<string, number> = {
 .sw-toast__close:hover {
   @apply bg-surface-hover text-text;
 }
+
+/* ---- Ring track tint to match card ---- */
+.sw-toast--success .sw-toast__ring-track { stroke: color-mix(in srgb, var(--success) 25%, transparent); }
+.sw-toast--warning .sw-toast__ring-track { stroke: color-mix(in srgb, var(--warning) 25%, transparent); }
+.sw-toast--error   .sw-toast__ring-track { stroke: color-mix(in srgb, var(--danger) 25%, transparent); }
+.sw-toast--info    .sw-toast__ring-track { stroke: color-mix(in srgb, var(--primary-400) 25%, transparent); }
 </style>
