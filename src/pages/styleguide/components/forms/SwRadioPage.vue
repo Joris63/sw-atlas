@@ -48,6 +48,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'preset',
     presets: optionPresets,
     initialValue: optionPresets[0]?.value,
+    category: 'appearance',
   },
   {
     name: 'variant',
@@ -57,6 +58,48 @@ const playgroundConfig: PlaygroundPropConfig[] = [
       'Visual style. Card variant shows options as bordered cards with description support.',
     control: 'select',
     options: ['default', 'card'],
+    category: 'appearance',
+  },
+  {
+    name: 'label',
+    type: 'string',
+    default: '',
+    description: 'Label text rendered above the radio group.',
+    control: 'text',
+    initialValue: 'Select a plan',
+    category: 'field',
+  },
+  {
+    name: 'helpText',
+    type: 'string',
+    default: '',
+    description: 'Helper text shown below the radio group.',
+    control: 'text',
+    category: 'field',
+  },
+  {
+    name: 'error',
+    type: 'string | string[]',
+    default: '',
+    description: 'Error message(s) shown below the radio group. Also marks the field as invalid.',
+    control: 'text',
+    category: 'validation',
+  },
+  {
+    name: 'required',
+    type: 'boolean',
+    default: false,
+    description: 'Marks the field as required.',
+    control: 'toggle',
+    category: 'validation',
+  },
+  {
+    name: 'invalid',
+    type: 'boolean',
+    default: false,
+    description: 'Forces the invalid visual state independently of the error prop.',
+    control: 'toggle',
+    category: 'validation',
   },
   {
     name: 'disabled',
@@ -64,6 +107,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Disables the entire group.',
     control: 'toggle',
+    category: 'state',
   },
 ];
 </script>
@@ -79,6 +123,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           v-model="selected"
           :options="values.options"
           :variant="values.variant"
+          :label="values.label"
+          :error="values.error"
+          :help-text="values.helpText"
+          :required="values.required"
+          :invalid="values.invalid"
           :disabled="values.disabled"
           class="w-full max-w-sm"
         />

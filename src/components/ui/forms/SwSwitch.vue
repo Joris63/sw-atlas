@@ -1,13 +1,25 @@
 <script setup lang="ts">
-import { SwitchRoot, SwitchControl, SwitchThumb, SwitchHiddenInput } from '@ark-ui/vue';
+import {
+  SwitchRoot,
+  SwitchControl,
+  SwitchThumb,
+  SwitchHiddenInput,
+  SwitchLabel,
+} from '@ark-ui/vue';
+import SwLabel from '@/components/ui/typography/SwLabel.vue';
 
 interface Props {
   modelValue: boolean;
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
+  label?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), { size: 'md', disabled: false });
+const props = withDefaults(defineProps<Props>(), {
+  size: 'md',
+  disabled: false,
+  label: undefined,
+});
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 </script>
 
@@ -21,6 +33,9 @@ const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
     <SwitchControl class="sw-switch__control">
       <SwitchThumb class="sw-switch__thumb" />
     </SwitchControl>
+    <SwitchLabel v-if="label" as-child>
+      <SwLabel>{{ label }}</SwLabel>
+    </SwitchLabel>
     <SwitchHiddenInput />
   </SwitchRoot>
 </template>
@@ -50,7 +65,7 @@ const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 }
 
 .sw-switch {
-  @apply inline-flex items-center cursor-pointer;
+  @apply inline-flex items-center gap-2.5 cursor-pointer;
 }
 
 .sw-switch__control {

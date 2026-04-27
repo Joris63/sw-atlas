@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, onMounted } from 'vue';
 import {
   RadioGroupRoot,
   RadioGroupItem,
@@ -7,6 +8,7 @@ import {
   RadioGroupItemHiddenInput,
 } from '@ark-ui/vue';
 import SwIcon from '../SwIcon.vue';
+import SwField from './SwField.vue';
 
 export interface SwRadioOption {
   value: string;
@@ -16,48 +18,94 @@ export interface SwRadioOption {
 }
 
 interface Props {
-  modelValue: string;
+  modelValue?: string;
   options: SwRadioOption[];
   variant?: 'default' | 'card';
   disabled?: boolean;
+  label?: string;
+  error?: string | string[];
+  helpText?: string;
+  invalid?: boolean;
+  required?: boolean;
 }
 
-withDefaults(defineProps<Props>(), { variant: 'default', disabled: false });
+const props = withDefaults(defineProps<Props>(), {
+  modelValue: undefined,
+  variant: 'default',
+  disabled: false,
+  label: undefined,
+  error: undefined,
+  helpText: undefined,
+  invalid: undefined,
+  required: undefined,
+});
 const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
+
+const isInvalid = computed(() => {
+  if (props.invalid !== undefined) {
+    return props.invalid;
+  }
+
+  if (!props.error) {
+    return false;
+  }
+
+  return Array.isArray(props.error) ? props.error.length > 0 : props.error.length > 0;
+});
+
+onMounted(() => {
+  if (!props.modelValue && props.options.length > 0) {
+    const first = props.options.find((o) => !o.disabled);
+    
+    if (first) {
+      emit('update:modelValue', first.value);
+    }
+  }
+});
 </script>
 
 <template>
-  <RadioGroupRoot
-    class="sw-radio-group"
-    :class="`sw-radio-group--${variant}`"
-    :model-value="modelValue"
+  <SwField
+    :label="label"
+    :error="error"
+    :help-text="helpText"
+    :invalid="invalid"
+    :required="required"
     :disabled="disabled"
-    @value-change="emit('update:modelValue', $event.value)"
   >
-    <RadioGroupItem
-      v-for="opt in options"
-      :key="opt.value"
-      :value="opt.value"
-      :disabled="opt.disabled"
-      class="sw-radio__item"
-      :class="`sw-radio__item--${variant}`"
+    <RadioGroupRoot
+      class="sw-radio-group"
+      :class="`sw-radio-group--${variant}`"
+      :model-value="modelValue"
+      :disabled="disabled"
+      :data-invalid="isInvalid ? '' : undefined"
+      @value-change="emit('update:modelValue', $event.value)"
     >
-      <RadioGroupItemControl v-if="variant === 'default'" class="sw-radio__control">
-        <span class="sw-radio__inner" />
-      </RadioGroupItemControl>
+      <RadioGroupItem
+        v-for="opt in options"
+        :key="opt.value"
+        :value="opt.value"
+        :disabled="opt.disabled"
+        class="sw-radio__item"
+        :class="`sw-radio__item--${variant}`"
+      >
+        <RadioGroupItemControl v-if="variant === 'default'" class="sw-radio__control">
+          <span class="sw-radio__inner" />
+        </RadioGroupItemControl>
 
-      <div class="sw-radio__content">
-        <RadioGroupItemText class="sw-radio__label">{{ opt.label }}</RadioGroupItemText>
-        <span v-if="opt.description" class="sw-radio__description">{{ opt.description }}</span>
-      </div>
+        <div class="sw-radio__content">
+          <RadioGroupItemText class="sw-radio__label">{{ opt.label }}</RadioGroupItemText>
+          <span v-if="opt.description" class="sw-radio__description">{{ opt.description }}</span>
+        </div>
 
-      <span v-if="variant === 'card'" class="sw-radio__trailing">
-        <SwIcon name="check" :size="14" class="sw-radio__check-icon" />
-      </span>
+        <span v-if="variant === 'card'" class="sw-radio__trailing">
+          <SwIcon name="check" :size="14" class="sw-radio__check-icon" />
+        </span>
 
-      <RadioGroupItemHiddenInput />
-    </RadioGroupItem>
-  </RadioGroupRoot>
+        <RadioGroupItemHiddenInput />
+      </RadioGroupItem>
+    </RadioGroupRoot>
+  </SwField>
 </template>
 
 <style scoped>
@@ -144,5 +192,14 @@ const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
 }
 .sw-radio__description {
   @apply text-xs text-text-muted;
+}
+
+/* ---- Invalid state ---- */
+.sw-radio-group[data-invalid] .sw-radio__item--default .sw-radio__control {
+  @apply border-danger;
+}
+
+.sw-radio-group[data-invalid] .sw-radio__item--card {
+  @apply border-danger;
 }
 </style>

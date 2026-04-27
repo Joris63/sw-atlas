@@ -1,6 +1,13 @@
 <script setup lang="ts">
-import { CheckboxRoot, CheckboxControl, CheckboxIndicator, CheckboxHiddenInput } from '@ark-ui/vue';
+import {
+  CheckboxRoot,
+  CheckboxControl,
+  CheckboxIndicator,
+  CheckboxHiddenInput,
+  CheckboxLabel,
+} from '@ark-ui/vue';
 import SwIcon from '../SwIcon.vue';
+import SwLabel from '@/components/ui/typography/SwLabel.vue';
 
 interface Props {
   modelValue?: boolean | 'indeterminate';
@@ -32,7 +39,9 @@ const emit = defineEmits<{ 'update:modelValue': [boolean | 'indeterminate'] }>()
     </CheckboxControl>
 
     <span v-if="label || hint" class="sw-checkbox__text">
-      <span v-if="label" class="sw-checkbox__label">{{ label }}</span>
+      <CheckboxLabel v-if="label" as-child>
+        <SwLabel>{{ label }}</SwLabel>
+      </CheckboxLabel>
       <span v-if="hint" class="sw-checkbox__hint">{{ hint }}</span>
     </span>
 
@@ -69,10 +78,6 @@ const emit = defineEmits<{ 'update:modelValue': [boolean | 'indeterminate'] }>()
 
 .sw-checkbox__text {
   @apply flex items-baseline gap-1.5;
-}
-
-.sw-checkbox__label {
-  @apply text-sm text-text leading-none;
 }
 
 .sw-checkbox__hint {

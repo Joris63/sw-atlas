@@ -24,7 +24,6 @@ const DURATIONS: Record<string, number> = {
   <Toaster :toaster="toaster" class="sw-toaster">
     <template #default="toast">
       <ToastRoot :class="['sw-toast', `sw-toast--${toast.type ?? 'info'}`]">
-
         <SwIcon
           :name="ICON_MAP[toast.type ?? 'info'] ?? 'info'"
           :size="20"
@@ -55,7 +54,6 @@ const DURATIONS: Record<string, number> = {
             @close="toaster.dismiss(toast.id)"
           />
         </div>
-
       </ToastRoot>
     </template>
   </Toaster>
@@ -119,10 +117,18 @@ const DURATIONS: Record<string, number> = {
   @apply shrink-0;
 }
 
-.sw-toast--success .sw-toast__icon { color: var(--success-strong); }
-.sw-toast--warning .sw-toast__icon { color: var(--warning-strong); }
-.sw-toast--error   .sw-toast__icon { color: var(--danger-strong); }
-.sw-toast--info    .sw-toast__icon { @apply text-primary-400; }
+.sw-toast--success .sw-toast__icon {
+  color: var(--success-strong);
+}
+.sw-toast--warning .sw-toast__icon {
+  color: var(--warning-strong);
+}
+.sw-toast--error .sw-toast__icon {
+  color: var(--danger-strong);
+}
+.sw-toast--info .sw-toast__icon {
+  @apply text-primary-400;
+}
 
 /* ---- Body ---- */
 .sw-toast__body {
@@ -146,10 +152,18 @@ const DURATIONS: Record<string, number> = {
   @apply text-sm font-semibold cursor-pointer transition-opacity duration-150;
 }
 
-.sw-toast--success .sw-toast__action { color: var(--success-strong); }
-.sw-toast--info    .sw-toast__action { @apply text-primary-400; }
-.sw-toast--warning .sw-toast__action { color: var(--warning-strong); }
-.sw-toast--error   .sw-toast__action { color: var(--danger-strong); }
+.sw-toast--success .sw-toast__action {
+  color: var(--success-strong);
+}
+.sw-toast--info .sw-toast__action {
+  @apply text-primary-400;
+}
+.sw-toast--warning .sw-toast__action {
+  color: var(--warning-strong);
+}
+.sw-toast--error .sw-toast__action {
+  color: var(--danger-strong);
+}
 
 .sw-toast__action:hover {
   @apply opacity-70;
@@ -165,8 +179,16 @@ const DURATIONS: Record<string, number> = {
 }
 
 /* ---- Ring track tint to match card ---- */
-.sw-toast--success .sw-toast__ring-track { stroke: color-mix(in srgb, var(--success) 25%, transparent); }
-.sw-toast--warning .sw-toast__ring-track { stroke: color-mix(in srgb, var(--warning) 25%, transparent); }
-.sw-toast--error   .sw-toast__ring-track { stroke: color-mix(in srgb, var(--danger) 25%, transparent); }
-.sw-toast--info    .sw-toast__ring-track { stroke: color-mix(in srgb, var(--primary-400) 25%, transparent); }
+.sw-toast--success .sw-toast__ring-track {
+  stroke: color-mix(in srgb, var(--success) 25%, transparent);
+}
+.sw-toast--warning .sw-toast__ring-track {
+  stroke: color-mix(in srgb, var(--warning) 25%, transparent);
+}
+.sw-toast--error .sw-toast__ring-track {
+  stroke: color-mix(in srgb, var(--danger) 25%, transparent);
+}
+.sw-toast--info .sw-toast__ring-track {
+  stroke: color-mix(in srgb, var(--primary-400) 25%, transparent);
+}
 </style>

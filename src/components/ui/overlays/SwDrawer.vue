@@ -71,7 +71,13 @@ const isPresetWidth = computed(() =>
             <div class="sw-drawer__header-actions">
               <slot name="header-actions" />
               <DialogCloseTrigger as-child>
-                <SwIconButton label="Close" icon="x" variant="plain" size="xs" :disabled="persistent" />
+                <SwIconButton
+                  label="Close"
+                  icon="x"
+                  variant="plain"
+                  size="xs"
+                  :disabled="persistent"
+                />
               </DialogCloseTrigger>
             </div>
           </header>

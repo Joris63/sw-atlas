@@ -18,6 +18,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Placeholder text when empty.',
     control: 'text',
     initialValue: '0',
+    category: 'appearance',
   },
   {
     name: 'size',
@@ -26,6 +27,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Height and font size of the input.',
     control: 'select',
     options: ['sm', 'md', 'lg'],
+    category: 'appearance',
   },
   {
     name: 'min',
@@ -34,6 +36,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['0', '1', '10'],
     isNumeric: true,
+    category: 'appearance',
   },
   {
     name: 'max',
@@ -42,6 +45,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['10', '100', '1000'],
     isNumeric: true,
+    category: 'appearance',
   },
   {
     name: 'step',
@@ -51,6 +55,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['0.1', '1', '5', '10'],
     default: '1',
     isNumeric: true,
+    category: 'appearance',
   },
   {
     name: 'decimals',
@@ -58,6 +63,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Allow decimal values.',
     control: 'toggle',
+    category: 'appearance',
   },
   {
     name: 'locale',
@@ -66,6 +72,48 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'BCP 47 locale tag used for number formatting.',
     control: 'select',
     options: ['nl-NL', 'en-US', 'de-DE', 'fr-FR'],
+    category: 'appearance',
+  },
+  {
+    name: 'label',
+    type: 'string',
+    default: '',
+    description: 'Label text rendered above the input.',
+    control: 'text',
+    initialValue: 'Quantity',
+    category: 'field',
+  },
+  {
+    name: 'helpText',
+    type: 'string',
+    default: '',
+    description: 'Helper text shown below the input.',
+    control: 'text',
+    category: 'field',
+  },
+  {
+    name: 'error',
+    type: 'string | string[]',
+    default: '',
+    description: 'Error message(s) shown below the input. Also marks the field as invalid.',
+    control: 'text',
+    category: 'validation',
+  },
+  {
+    name: 'required',
+    type: 'boolean',
+    default: false,
+    description: 'Marks the field as required.',
+    control: 'toggle',
+    category: 'validation',
+  },
+  {
+    name: 'invalid',
+    type: 'boolean',
+    default: false,
+    description: 'Forces the invalid visual state independently of the error prop.',
+    control: 'toggle',
+    category: 'validation',
   },
   {
     name: 'disabled',
@@ -73,6 +121,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Disables the input.',
     control: 'toggle',
+    category: 'state',
   },
 ];
 </script>
@@ -92,6 +141,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :step="values.step !== '' ? Number(values.step) : undefined"
           :decimals="values.decimals"
           :locale="values.locale"
+          :label="values.label"
+          :error="values.error"
+          :help-text="values.helpText"
+          :required="values.required"
+          :invalid="values.invalid"
           :disabled="values.disabled"
         />
       </template>

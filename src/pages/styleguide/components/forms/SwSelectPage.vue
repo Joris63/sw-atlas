@@ -50,6 +50,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'preset',
     presets: optionPresets,
     initialValue: optionPresets[0]?.value,
+    category: 'appearance',
   },
   {
     name: 'placeholder',
@@ -58,6 +59,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Placeholder shown when no option is selected.',
     control: 'text',
     initialValue: 'Pick a framework…',
+    category: 'appearance',
   },
   {
     name: 'size',
@@ -66,6 +68,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Height and font size of the trigger.',
     control: 'select',
     options: ['sm', 'md', 'lg'],
+    category: 'appearance',
   },
   {
     name: 'deselectable',
@@ -73,6 +76,48 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: true,
     description: 'Allows the value from being deselected.',
     control: 'toggle',
+    category: 'appearance',
+  },
+  {
+    name: 'label',
+    type: 'string',
+    default: '',
+    description: 'Label text rendered above the select.',
+    control: 'text',
+    initialValue: 'Framework',
+    category: 'field',
+  },
+  {
+    name: 'helpText',
+    type: 'string',
+    default: '',
+    description: 'Helper text shown below the select.',
+    control: 'text',
+    category: 'field',
+  },
+  {
+    name: 'error',
+    type: 'string | string[]',
+    default: '',
+    description: 'Error message(s) shown below the select. Also marks the field as invalid.',
+    control: 'text',
+    category: 'validation',
+  },
+  {
+    name: 'required',
+    type: 'boolean',
+    default: false,
+    description: 'Marks the field as required.',
+    control: 'toggle',
+    category: 'validation',
+  },
+  {
+    name: 'invalid',
+    type: 'boolean',
+    default: false,
+    description: 'Forces the invalid visual state independently of the error prop.',
+    control: 'toggle',
+    category: 'validation',
   },
   {
     name: 'disabled',
@@ -80,6 +125,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Prevents interaction and dims the select.',
     control: 'toggle',
+    category: 'state',
   },
   {
     name: 'loadingOptions',
@@ -87,6 +133,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Loading state when loading in items.',
     control: 'toggle',
+    category: 'state',
   },
 ];
 </script>
@@ -104,6 +151,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :placeholder="values.placeholder"
           :size="values.size"
           :deselectable="values.deselectable"
+          :label="values.label"
+          :error="values.error"
+          :help-text="values.helpText"
+          :required="values.required"
+          :invalid="values.invalid"
           :disabled="values.disabled"
           :loading-options="values.loadingOptions"
           class="w-64"

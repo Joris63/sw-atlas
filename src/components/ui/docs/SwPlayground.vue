@@ -28,7 +28,7 @@ export interface PlaygroundPropConfig {
   initialValue?: any;
   isSlotContent?: boolean;
   isNumeric?: boolean;
-  category?: 'content' | 'appearance' | 'state' | 'advanced';
+  category?: 'content' | 'appearance' | 'field' | 'validation' | 'state' | 'advanced';
   showWhen?: (values: Record<string, any>) => boolean;
 }
 
@@ -45,6 +45,8 @@ const props = defineProps<{
 const CATEGORY_LABELS: Record<string, string> = {
   content: 'Content',
   appearance: 'Appearance',
+  field: 'Field',
+  validation: 'Validation',
   state: 'State',
   advanced: 'Advanced',
 };
@@ -102,7 +104,7 @@ watch(
     if (!newOverrides) {
       return;
     }
-    
+
     for (const [key, val] of Object.entries(newOverrides)) {
       if (key in values) {
         values[key] = val;
@@ -312,11 +314,7 @@ async function copyCode() {
                 <span class="sw-playground__prop-label">{{ getLabel(p) }}</span>
                 <span v-if="p.required" class="sw-playground__required">*</span>
                 <span v-if="p.isSlotContent" class="sw-playground__slot-badge">slot</span>
-                <SwTooltip
-                  v-if="getTooltip(p)"
-                  placement="right"
-                  :open-delay="200"
-                >
+                <SwTooltip v-if="getTooltip(p)" placement="right" :open-delay="200">
                   <button class="sw-playground__info-btn">
                     <SwIcon name="info" :size="13" />
                   </button>

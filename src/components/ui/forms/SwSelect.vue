@@ -13,6 +13,7 @@ import {
   createListCollection,
 } from '@ark-ui/vue';
 import SwIcon from '../SwIcon.vue';
+import SwField from './SwField.vue';
 
 export interface SwSelectOption {
   value: string;
@@ -28,6 +29,11 @@ interface Props {
   deselectable?: boolean;
   disabled?: boolean;
   loadingOptions?: boolean;
+  label?: string;
+  error?: string | string[];
+  helpText?: string;
+  invalid?: boolean;
+  required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -36,6 +42,11 @@ const props = withDefaults(defineProps<Props>(), {
   deselectable: true,
   disabled: false,
   loadingOptions: false,
+  label: undefined,
+  error: undefined,
+  helpText: undefined,
+  invalid: undefined,
+  required: undefined,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [string] }>();
@@ -45,56 +56,81 @@ const collection = computed(() =>
     items: props.options.map((o) => ({ label: o.label, value: o.value, disabled: o.disabled })),
   }),
 );
+
+const isInvalid = computed(() => {
+  if (props.invalid !== undefined) {
+    return props.invalid;
+  }
+
+  if (!props.error) {
+    return false;
+  }
+  
+  return Array.isArray(props.error) ? props.error.length > 0 : props.error.length > 0;
+});
 </script>
 
 <template>
-  <SelectRoot
-    class="sw-select"
-    :collection="collection"
-    :model-value="modelValue ? [modelValue] : []"
+  <SwField
+    :label="label"
+    :error="error"
+    :help-text="helpText"
+    :invalid="invalid"
+    :required="required"
     :disabled="disabled"
-    :read-only="loadingOptions"
-    :deselectable="deselectable"
-    lazy-mount
-    unmount-on-exit
-    @value-change="emit('update:modelValue', $event.value[0] ?? '')"
   >
-    <SelectTrigger class="sw-select__trigger" :class="`sw-select__trigger--${size}`">
-      <div v-if="loadingOptions" class="sw-select__loading">
-        Loading options...
-        <SwIcon name="loader-2" :size="16" class="sw-select__spinner" aria-hidden="true" />
-      </div>
-      <template v-else>
-        <SelectValueText :placeholder="placeholder" class="sw-select__value" />
-        <SwIcon name="chevron-down" :size="14" class="sw-select__chevron" />
-      </template>
-    </SelectTrigger>
-    <SelectHiddenSelect />
-    <Teleport to="#sw-portal">
-      <SelectPositioner class="sw-select__positioner">
-        <SelectContent class="sw-select__content">
-          <SelectItem
-            v-for="item in collection.items"
-            :key="item.value"
-            :item="item"
-            class="sw-select__item"
-          >
-            <SelectItemText class="sw-select__item-text">{{ item.label }}</SelectItemText>
-            <SelectItemIndicator class="sw-select__item-indicator">
-              <SwIcon name="check" :size="13" />
-            </SelectItemIndicator>
-          </SelectItem>
-        </SelectContent>
-      </SelectPositioner>
-    </Teleport>
-  </SelectRoot>
+    <SelectRoot
+      class="sw-select"
+      :collection="collection"
+      :model-value="modelValue ? [modelValue] : []"
+      :disabled="disabled"
+      :read-only="loadingOptions"
+      :deselectable="deselectable"
+      lazy-mount
+      unmount-on-exit
+      @value-change="emit('update:modelValue', $event.value[0] ?? '')"
+    >
+      <SelectTrigger
+        class="sw-select__trigger"
+        :class="`sw-select__trigger--${size}`"
+        :data-invalid="isInvalid ? '' : undefined"
+      >
+        <div v-if="loadingOptions" class="sw-select__loading">
+          Loading options...
+          <SwIcon name="loader-2" :size="16" class="sw-select__spinner" aria-hidden="true" />
+        </div>
+        <template v-else>
+          <SelectValueText :placeholder="placeholder" class="sw-select__value" />
+          <SwIcon name="chevron-down" :size="14" class="sw-select__chevron" />
+        </template>
+      </SelectTrigger>
+      <SelectHiddenSelect />
+      <Teleport to="#sw-portal">
+        <SelectPositioner class="sw-select__positioner">
+          <SelectContent class="sw-select__content">
+            <SelectItem
+              v-for="item in collection.items"
+              :key="item.value"
+              :item="item"
+              class="sw-select__item"
+            >
+              <SelectItemText class="sw-select__item-text">{{ item.label }}</SelectItemText>
+              <SelectItemIndicator class="sw-select__item-indicator">
+                <SwIcon name="check" :size="13" />
+              </SelectItemIndicator>
+            </SelectItem>
+          </SelectContent>
+        </SelectPositioner>
+      </Teleport>
+    </SelectRoot>
+  </SwField>
 </template>
 
 <style scoped>
 @reference "@/styles/tailwind.css";
 
 .sw-select {
-  @apply relative inline-flex flex-col w-full;
+  @apply relative w-full;
 }
 
 .sw-select__loading {
@@ -127,6 +163,10 @@ const collection = computed(() =>
 
 .sw-select__trigger[data-disabled] {
   @apply opacity-50 cursor-not-allowed;
+}
+
+.sw-select__trigger[data-invalid] {
+  @apply border-danger;
 }
 
 .sw-select__trigger--sm {

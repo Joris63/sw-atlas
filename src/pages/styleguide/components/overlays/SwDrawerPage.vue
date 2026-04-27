@@ -43,7 +43,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'width',
     type: "'sm' | 'md' | 'lg' | string",
     default: 'md',
-    description: "Width of the drawer panel. Accepts 'sm', 'md', 'lg' or any CSS value (e.g. '500px').",
+    description:
+      "Width of the drawer panel. Accepts 'sm', 'md', 'lg' or any CSS value (e.g. '500px').",
     control: 'text',
     initialValue: 'md',
   },
@@ -51,7 +52,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'persistent',
     type: 'boolean',
     default: false,
-    description: 'Disable closing via backdrop click or Escape. Useful for forms with unsaved changes.',
+    description:
+      'Disable closing via backdrop click or Escape. Useful for forms with unsaved changes.',
     control: 'toggle',
   },
   {

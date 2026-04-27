@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { FieldRoot, FieldTextarea } from '@ark-ui/vue';
+import { FieldTextarea } from '@ark-ui/vue';
+import SwField from './SwField.vue';
 
 interface Props {
   modelValue?: string;
@@ -9,6 +10,11 @@ interface Props {
   size?: 'sm' | 'md' | 'lg';
   resize?: 'none' | 'vertical' | 'both';
   disabled?: boolean;
+  label?: string;
+  error?: string | string[];
+  helpText?: string;
+  invalid?: boolean;
+  required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -18,6 +24,11 @@ const props = withDefaults(defineProps<Props>(), {
   resize: 'vertical',
   disabled: false,
   placeholder: undefined,
+  label: undefined,
+  error: undefined,
+  helpText: undefined,
+  invalid: undefined,
+  required: undefined,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [string] }>();
@@ -29,25 +40,28 @@ const textareaValue = computed({
 </script>
 
 <template>
-  <FieldRoot :class="['sw-textarea', `sw-textarea--${size}`]" :disabled="disabled">
+  <SwField
+    :label="label"
+    :error="error"
+    :help-text="helpText"
+    :invalid="invalid"
+    :required="required"
+    :disabled="disabled"
+  >
     <FieldTextarea
       v-model="textareaValue"
-      class="sw-textarea__input"
+      :class="['sw-textarea', `sw-textarea--${size}`]"
       :placeholder="placeholder"
       :rows="rows"
       :style="{ resize }"
     />
-  </FieldRoot>
+  </SwField>
 </template>
 
 <style scoped>
 @reference "@/styles/tailwind.css";
 
 .sw-textarea {
-  @apply flex-1;
-}
-
-.sw-textarea__input {
   @apply w-full px-3 py-2 rounded-md
          bg-surface-subtle border border-border text-text
          placeholder:text-text-subtle
@@ -55,19 +69,23 @@ const textareaValue = computed({
          transition-colors duration-150;
 }
 
-.sw-textarea--sm .sw-textarea__input {
+.sw-textarea[aria-invalid='true'] {
+  @apply border-danger;
+}
+
+.sw-textarea--sm {
   @apply text-xs px-2 py-1.5 min-h-8;
 }
 
-.sw-textarea--md .sw-textarea__input {
+.sw-textarea--md {
   @apply text-sm px-3 py-2 min-h-9;
 }
 
-.sw-textarea--lg .sw-textarea__input {
+.sw-textarea--lg {
   @apply text-base px-3 py-2.5 min-h-10;
 }
 
-.sw-textarea__input:disabled {
+.sw-textarea:disabled {
   @apply opacity-50 cursor-not-allowed;
 }
 </style>

@@ -39,7 +39,9 @@ const iconSize = computed(() => (props.size === 'sm' ? 12 : 14));
 const buttonSize = computed(() => (props.size === 'sm' ? 'xs' : 'sm'));
 
 function goTo(n: number | null) {
-  if (n !== null) {emit('update:page', n);}
+  if (n !== null) {
+    emit('update:page', n);
+  }
 }
 </script>
 

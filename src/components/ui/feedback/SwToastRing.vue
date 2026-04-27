@@ -21,7 +21,9 @@ let toastRoot: Element | null = null;
 
 function tick() {
   remaining.value = Math.max(0, props.duration - elapsedWhenPaused - (Date.now() - startedAt));
-  if (remaining.value > 0) raf = requestAnimationFrame(tick);
+  if (remaining.value > 0) {
+    raf = requestAnimationFrame(tick);
+  }
 }
 
 function pause() {
@@ -60,11 +62,7 @@ const dashOffset = computed(() => {
 </script>
 
 <template>
-  <button
-    class="sw-toast__ring-btn"
-    aria-label="Close"
-    @click="emit('close')"
-  >
+  <button class="sw-toast__ring-btn" aria-label="Close" @click="emit('close')">
     <svg
       ref="svgRef"
       width="28"
@@ -73,7 +71,14 @@ const dashOffset = computed(() => {
       class="sw-toast__ring"
       aria-hidden="true"
     >
-      <circle cx="14" cy="14" :r="RADIUS" class="sw-toast__ring-track" fill="none" stroke-width="2" />
+      <circle
+        cx="14"
+        cy="14"
+        :r="RADIUS"
+        class="sw-toast__ring-track"
+        fill="none"
+        stroke-width="2"
+      />
       <circle
         cx="14"
         cy="14"
@@ -113,10 +118,18 @@ const dashOffset = computed(() => {
   stroke: var(--border-strong);
 }
 
-.sw-toast__ring-progress--success { stroke: var(--success); }
-.sw-toast__ring-progress--info    { stroke: var(--primary-400); }
-.sw-toast__ring-progress--warning { stroke: var(--warning); }
-.sw-toast__ring-progress--error   { stroke: var(--danger); }
+.sw-toast__ring-progress--success {
+  stroke: var(--success);
+}
+.sw-toast__ring-progress--info {
+  stroke: var(--primary-400);
+}
+.sw-toast__ring-progress--warning {
+  stroke: var(--warning);
+}
+.sw-toast__ring-progress--error {
+  stroke: var(--danger);
+}
 
 .sw-toast__ring-x {
   @apply absolute inset-0 flex items-center justify-center

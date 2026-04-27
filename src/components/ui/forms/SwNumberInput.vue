@@ -8,6 +8,7 @@ import {
   NumberInputDecrementTrigger,
 } from '@ark-ui/vue';
 import SwIcon from '@/components/ui/SwIcon.vue';
+import SwField from './SwField.vue';
 
 interface Props {
   modelValue?: number | string;
@@ -19,6 +20,11 @@ interface Props {
   disabled?: boolean;
   size?: 'sm' | 'md' | 'lg';
   locale?: string;
+  label?: string;
+  error?: string | string[];
+  helpText?: string;
+  invalid?: boolean;
+  required?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -31,6 +37,11 @@ const props = withDefaults(defineProps<Props>(), {
   min: undefined,
   max: undefined,
   step: undefined,
+  label: undefined,
+  error: undefined,
+  helpText: undefined,
+  invalid: undefined,
+  required: undefined,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [number | undefined] }>();
@@ -51,33 +62,57 @@ const effectiveStep = computed(() => {
 function onValueChange(details: { value: string; valueAsNumber: number }) {
   emit('update:modelValue', isNaN(details.valueAsNumber) ? undefined : details.valueAsNumber);
 }
+
+const isInvalid = computed(() => {
+  if (props.invalid !== undefined) {
+    return props.invalid;
+  }
+  
+  if (!props.error) {
+    return false;
+  }
+
+  return Array.isArray(props.error) ? props.error.length > 0 : props.error.length > 0;
+});
 </script>
 
 <template>
-  <NumberInputRoot
-    :class="['sw-number-input', `sw-number-input--${size}`]"
-    :value="modelValue !== undefined ? String(modelValue) : ''"
-    :min="min"
-    :max="max"
-    :step="effectiveStep"
-    :format-options="formatOptions"
+  <SwField
+    :label="label"
+    :error="error"
+    :help-text="helpText"
+    :invalid="invalid"
+    :required="required"
     :disabled="disabled"
-    :locale="locale"
-    clamp-value-on-blur
-    @value-change="onValueChange"
   >
-    <NumberInputControl class="sw-number-input__control">
-      <NumberInputInput class="sw-number-input__input" :placeholder="placeholder" />
-      <div class="sw-number-input__spinners">
-        <NumberInputIncrementTrigger class="sw-number-input__spinner-btn">
-          <SwIcon name="chevron-up" :size="12" />
-        </NumberInputIncrementTrigger>
-        <NumberInputDecrementTrigger class="sw-number-input__spinner-btn">
-          <SwIcon name="chevron-down" :size="12" />
-        </NumberInputDecrementTrigger>
-      </div>
-    </NumberInputControl>
-  </NumberInputRoot>
+    <NumberInputRoot
+      :class="['sw-number-input', `sw-number-input--${size}`]"
+      :value="modelValue !== undefined ? String(modelValue) : ''"
+      :min="min"
+      :max="max"
+      :step="effectiveStep"
+      :format-options="formatOptions"
+      :disabled="disabled"
+      :locale="locale"
+      clamp-value-on-blur
+      @value-change="onValueChange"
+    >
+      <NumberInputControl
+        class="sw-number-input__control"
+        :data-invalid="isInvalid ? '' : undefined"
+      >
+        <NumberInputInput class="sw-number-input__input" :placeholder="placeholder" />
+        <div class="sw-number-input__spinners">
+          <NumberInputIncrementTrigger class="sw-number-input__spinner-btn">
+            <SwIcon name="chevron-up" :size="12" />
+          </NumberInputIncrementTrigger>
+          <NumberInputDecrementTrigger class="sw-number-input__spinner-btn">
+            <SwIcon name="chevron-down" :size="12" />
+          </NumberInputDecrementTrigger>
+        </div>
+      </NumberInputControl>
+    </NumberInputRoot>
+  </SwField>
 </template>
 
 <style scoped>
@@ -147,5 +182,9 @@ function onValueChange(details: { value: string; valueAsNumber: number }) {
 
 .sw-number-input__control[data-disabled] {
   @apply opacity-50 cursor-not-allowed;
+}
+
+.sw-number-input__control[data-invalid] {
+  @apply border-danger;
 }
 </style>

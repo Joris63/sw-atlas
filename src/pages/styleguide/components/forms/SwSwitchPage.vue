@@ -23,6 +23,14 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['sm', 'md', 'lg'],
   },
   {
+    name: 'label',
+    type: 'string',
+    default: '',
+    description: 'Label text rendered inline next to the switch toggle.',
+    control: 'text',
+    initialValue: 'Enable notifications',
+  },
+  {
     name: 'disabled',
     type: 'boolean',
     default: false,
@@ -39,7 +47,12 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   >
     <SwPlayground :props-config="playgroundConfig" component-name="SwSwitch">
       <template #default="{ values }">
-        <SwSwitch v-model="checked" :size="values.size" :disabled="values.disabled" />
+        <SwSwitch
+          v-model="checked"
+          :size="values.size"
+          :label="values.label"
+          :disabled="values.disabled"
+        />
       </template>
     </SwPlayground>
   </SwPage>

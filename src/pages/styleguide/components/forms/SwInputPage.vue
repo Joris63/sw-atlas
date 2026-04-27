@@ -18,6 +18,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Placeholder text shown when the input is empty.',
     control: 'text',
     initialValue: 'Enter text…',
+    category: 'appearance',
   },
   {
     name: 'size',
@@ -26,6 +27,48 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Height and font size of the input.',
     control: 'select',
     options: ['sm', 'md', 'lg'],
+    category: 'appearance',
+  },
+  {
+    name: 'label',
+    type: 'string',
+    default: '',
+    description: 'Label text rendered above the input.',
+    control: 'text',
+    initialValue: 'Email address',
+    category: 'field',
+  },
+  {
+    name: 'helpText',
+    type: 'string',
+    default: '',
+    description: 'Helper text shown below the input.',
+    control: 'text',
+    category: 'field',
+  },
+  {
+    name: 'error',
+    type: 'string | string[]',
+    default: '',
+    description: 'Error message(s) shown below the input. Also marks the field as invalid.',
+    control: 'text',
+    category: 'validation',
+  },
+  {
+    name: 'required',
+    type: 'boolean',
+    default: false,
+    description: 'Marks the field as required.',
+    control: 'toggle',
+    category: 'validation',
+  },
+  {
+    name: 'invalid',
+    type: 'boolean',
+    default: false,
+    description: 'Forces the invalid visual state independently of the error prop.',
+    control: 'toggle',
+    category: 'validation',
   },
   {
     name: 'disabled',
@@ -33,6 +76,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Prevents interaction and dims the input.',
     control: 'toggle',
+    category: 'state',
   },
 ];
 </script>
@@ -47,6 +91,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
         <SwInput
           :placeholder="values.placeholder"
           :size="values.size"
+          :label="values.label"
+          :error="values.error"
+          :help-text="values.helpText"
+          :required="values.required"
+          :invalid="values.invalid"
           :disabled="values.disabled"
         />
       </template>
