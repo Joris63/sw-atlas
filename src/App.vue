@@ -64,8 +64,12 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
       </SwNavGroup>
 
       <SwNavGroup label="Composables">
-        <SwNavItem label="useValidation" to="/styleguide/composables/use-validation" />
-        <SwNavItem label="useDarkMode" to="/styleguide/composables/use-dark-mode" />
+        <SwNavItem
+          label="useValidation"
+          icon="badge-check"
+          to="/styleguide/composables/use-validation"
+        />
+        <SwNavItem label="useDarkMode" icon="sun-moon" to="/styleguide/composables/use-dark-mode" />
       </SwNavGroup>
     </template>
 
