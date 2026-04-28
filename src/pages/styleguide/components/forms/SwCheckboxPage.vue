@@ -21,6 +21,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Label text rendered next to the checkbox.',
     control: 'text',
     initialValue: 'Email me about product updates',
+    category: 'field',
   },
   {
     name: 'hint',
@@ -28,6 +29,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '',
     description: 'Small muted hint text shown inline after the label.',
     control: 'text',
+    category: 'field',
   },
   {
     name: 'disabled',
@@ -35,6 +37,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Prevents interaction and dims the checkbox.',
     control: 'toggle',
+    category: 'state',
   },
 ];
 </script>

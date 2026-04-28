@@ -36,7 +36,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['0', '1', '10'],
     isNumeric: true,
-    category: 'appearance',
+    category: 'validation',
   },
   {
     name: 'max',
@@ -45,7 +45,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['10', '100', '1000'],
     isNumeric: true,
-    category: 'appearance',
+    category: 'validation',
   },
   {
     name: 'step',
@@ -55,7 +55,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['0.1', '1', '5', '10'],
     default: '1',
     isNumeric: true,
-    category: 'appearance',
+    category: 'validation',
   },
   {
     name: 'decimals',
@@ -63,7 +63,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Allow decimal values.',
     control: 'toggle',
-    category: 'appearance',
+    category: 'advanced',
   },
   {
     name: 'locale',
@@ -72,7 +72,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'BCP 47 locale tag used for number formatting.',
     control: 'select',
     options: ['nl-NL', 'en-US', 'de-DE', 'fr-FR'],
-    category: 'appearance',
+    category: 'advanced',
   },
   {
     name: 'label',

@@ -16,6 +16,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'text',
     initialValue: 'Heading text',
     isSlotContent: true,
+    category: 'content',
   },
   {
     name: 'level',
@@ -25,6 +26,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['1', '2', '3', '4', '5', '6'],
     isNumeric: true,
+    category: 'appearance',
   },
   {
     name: 'size',
@@ -33,6 +35,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Visual size override. Defaults to a size mapped from level.',
     control: 'select',
     options: ['auto', '5xl', '4xl', '3xl', '2xl', 'xl', 'lg', 'base', 'sm'],
+    category: 'appearance',
   },
 ];
 </script>

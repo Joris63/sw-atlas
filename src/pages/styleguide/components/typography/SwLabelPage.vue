@@ -12,6 +12,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'text',
     initialValue: 'Email address',
     isSlotContent: true,
+    category: 'content',
   },
   {
     name: 'size',
@@ -20,6 +21,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Font size.',
     control: 'select',
     options: ['xs', 'sm'],
+    category: 'appearance',
   },
   {
     name: 'uppercase',
@@ -27,6 +29,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Renders in uppercase with letter-spacing.',
     control: 'toggle',
+    category: 'appearance',
   },
   {
     name: 'required',
@@ -34,6 +37,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Appends a red asterisk (*) to signal a required field.',
     control: 'toggle',
+    category: 'state',
   },
   {
     name: 'for',
@@ -41,6 +45,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '',
     description: "Associates the label with an input's id.",
     control: 'none',
+    category: 'advanced',
   },
 ];
 </script>

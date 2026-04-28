@@ -21,6 +21,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Physical size of the switch track and thumb.',
     control: 'select',
     options: ['sm', 'md', 'lg'],
+    category: 'appearance',
   },
   {
     name: 'label',
@@ -29,6 +30,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Label text rendered inline next to the switch toggle.',
     control: 'text',
     initialValue: 'Enable notifications',
+    category: 'field',
   },
   {
     name: 'disabled',
@@ -36,6 +38,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Prevents interaction and dims the switch.',
     control: 'toggle',
+    category: 'state',
   },
 ];
 </script>

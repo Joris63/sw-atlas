@@ -186,6 +186,16 @@ const grouped = computed((): [string, PlaygroundPropConfig[]][] => {
 
 const controlCount = computed(() => props.propsConfig.filter((p) => p.control !== 'none').length);
 
+const collapsedCategories = ref<Set<string>>(new Set());
+
+function toggleCategory(cat: string) {
+  if (collapsedCategories.value.has(cat)) {
+    collapsedCategories.value.delete(cat);
+  } else {
+    collapsedCategories.value.add(cat);
+  }
+}
+
 function resetToDefaults() {
   for (const p of props.propsConfig) {
     if (p.control === 'none') {
@@ -300,11 +310,22 @@ async function copyCode() {
 
         <div class="sw-playground__controls-list">
           <template v-for="[cat, catProps] in grouped" :key="cat">
-            <div v-if="cat" class="sw-playground__category-header">
+            <button
+              v-if="cat"
+              class="sw-playground__category-header"
+              @click="toggleCategory(cat)"
+            >
               {{ CATEGORY_LABELS[cat] }}
-            </div>
+              <SwIcon
+                name="chevron-down"
+                :size="11"
+                class="sw-playground__category-chevron"
+                :class="{ 'sw-playground__category-chevron--collapsed': collapsedCategories.has(cat) }"
+              />
+            </button>
             <div
               v-for="p in catProps"
+              v-show="!cat || !collapsedCategories.has(cat)"
               :key="p.name"
               class="sw-playground__prop"
               :class="{ 'sw-playground__prop--none': p.control === 'none' }"
@@ -434,8 +455,18 @@ async function copyCode() {
 
 /* ---- Category header ---- */
 .sw-playground__category-header {
-  @apply px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider
-         text-text-subtle bg-surface border-b border-border select-none;
+  @apply w-full flex items-center justify-between
+         px-4 py-1.5 text-[10px] font-semibold uppercase tracking-wider
+         text-text-subtle bg-surface border-b border-border select-none
+         cursor-pointer hover:text-text transition-colors;
+}
+
+.sw-playground__category-chevron {
+  @apply transition-transform duration-150;
+}
+
+.sw-playground__category-chevron--collapsed {
+  @apply -rotate-90;
 }
 
 /* ---- Prop rows (vertical layout) ---- */

@@ -12,6 +12,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'text',
     initialValue: 'Badge',
     isSlotContent: true,
+    category: 'content',
   },
   {
     name: 'variant',
@@ -20,6 +21,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Color variant.',
     control: 'select',
     options: ['neutral', 'primary', 'success', 'warning', 'danger'],
+    category: 'appearance',
   },
   {
     name: 'size',
@@ -28,6 +30,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Physical size of the badge.',
     control: 'select',
     options: ['sm', 'md'],
+    category: 'appearance',
   },
   {
     name: 'icon',
@@ -35,6 +38,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '',
     description: 'Lucide icon name shown before the label.',
     control: 'icon',
+    category: 'content',
   },
   {
     name: 'dot',
@@ -42,6 +46,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Show a colored dot indicator before the label.',
     control: 'toggle',
+    category: 'appearance',
   },
   {
     name: 'animated',
@@ -50,6 +55,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Pulse-animate the dot (requires dot=true).',
     control: 'toggle',
     showWhen: (v) => !!v.dot,
+    category: 'appearance',
   },
 ];
 </script>

@@ -18,6 +18,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'icon',
     initialValue: 'star',
     required: true,
+    category: 'content',
   },
   {
     name: 'size',
@@ -28,6 +29,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '20',
     initialValue: '20',
     isNumeric: true,
+    category: 'appearance',
   },
   {
     name: 'strokeWidth',
@@ -38,6 +40,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '1.75',
     initialValue: '1.75',
     isNumeric: true,
+    category: 'appearance',
   },
 ];
 

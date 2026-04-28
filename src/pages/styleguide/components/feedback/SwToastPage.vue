@@ -16,6 +16,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Visual style and icon of the toast.',
     control: 'select',
     options: ['success', 'info', 'warning', 'error'],
+    category: 'appearance',
   },
   {
     name: 'title',
@@ -24,6 +25,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'text',
     initialValue: 'Changes saved',
     required: true,
+    category: 'content',
   },
   {
     name: 'description',
@@ -31,6 +33,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Optional supporting text shown below the title.',
     control: 'text',
     initialValue: 'Your changes have been saved.',
+    category: 'content',
   },
   {
     name: 'duration',
@@ -39,6 +42,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['2000', '5000', '8000', '10000'],
     initialValue: '5000',
+    category: 'advanced',
   },
 ];
 

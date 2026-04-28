@@ -69,6 +69,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'preset',
     presets: tabPresets,
     initialValue: tabPresets[0]?.value,
+    category: 'content',
   },
   {
     name: 'orientation',
@@ -77,6 +78,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Layout direction of the tab list.',
     control: 'select',
     options: ['horizontal', 'vertical'],
+    category: 'appearance',
   },
   {
     name: 'lazy',
@@ -84,6 +86,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: true,
     description: 'Defer rendering tab content until the tab is first activated.',
     control: 'toggle',
+    category: 'advanced',
   },
   {
     name: 'labelWidth',
@@ -92,6 +95,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Min-width of the vertical tab list column.',
     control: 'text',
     showWhen: (v) => v.orientation === 'vertical',
+    category: 'appearance',
   },
 ];
 </script>
@@ -101,7 +105,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     title="SwTabs"
     description="Underline-style tabs built on Ark UI. Supports horizontal and vertical orientations, icons, and badges."
   >
-    <SwPlayground :props-config="playgroundConfig" component-name="SwTabs" stacked>
+    <SwPlayground :props-config="playgroundConfig" component-name="SwTabs">
       <template #default="{ values }">
         <SwTabs
           :model-value="

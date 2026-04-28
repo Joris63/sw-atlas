@@ -71,7 +71,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: true,
     description: 'Show the label as a tooltip on hover.',
     control: 'toggle',
-    category: 'content',
+    category: 'appearance',
   },
   {
     name: 'tooltipPlacement',
@@ -89,8 +89,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
       'left',
       'right',
     ],
-    category: 'content',
     showWhen: (v) => !!v.tooltip,
+    category: 'appearance',
   },
   {
     name: 'type',

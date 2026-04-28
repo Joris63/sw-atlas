@@ -50,7 +50,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'preset',
     presets: optionPresets,
     initialValue: optionPresets[0]?.value,
-    category: 'appearance',
+    category: 'content',
   },
   {
     name: 'placeholder',

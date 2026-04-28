@@ -12,6 +12,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'text',
     initialValue: 'The quick brown fox jumps over the lazy dog.',
     isSlotContent: true,
+    category: 'content',
   },
   {
     name: 'size',
@@ -20,6 +21,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Font size.',
     control: 'select',
     options: ['xs', 'sm', 'base', 'lg', 'xl'],
+    category: 'appearance',
   },
   {
     name: 'weight',
@@ -28,6 +30,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Font weight.',
     control: 'select',
     options: ['normal', 'medium', 'semibold'],
+    category: 'appearance',
   },
   {
     name: 'color',
@@ -36,6 +39,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Text color token.',
     control: 'select',
     options: ['default', 'muted', 'subtle'],
+    category: 'appearance',
   },
   {
     name: 'as',
@@ -43,6 +47,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: "'p'",
     description: 'HTML element to render as.',
     control: 'none',
+    category: 'advanced',
   },
 ];
 </script>

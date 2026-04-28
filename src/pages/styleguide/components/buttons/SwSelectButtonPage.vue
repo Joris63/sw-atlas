@@ -20,6 +20,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: 'SwSelectButtonOption[]',
     description: 'The list of selectable options. Each option supports an optional disabled field.',
     control: 'preset',
+    category: 'content',
     presets: [
       {
         label: '4 options',
@@ -63,6 +64,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Physical size of the items.',
     control: 'select',
     options: ['sm', 'md', 'lg'],
+    category: 'appearance',
   },
   {
     name: 'disabled',
@@ -70,6 +72,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Prevents interaction and dims all options.',
     control: 'toggle',
+    category: 'state',
   },
   {
     name: 'deselectable',
@@ -77,6 +80,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Allows clicking the active option to deselect it, setting modelValue to null.',
     control: 'toggle',
+    category: 'appearance',
   },
 ];
 </script>

@@ -13,6 +13,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'text',
     initialValue: 'More info',
     required: true,
+    category: 'content',
   },
   {
     name: 'placement',
@@ -34,6 +35,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
       'right-start',
       'right-end',
     ],
+    category: 'appearance',
   },
   {
     name: 'interactive',
@@ -42,6 +44,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description:
       'Allow the pointer to move into the tooltip without it closing. Required for tooltips with links or buttons.',
     control: 'toggle',
+    category: 'appearance',
   },
   {
     name: 'maxWidth',
@@ -49,6 +52,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '16rem',
     description: 'Maximum width of the tooltip panel.',
     control: 'text',
+    category: 'appearance',
   },
   {
     name: 'disabled',
@@ -56,6 +60,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: false,
     description: 'Suppresses the tooltip entirely.',
     control: 'toggle',
+    category: 'state',
   },
   {
     name: 'openDelay',
@@ -66,6 +71,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['0', '200', '400', '600', '1000'],
     initialValue: '400',
     isNumeric: true,
+    category: 'advanced',
   },
   {
     name: 'closeDelay',
@@ -76,6 +82,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     options: ['0', '100', '300', '500'],
     initialValue: '100',
     isNumeric: true,
+    category: 'advanced',
   },
 ];
 </script>

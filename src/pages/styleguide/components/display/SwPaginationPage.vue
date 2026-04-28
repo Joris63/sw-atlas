@@ -76,7 +76,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     title="SwPagination"
     description="Navigate between pages of data. The default variant shows numbered pages with ellipsis; the compact variant shows simple previous/next links."
   >
-    <SwPlayground :props-config="playgroundConfig" component-name="SwPagination" stacked>
+    <SwPlayground :props-config="playgroundConfig" component-name="SwPagination">
       <template #default="{ values }">
         <SwPagination
           v-model:page="page"

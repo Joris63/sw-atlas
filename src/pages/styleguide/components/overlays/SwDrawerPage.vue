@@ -22,6 +22,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Title shown in the drawer header. Also accepts a #title slot for rich content.',
     control: 'text',
     initialValue: 'Member details',
+    category: 'content',
   },
   {
     name: 'description',
@@ -29,6 +30,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: '',
     description: 'Subtext below the title. Also used by screen readers as the dialog description.',
     control: 'text',
+    category: 'content',
   },
   {
     name: 'side',
@@ -38,6 +40,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'select',
     options: ['right', 'left'],
     initialValue: 'right',
+    category: 'appearance',
   },
   {
     name: 'width',
@@ -47,6 +50,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
       "Width of the drawer panel. Accepts 'sm', 'md', 'lg' or any CSS value (e.g. '500px').",
     control: 'text',
     initialValue: 'md',
+    category: 'appearance',
   },
   {
     name: 'persistent',
@@ -55,6 +59,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description:
       'Disable closing via backdrop click or Escape. Useful for forms with unsaved changes.',
     control: 'toggle',
+    category: 'advanced',
   },
   {
     name: 'lazy',
@@ -62,6 +67,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     default: true,
     description: 'Unmount content when closed and defer mount until first open.',
     control: 'toggle',
+    category: 'advanced',
   },
 ];
 </script>
