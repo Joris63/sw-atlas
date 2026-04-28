@@ -10,7 +10,7 @@ export interface PropRow {
   description: string;
 }
 
-const props = defineProps<{ rows: PropRow[] }>();
+const props = defineProps<{ rows: PropRow[]; label?: string; icon?: string }>();
 
 const open = ref(false);
 </script>
@@ -19,8 +19,8 @@ const open = ref(false);
   <div class="sw-props-table">
     <button class="sw-props-table__toggle" :aria-expanded="open" @click="open = !open">
       <span class="sw-props-table__toggle-label">
-        <SwIcon name="sliders-horizontal" :size="14" />
-        Props
+        <SwIcon :name="props.icon ?? 'sliders-horizontal'" :size="14" />
+        {{ props.label ?? 'Props' }}
         <span class="sw-props-table__count">{{ props.rows.length }}</span>
       </span>
       <SwIcon

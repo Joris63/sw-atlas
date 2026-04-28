@@ -1,6 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import HomePage from '@/pages/HomePage.vue';
 
+/* COMPOSABLES */
+import UseValidationPage from '@/pages/styleguide/composables/UseValidationPage.vue';
+import UseDarkModePage from '@/pages/styleguide/composables/UseDarkModePage.vue';
+
 /* DESIGN */
 import ColorsPage from '@/pages/styleguide/design/ColorsPage.vue';
 import TypographyPage from '@/pages/styleguide/design/TypographyPage.vue';
@@ -203,6 +207,18 @@ const router = createRouter({
       path: '/styleguide/components/toast',
       component: SwToastPage,
       meta: { breadcrumbs: sgCrumbs('SwToast') },
+    },
+
+    // Composables
+    {
+      path: '/styleguide/composables/use-validation',
+      component: UseValidationPage,
+      meta: { breadcrumbs: sgCrumbs('useValidation') },
+    },
+    {
+      path: '/styleguide/composables/use-dark-mode',
+      component: UseDarkModePage,
+      meta: { breadcrumbs: sgCrumbs('useDarkMode') },
     },
   ],
 });

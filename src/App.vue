@@ -62,6 +62,11 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
           <SwNavItem label="SwToast" to="/styleguide/components/toast" />
         </SwNavItem>
       </SwNavGroup>
+
+      <SwNavGroup label="Composables">
+        <SwNavItem label="useValidation" to="/styleguide/composables/use-validation" />
+        <SwNavItem label="useDarkMode" to="/styleguide/composables/use-dark-mode" />
+      </SwNavGroup>
     </template>
 
     <RouterView />

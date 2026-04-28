@@ -1,4 +1,4 @@
-import { provide, inject, ref, onMounted, onUnmounted, type Ref } from 'vue';
+import { provide, inject, ref, watchEffect, onMounted, onUnmounted, type Ref } from 'vue';
 import type { ZodType, ZodError } from 'zod';
 import { VALIDATION_KEY, type ValidationChild } from '@/types/validation';
 
@@ -40,23 +40,30 @@ export function useValidation<T = unknown>(
     unregister: (childName) => childrenMap.delete(childName),
   });
 
+  // Continuously re-validate as data changes so isValid is always current.
+  // errors only surface once isDirty is set (e.g. after first explicit validate()).
+  watchEffect(() => {
+    if (!schema || !data) {
+      isValid.value = true;
+      errors.value = [];
+      return;
+    }
+    const result = schema.safeParse(data());
+    isValid.value = result.success;
+    errors.value = isDirty.value && !result.success ? flattenZodErrors(result.error) : [];
+  });
+
   function validate(): Promise<boolean> {
     if (!schema || !data) {
+      isDirty.value = true;
       return Promise.resolve(true);
     }
 
     isDirty.value = true;
     const result = schema.safeParse(data());
-
-    if (result.success) {
-      errors.value = [];
-      isValid.value = true;
-      return Promise.resolve(true);
-    } else {
-      errors.value = flattenZodErrors(result.error);
-      isValid.value = false;
-      return Promise.resolve(false);
-    }
+    isValid.value = result.success;
+    errors.value = result.success ? [] : flattenZodErrors(result.error);
+    return Promise.resolve(isValid.value);
   }
 
   async function validateAll(): Promise<boolean> {
