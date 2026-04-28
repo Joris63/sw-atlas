@@ -48,7 +48,7 @@ const logos: Record<string, string> = {
 </script>
 
 <template>
-  <MarqueeRoot auto-fill spacing="1.5rem" class="sw-marquee" :speed="speed">
+  <MarqueeRoot auto-fill spacing="1.5rem" class="sw-marquee" :speed="speed" pause-on-interaction>
     <MarqueeEdge side="start" class="sw-marquee__edge sw-marquee__edge--start" />
     <MarqueeViewport class="sw-marquee__viewport">
       <MarqueeContent class="sw-marquee__content">

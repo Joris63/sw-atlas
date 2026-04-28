@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { z } from 'zod';
+import type { ZodType } from 'zod';
 import { useValidation } from '@/composables/useValidation';
 import SwInput from '@/components/ui/forms/SwInput.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
@@ -9,13 +10,11 @@ const props = defineProps<{
   name: string;
   label: string;
   placeholder?: string;
-  errorMessage: string;
+  fieldSchema: ZodType<string>;
 }>();
 
 const value = ref('');
-const schema = z.object({
-  value: z.string().min(1, props.errorMessage),
-});
+const schema = z.object({ value: props.fieldSchema });
 
 const { errors, isValid, validate, reset } = useValidation({
   name: props.name,

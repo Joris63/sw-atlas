@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useValidation } from '@/composables/useValidation';
+import { required, email, pattern } from '@/validators/validators';
 import ValidationNestedSection from './ValidationNestedSection.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 
@@ -13,13 +14,19 @@ const { isValid, isDirty, validateAll, reset } = useValidation();
         name="firstName"
         label="First name"
         placeholder="Enter first name"
-        error-message="First name is required"
+        :field-schema="required('First name is required')"
       />
       <ValidationNestedSection
         name="email"
         label="Email address"
         placeholder="Enter email"
-        error-message="Email address is required"
+        :field-schema="email('Must be a valid email address')"
+      />
+      <ValidationNestedSection
+        name="postalCode"
+        label="Postal code"
+        placeholder="e.g. 1234AB"
+        :field-schema="pattern(/^\d{4}[A-Z]{2}$/, 'Invalid postal code (e.g. 1234AB)')"
       />
     </div>
 

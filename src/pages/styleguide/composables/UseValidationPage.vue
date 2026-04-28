@@ -9,7 +9,7 @@ import SwInput from '@/components/ui/forms/SwInput.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 import SwCodeBlock from '@/components/ui/docs/SwCodeBlock.vue';
 import { useValidation } from '@/composables/useValidation';
-import { string as sv } from '@/validators/validators';
+import { email as emailValidator } from '@/validators/validators';
 import ValidationNestedDemo from './demos/ValidationNestedDemo.vue';
 
 const optionsRows = [
@@ -102,7 +102,7 @@ const { errors, isValid, isDirty, validate, reset } = useValidation({
 
 // Validator demo
 const email = ref('');
-const emailSchema = z.object({ email: sv.email('Must be a valid email address') });
+const emailSchema = z.object({ email: emailValidator() });
 const { errors: emailErrors, validate: validateEmail, reset: resetEmail } = useValidation({
   schema: emailSchema,
   data: () => ({ email: email.value }),
@@ -111,65 +111,110 @@ function handleEmailReset() { email.value = ''; resetEmail(); }
 
 // Validator reference rows
 const stringValidatorRows = [
-  { name: 'string.required(message?)', type: 'ZodString', default: 'This field is required', description: 'Fails on empty string.' },
-  { name: 'string.minLength(n, message?)', type: 'ZodString', default: 'Must be at least n characters', description: 'Minimum character count.' },
-  { name: 'string.maxLength(n, message?)', type: 'ZodString', default: 'Must be at most n characters', description: 'Maximum character count.' },
-  { name: 'string.email(message?)', type: 'ZodString', default: 'Must be a valid email address', description: 'Email format check.' },
-  { name: 'string.url(message?)', type: 'ZodString', default: 'Must be a valid URL', description: 'URL format check.' },
-  { name: 'string.pattern(regex, message)', type: 'ZodString', default: '—', description: 'Custom regular expression.' },
+  { name: 'required(message?)', type: 'ZodString', default: 'This field is required', description: 'Fails on empty string.' },
+  { name: 'minLength(n, message?)', type: 'ZodString', default: 'Must be at least n characters', description: 'Minimum character count.' },
+  { name: 'maxLength(n, message?)', type: 'ZodString', default: 'Must be at most n characters', description: 'Maximum character count.' },
+  { name: 'email(message?)', type: 'ZodString', default: 'Must be a valid email address', description: 'Email format check. Implicitly non-empty.' },
+  { name: 'url(message?)', type: 'ZodString', default: 'Must be a valid URL', description: 'URL format check.' },
+  { name: 'alpha(message?)', type: 'ZodString', default: 'Must contain letters only', description: 'Rejects digits and special characters.' },
+  { name: 'alphanumeric(message?)', type: 'ZodString', default: 'Must contain only letters and numbers', description: 'Rejects special characters.' },
+  { name: 'noSpecialChars(message?)', type: 'ZodString', default: 'Special characters are not allowed', description: 'Allows letters, numbers, and spaces.' },
+  { name: 'phone(message?)', type: 'ZodString', default: 'Must be a valid phone number', description: 'Accepts international formats with optional +, spaces, dashes.' },
+  { name: 'slug(message?)', type: 'ZodString', default: 'Must contain only lowercase letters, numbers, and hyphens', description: 'URL-safe slug format.' },
+  { name: 'pattern(regex, message)', type: 'ZodString', default: '—', description: 'Custom regular expression. Message is required.' },
 ];
 
 const numberValidatorRows = [
-  { name: 'number.min(n, message?)', type: 'ZodNumber', default: 'Must be at least n', description: 'Minimum numeric value.' },
-  { name: 'number.max(n, message?)', type: 'ZodNumber', default: 'Must be at most n', description: 'Maximum numeric value.' },
-  { name: 'number.between(min, max, messages?)', type: 'ZodNumber', default: 'Must be at least / at most n', description: 'Inclusive range check. Pass { min, max } to override each message individually.' },
-  { name: 'number.integer(message?)', type: 'ZodNumber', default: 'Must be a whole number', description: 'Rejects decimals.' },
-  { name: 'number.positive(message?)', type: 'ZodNumber', default: 'Must be a positive number', description: 'Must be greater than zero.' },
+  { name: 'minValue(n, message?)', type: 'ZodNumber', default: 'Must be at least n', description: 'Minimum numeric value.' },
+  { name: 'maxValue(n, message?)', type: 'ZodNumber', default: 'Must be at most n', description: 'Maximum numeric value.' },
+  { name: 'between(min, max, messages?)', type: 'ZodNumber', default: 'Must be at least / at most n', description: 'Inclusive range. Pass { min, max } to override each message individually.' },
+  { name: 'integer(message?)', type: 'ZodNumber', default: 'Must be a whole number', description: 'Rejects decimal values.' },
+  { name: 'positive(message?)', type: 'ZodNumber', default: 'Must be a positive number', description: 'Must be greater than zero.' },
+  { name: 'negative(message?)', type: 'ZodNumber', default: 'Must be a negative number', description: 'Must be less than zero.' },
 ];
 
-const validatorBasicCode = `import { string, number } from '@sw-atlas/validators';
+const arrayValidatorRows = [
+  { name: 'nonempty(message?)', type: 'ZodArray', default: 'Must have at least one item', description: 'Array must contain at least one element.' },
+  { name: 'minItems(n, message?)', type: 'ZodArray', default: 'Must have at least n items', description: 'Minimum array length.' },
+  { name: 'maxItems(n, message?)', type: 'ZodArray', default: 'Must have at most n items', description: 'Maximum array length.' },
+];
 
-const schema = z.object({
-  email: string.email(),
-  username: string.required(),
-  age: number.between(0, 120),
+const booleanValidatorRows = [
+  { name: 'accepted(message?)', type: 'ZodBoolean', default: 'Must be accepted', description: 'Value must be true. Use for required checkboxes such as terms and conditions.' },
+];
+
+const validatorBasicCode = `import { required, email, phone, between, accepted } from '@/validators/validators';
+
+const checkoutSchema = z.object({
+  email: email(),
+  phone: phone(),
+  quantity: between(1, 99),
+  terms: accepted('You must accept the terms and conditions'),
 });`;
 
-const validatorChainCode = `import { string, number } from '@sw-atlas/validators';
+const validatorChainCode = `import { required, email, alphanumeric, minValue, nonempty } from '@/validators/validators';
 
-// Validators return ZodString / ZodNumber, so Zod's fluent API chains naturally
+// Each validator returns a Zod type — chain Zod methods directly on the result
 const schema = z.object({
-  // required AND max length
-  name: string.required('Name is required').max(50, 'Too long'),
+  // required enforces non-empty, then Zod bounds apply
+  username: required('Username is required').min(3, 'Too short').max(20, 'Too long'),
 
-  // email with a max length — z.email() returns ZodString, so Zod methods still chain
-  email: string.email('Invalid email').max(100, 'Too long'),
+  // alphanumeric restricts chars, then length bounds
+  productCode: alphanumeric('Letters and numbers only').min(4, 'Too short').max(8, 'Too long'),
 
-  // numeric range with individual overrides
-  price: number.min(0, 'Cannot be negative').max(9999, 'Too high'),
+  // email already implies non-empty, still chainable
+  email: email('Invalid email').max(100, 'Too long'),
+
+  // numeric: positive integer quantity
+  quantity: minValue(1, 'At least 1 required').int('Must be a whole number'),
+
+  // array: at least one category selected, no more than 5
+  categories: nonempty('Select at least one category').max(5, 'Maximum 5 categories'),
 });`;
 
-const validatorI18nCode = `import { string } from '@sw-atlas/validators';
+const validatorI18nCode = `import { required, email, phone, between } from '@/validators/validators';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 
 const schema = z.object({
-  email: string.email(t('validation.email')),
-  name:  string.required(t('validation.required')).max(50, t('validation.max_length', { n: 50 })),
+  name: required(t('validation.required')).max(50, t('validation.max_length', { n: 50 })),
+  email: email(t('validation.email')),
+  phone: phone(t('validation.phone')),
+  quantity: between(1, 99, {
+    min: t('validation.min_value', { n: 1 }),
+    max: t('validation.max_value', { n: 99 }),
+  }),
 });`;
 
-const nestedCode = `// Parent component
-const { validateAll, isValid, reset } = useValidation();
+const nestedCode = `// Parent component — orchestrates all child sections
+const { validateAll, isValid, isDirty } = useValidation();
 
-// Child component — registers with the nearest parent on mount
+// Child: FirstNameSection.vue
+const firstName = ref('');
 useValidation({
-  name: 'firstName',  // name is required to register with a parent
-  schema: firstNameSchema,
+  name: 'firstName',
+  schema: z.object({ value: required('First name is required') }),
   data: () => ({ value: firstName.value }),
 });
 
-// One call validates the entire tree
+// Child: EmailSection.vue
+const emailValue = ref('');
+useValidation({
+  name: 'email',
+  schema: z.object({ value: email('Must be a valid email address') }),
+  data: () => ({ value: emailValue.value }),
+});
+
+// Child: PostalCodeSection.vue
+const postalCode = ref('');
+useValidation({
+  name: 'postalCode',
+  schema: z.object({ value: pattern(/^\\d{4}[A-Z]{2}$/, 'Invalid postal code (e.g. 1234AB)') }),
+  data: () => ({ value: postalCode.value }),
+});
+
+// One call cascades through all registered children
 await validateAll();`;
 </script>
 
@@ -291,6 +336,8 @@ await validateAll();`;
       <div class="sw-use-validation-page__tables">
         <SwPropsTable label="String" icon="type" :rows="stringValidatorRows" />
         <SwPropsTable label="Number" icon="hash" :rows="numberValidatorRows" />
+        <SwPropsTable label="Array" icon="list" :rows="arrayValidatorRows" />
+        <SwPropsTable label="Boolean" icon="toggle-left" :rows="booleanValidatorRows" />
       </div>
 
       <!-- Live demo -->
