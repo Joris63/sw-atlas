@@ -9,6 +9,7 @@ import SwInput from '@/components/ui/forms/SwInput.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 import SwCodeBlock from '@/components/ui/docs/SwCodeBlock.vue';
 import { useValidation } from '@/composables/useValidation';
+import { string as sv } from '@/validators/validators';
 import ValidationNestedDemo from './demos/ValidationNestedDemo.vue';
 
 const optionsRows = [
@@ -97,6 +98,65 @@ const schema = z.object({
 const { errors, isValid, isDirty, validate, reset } = useValidation({
   schema,
   data: () => ({ username: username.value }),
+});`;
+
+// Validator demo
+const email = ref('');
+const emailSchema = z.object({ email: sv.email('Must be a valid email address') });
+const { errors: emailErrors, validate: validateEmail, reset: resetEmail } = useValidation({
+  schema: emailSchema,
+  data: () => ({ email: email.value }),
+});
+function handleEmailReset() { email.value = ''; resetEmail(); }
+
+// Validator reference rows
+const stringValidatorRows = [
+  { name: 'string.required(message?)', type: 'ZodString', default: 'This field is required', description: 'Fails on empty string.' },
+  { name: 'string.minLength(n, message?)', type: 'ZodString', default: 'Must be at least n characters', description: 'Minimum character count.' },
+  { name: 'string.maxLength(n, message?)', type: 'ZodString', default: 'Must be at most n characters', description: 'Maximum character count.' },
+  { name: 'string.email(message?)', type: 'ZodString', default: 'Must be a valid email address', description: 'Email format check.' },
+  { name: 'string.url(message?)', type: 'ZodString', default: 'Must be a valid URL', description: 'URL format check.' },
+  { name: 'string.pattern(regex, message)', type: 'ZodString', default: '—', description: 'Custom regular expression.' },
+];
+
+const numberValidatorRows = [
+  { name: 'number.min(n, message?)', type: 'ZodNumber', default: 'Must be at least n', description: 'Minimum numeric value.' },
+  { name: 'number.max(n, message?)', type: 'ZodNumber', default: 'Must be at most n', description: 'Maximum numeric value.' },
+  { name: 'number.between(min, max, messages?)', type: 'ZodNumber', default: 'Must be at least / at most n', description: 'Inclusive range check. Pass { min, max } to override each message individually.' },
+  { name: 'number.integer(message?)', type: 'ZodNumber', default: 'Must be a whole number', description: 'Rejects decimals.' },
+  { name: 'number.positive(message?)', type: 'ZodNumber', default: 'Must be a positive number', description: 'Must be greater than zero.' },
+];
+
+const validatorBasicCode = `import { string, number } from '@sw-atlas/validators';
+
+const schema = z.object({
+  email: string.email(),
+  username: string.required(),
+  age: number.between(0, 120),
+});`;
+
+const validatorChainCode = `import { string, number } from '@sw-atlas/validators';
+
+// Validators return ZodString / ZodNumber, so Zod's fluent API chains naturally
+const schema = z.object({
+  // required AND max length
+  name: string.required('Name is required').max(50, 'Too long'),
+
+  // email with a max length — z.email() returns ZodString, so Zod methods still chain
+  email: string.email('Invalid email').max(100, 'Too long'),
+
+  // numeric range with individual overrides
+  price: number.min(0, 'Cannot be negative').max(9999, 'Too high'),
+});`;
+
+const validatorI18nCode = `import { string } from '@sw-atlas/validators';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
+const schema = z.object({
+  email: string.email(t('validation.email')),
+  name:  string.required(t('validation.required')).max(50, t('validation.max_length', { n: 50 })),
 });`;
 
 const nestedCode = `// Parent component
@@ -218,6 +278,56 @@ await validateAll();`;
 
       <SwCodeBlock :code="nestedCode" language="ts" :show-toolbar="false" />
     </section>
+
+    <!-- Validators -->
+    <section class="sw-use-validation-page__section">
+      <SwHeading :level="2" size="xl">Validators</SwHeading>
+      <SwText color="muted">
+        Built-in validator factories cover the most common cases. Each returns a Zod type, so you
+        can keep chaining Zod methods on the result. Pass an optional message to override the
+        default — or pass a translated string from your i18n setup.
+      </SwText>
+
+      <div class="sw-use-validation-page__tables">
+        <SwPropsTable label="String" icon="type" :rows="stringValidatorRows" />
+        <SwPropsTable label="Number" icon="hash" :rows="numberValidatorRows" />
+      </div>
+
+      <!-- Live demo -->
+      <div class="sw-use-validation-page__demo-card">
+        <div class="sw-use-validation-page__demo-card-body">
+          <div class="sw-use-validation-page__demo-card-form">
+            <SwInput
+              v-model="email"
+              label="Email"
+              placeholder="Enter an email address"
+              :error="emailErrors[0]"
+            />
+            <div class="sw-use-validation-page__demo-card-actions">
+              <SwButton label="Validate" size="sm" @click="validateEmail" />
+              <SwButton label="Reset" size="sm" variant="outline" @click="handleEmailReset" />
+            </div>
+          </div>
+          <div class="sw-use-validation-page__demo-card-state">
+            <div class="sw-use-validation-page__state-row sw-use-validation-page__state-row--top">
+              <code class="sw-use-validation-page__state-key">schema</code>
+              <code class="sw-use-validation-page__state-schema">string.email()</code>
+            </div>
+            <div class="sw-use-validation-page__state-row sw-use-validation-page__state-row--top">
+              <code class="sw-use-validation-page__state-key">errors</code>
+              <div v-if="emailErrors.length === 0" class="sw-use-validation-page__state-empty">[ ]</div>
+              <ul v-else class="sw-use-validation-page__state-errors">
+                <li v-for="e in emailErrors" :key="e" class="sw-use-validation-page__state-error">{{ e }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <SwCodeBlock :code="validatorBasicCode" language="ts" :show-toolbar="false" />
+      <SwCodeBlock :code="validatorChainCode" language="ts" :show-toolbar="false" />
+      <SwCodeBlock :code="validatorI18nCode" language="ts" :show-toolbar="false" />
+    </section>
   </SwPage>
 </template>
 
@@ -291,6 +401,10 @@ await validateAll();`;
 
 .sw-use-validation-page__state-badge--inactive {
   @apply text-text-muted bg-surface-hover;
+}
+
+.sw-use-validation-page__state-schema {
+  @apply text-xs font-mono text-primary;
 }
 
 .sw-use-validation-page__state-empty {

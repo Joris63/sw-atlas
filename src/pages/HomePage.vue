@@ -2,6 +2,25 @@
 import SwHeading from '@/components/ui/typography/SwHeading.vue';
 import SwText from '@/components/ui/typography/SwText.vue';
 import SwIcon from '@/components/ui/SwIcon.vue';
+import SwMarquee from '@/components/ui/display/SwMarquee.vue';
+import { useDarkMode } from '@/composables/useDarkMode';
+import { computed } from 'vue';
+
+const { isDark } = useDarkMode();
+
+const marqueeItems = computed(() => [
+  { name: 'Vue 3', logo: 'vue' },
+  { name: 'Vite', logo: 'vite' },
+  { name: 'TypeScript', logo: 'typescript' },
+  { name: 'JavaScript', logo: 'javascript' },
+  { name: 'Ark UI', logo: 'ark-ui' },
+  { name: 'TailwindCSS', logo: 'tailwindcss' },
+  { name: 'Zod', logo: 'zod' },
+  { name: 'Shiki', logo: 'shiki' },
+  { name: 'Lucide', logo: `lucide-${isDark.value ? 'dark' : 'light'}` },
+  { name: 'ESLint', logo: `eslint-${isDark.value ? 'dark' : 'light'}` },
+  { name: 'Prettier', logo: `prettier-${isDark.value ? 'dark' : 'light'}` },
+]);
 
 const pillars = [
   {
@@ -38,6 +57,11 @@ const pillars = [
       </SwText>
     </div>
 
+    <div class="home__marquee">
+      <SwText size="sm" color="subtle" class="home__marquee-label">Built with</SwText>
+      <SwMarquee :items="marqueeItems" :speed="75" />
+    </div>
+
     <div class="home__pillars">
       <div v-for="p in pillars" :key="p.title" class="pillar">
         <div class="pillar__icon-wrap">
@@ -56,7 +80,7 @@ const pillars = [
 @reference "../styles/tailwind.css";
 
 .home {
-  @apply flex flex-col gap-12;
+  @apply flex flex-col gap-8;
 }
 
 .home__hero {
@@ -65,6 +89,14 @@ const pillars = [
 
 .home__eyebrow {
   @apply font-mono tracking-wide uppercase;
+}
+
+.home__marquee {
+  @apply flex flex-col gap-1.5;
+}
+
+.home__marquee-label {
+  @apply font-mono tracking-wide uppercase text-xs;
 }
 
 .home__pillars {
