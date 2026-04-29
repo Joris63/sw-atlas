@@ -45,6 +45,7 @@ const ICON_MAP: Record<string, string> = {
   warning: 'triangle-alert',
   info: 'info',
   default: 'circle',
+  success: 'check',
 };
 </script>
 
@@ -63,7 +64,10 @@ const ICON_MAP: Record<string, string> = {
       <DialogBackdrop class="sw-dialog__backdrop" />
       <DialogPositioner class="sw-dialog__positioner">
         <DialogContent
-          :class="['sw-dialog__content', isPresetWidth ? `sw-dialog__content--${props.width}` : null]"
+          :class="[
+            'sw-dialog__content',
+            isPresetWidth ? `sw-dialog__content--${props.width}` : null,
+          ]"
           :style="!isPresetWidth ? { maxWidth: props.width } : undefined"
         >
           <header class="sw-dialog__header" :class="description ? 'items-start' : 'items-center'">
@@ -141,9 +145,15 @@ const ICON_MAP: Record<string, string> = {
          w-full overflow-hidden;
 }
 
-.sw-dialog__content--sm { max-width: 22rem; }
-.sw-dialog__content--md { max-width: 28rem; }
-.sw-dialog__content--lg { max-width: 36rem; }
+.sw-dialog__content--sm {
+  max-width: 22rem;
+}
+.sw-dialog__content--md {
+  max-width: 28rem;
+}
+.sw-dialog__content--lg {
+  max-width: 36rem;
+}
 
 .sw-dialog__content[data-state='open'] {
   animation: sw-dialog-content-in 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -170,14 +180,16 @@ const ICON_MAP: Record<string, string> = {
   @apply flex items-center justify-center shrink-0 w-10 h-10 rounded-full;
 }
 
+.sw-dialog__icon--success {
+  @apply bg-success-subtle text-success-strong;
+}
+
 .sw-dialog__icon--danger {
-  background: var(--danger-subtle);
-  color: var(--danger);
+  @apply bg-danger-subtle text-danger-strong;
 }
 
 .sw-dialog__icon--warning {
-  background: var(--warning-subtle);
-  color: var(--warning);
+  @apply bg-warning-subtle text-warning-strong;
 }
 
 .sw-dialog__icon--info {

@@ -44,11 +44,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   },
   {
     name: 'variant',
-    type: "'default' | 'danger' | 'warning' | 'info'",
+    type: "'default' | 'success' | 'danger' | 'warning' | 'info'",
     default: 'default',
     description: 'Sets the icon and primary action color.',
     control: 'select',
-    options: ['default', 'danger', 'warning', 'info'],
+    options: ['default', 'success', 'danger', 'warning', 'info'],
     initialValue: 'danger',
     category: 'appearance',
   },
