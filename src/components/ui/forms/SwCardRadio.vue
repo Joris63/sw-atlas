@@ -244,6 +244,7 @@ onMounted(() => {
 /* Bullseye (pill radio indicator) */
 .sw-cr-bullseye {
   @apply block w-5 h-5 rounded-full border-2 border-border bg-surface transition-all duration-200;
+  transition: border-width 75ms ease-in-out;
 }
 
 .sw-card-radio--pill .sw-cr-item[data-state='checked'] .sw-cr-bullseye {
