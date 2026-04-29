@@ -12,7 +12,7 @@ import {
   SelectValueText,
   createListCollection,
 } from '@ark-ui/vue';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 import SwField from './SwField.vue';
 
 export interface SwSelectOption {
@@ -65,7 +65,7 @@ const isInvalid = computed(() => {
   if (!props.error) {
     return false;
   }
-  
+
   return Array.isArray(props.error) ? props.error.length > 0 : props.error.length > 0;
 });
 </script>

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { computed, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 import SwCodeBlock from './SwCodeBlock.vue';
 import SwInputText from '../forms/SwInputText.vue';
 import SwSwitch from '../forms/SwSwitch.vue';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from './SwIcon.vue';
 
 interface Props {
   variant?: 'neutral' | 'primary' | 'success' | 'warning' | 'danger';

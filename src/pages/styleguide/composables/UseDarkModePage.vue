@@ -19,8 +19,7 @@ const returnsRows = [
   {
     name: 'toggle',
     type: '() => void',
-    description:
-      'Flips isDark and persists the choice to localStorage under the key "sw-theme".',
+    description: 'Flips isDark and persists the choice to localStorage under the key "sw-theme".',
   },
 ];
 

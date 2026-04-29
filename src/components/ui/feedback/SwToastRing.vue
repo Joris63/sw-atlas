@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 
 const props = withDefaults(defineProps<{ duration?: number; variant: string }>(), {
   duration: 5000,

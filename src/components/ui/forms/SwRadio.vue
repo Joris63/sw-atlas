@@ -7,7 +7,7 @@ import {
   RadioGroupItemText,
   RadioGroupItemHiddenInput,
 } from '@ark-ui/vue';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 import SwField from './SwField.vue';
 
 export interface SwRadioOption {
@@ -56,7 +56,7 @@ const isInvalid = computed(() => {
 onMounted(() => {
   if (!props.modelValue && props.options.length > 0) {
     const first = props.options.find((o) => !o.disabled);
-    
+
     if (first) {
       emit('update:modelValue', first.value);
     }

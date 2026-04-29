@@ -6,7 +6,7 @@ import {
   CheckboxHiddenInput,
   CheckboxLabel,
 } from '@ark-ui/vue';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 import SwLabel from '@/components/ui/typography/SwLabel.vue';
 
 interface Props {

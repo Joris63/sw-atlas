@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Toaster, ToastRoot, ToastCloseTrigger } from '@ark-ui/vue';
 import { toaster } from '@/composables/useToast';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 import SwToastRing from './SwToastRing.vue';
 
 const ICON_MAP: Record<string, string> = {

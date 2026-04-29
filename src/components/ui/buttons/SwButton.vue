@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, type Component } from 'vue';
-import SwIcon from '../SwIcon.vue';
+import SwIcon from '../display/SwIcon.vue';
 
 interface Props {
   label: string;
