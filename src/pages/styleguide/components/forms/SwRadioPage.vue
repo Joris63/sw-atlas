@@ -9,7 +9,7 @@ const selected = ref('standard');
 
 const optionPresets: PlaygroundPreset[] = [
   {
-    label: 'Basic',
+    label: 'Three options',
     value: [
       { value: 'standard', label: 'Standard plan' },
       { value: 'business', label: 'Business plan' },
@@ -17,18 +17,18 @@ const optionPresets: PlaygroundPreset[] = [
     ],
   },
   {
-    label: 'With descriptions',
-    value: [
-      { value: 'standard', label: 'Standard plan', description: 'Up to 5 users, 10 GB storage' },
-      { value: 'business', label: 'Business plan', description: 'Up to 50 users, 100 GB storage' },
-      { value: 'enterprise', label: 'Enterprise plan', description: 'Unlimited users and storage' },
-    ],
-  },
-  {
     label: 'Two options',
     value: [
       { value: 'yes', label: 'Yes' },
       { value: 'no', label: 'No' },
+    ],
+  },
+  {
+    label: 'With disabled',
+    value: [
+      { value: 'standard', label: 'Standard plan' },
+      { value: 'business', label: 'Business plan', disabled: true },
+      { value: 'enterprise', label: 'Enterprise plan' },
     ],
   },
 ];
@@ -43,22 +43,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'options',
     type: 'SwRadioOption[]',
-    description:
-      'The list of radio options. Each option can have a label and optional description.',
+    description: 'The list of radio options.',
     control: 'preset',
     presets: optionPresets,
     initialValue: optionPresets[0]?.value,
     category: 'content',
-  },
-  {
-    name: 'variant',
-    type: "'default' | 'card'",
-    default: 'default',
-    description:
-      'Visual style. Card variant shows options as bordered cards with description support.',
-    control: 'select',
-    options: ['default', 'card'],
-    category: 'appearance',
   },
   {
     name: 'label',
@@ -81,7 +70,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'error',
     type: 'string | string[]',
     default: '',
-    description: 'Error message(s) shown below the radio group. Also marks the field as invalid.',
+    description: 'Error message shown below the radio group.',
     control: 'text',
     category: 'validation',
   },
@@ -90,14 +79,6 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: 'boolean',
     default: false,
     description: 'Marks the field as required.',
-    control: 'toggle',
-    category: 'validation',
-  },
-  {
-    name: 'invalid',
-    type: 'boolean',
-    default: false,
-    description: 'Forces the invalid visual state independently of the error prop.',
     control: 'toggle',
     category: 'validation',
   },
@@ -113,23 +94,17 @@ const playgroundConfig: PlaygroundPropConfig[] = [
 </script>
 
 <template>
-  <SwPage
-    title="SwRadio"
-    description="A radio group built on Ark UI. Supports a default inline style and a card variant with optional descriptions."
-  >
+  <SwPage title="SwRadio" description="A simple radio group for selecting one option from a list.">
     <SwPlayground :props-config="playgroundConfig" component-name="SwRadio">
       <template #default="{ values }">
         <SwRadio
           v-model="selected"
           :options="values.options"
-          :variant="values.variant"
           :label="values.label"
           :error="values.error"
           :help-text="values.helpText"
           :required="values.required"
-          :invalid="values.invalid"
           :disabled="values.disabled"
-          class="w-full max-w-sm"
         />
       </template>
     </SwPlayground>

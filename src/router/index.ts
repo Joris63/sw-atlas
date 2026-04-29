@@ -28,6 +28,7 @@ import SwInputTextPage from '@/pages/styleguide/components/forms/SwInputTextPage
 import SwSwitchPage from '@/pages/styleguide/components/forms/SwSwitchPage.vue';
 import SwCheckboxPage from '@/pages/styleguide/components/forms/SwCheckboxPage.vue';
 import SwRadioPage from '@/pages/styleguide/components/forms/SwRadioPage.vue';
+import SwCardRadioPage from '@/pages/styleguide/components/forms/SwCardRadioPage.vue';
 import SwSelectPage from '@/pages/styleguide/components/forms/SwSelectPage.vue';
 import SwTextareaPage from '@/pages/styleguide/components/forms/SwTextareaPage.vue';
 import SwNumberInputPage from '@/pages/styleguide/components/forms/SwNumberInputPage.vue';
@@ -155,6 +156,11 @@ const router = createRouter({
       path: '/styleguide/components/radio',
       component: SwRadioPage,
       meta: { breadcrumbs: sgCrumbs('SwRadio') },
+    },
+    {
+      path: '/styleguide/components/card-radio',
+      component: SwCardRadioPage,
+      meta: { breadcrumbs: sgCrumbs('SwCardRadio') },
     },
     {
       path: '/styleguide/components/select',

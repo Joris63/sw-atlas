@@ -42,6 +42,7 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
           <SwNavItem label="SwSwitch" to="/styleguide/components/switch" />
           <SwNavItem label="SwCheckbox" to="/styleguide/components/checkbox" />
           <SwNavItem label="SwRadio" to="/styleguide/components/radio" />
+          <SwNavItem label="SwCardRadio" to="/styleguide/components/card-radio" />
           <SwNavItem label="SwSelect" to="/styleguide/components/select" />
           <SwNavItem label="SwNumberInput" to="/styleguide/components/number-input" />
         </SwNavItem>
