@@ -45,7 +45,7 @@ withDefaults(defineProps<Props>(), {
          transition-colors duration-150;
 }
 
-.sw-accordion-item__trigger:hover {
+.sw-accordion-item__trigger:not(:disabled):hover {
   @apply bg-surface-subtle;
 }
 

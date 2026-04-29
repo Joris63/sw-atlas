@@ -28,7 +28,8 @@ export interface PlaygroundPropConfig {
   initialValue?: any;
   isSlotContent?: boolean;
   isNumeric?: boolean;
-  category?: 'content' | 'appearance' | 'field' | 'validation' | 'state' | 'advanced';
+  component?: string;
+  category?: string;
   showWhen?: (values: Record<string, any>) => boolean;
 }
 
@@ -37,21 +38,33 @@ const props = defineProps<{
   componentName: string;
   previewClass?: string;
   stacked?: boolean;
-  customCode?: string;
+  customCode?: string | ((values: Record<string, any>) => string);
   language?: string;
   overrides?: Record<string, any>;
+  categoryLabels?: Record<string, string>;
+  componentLabels?: Record<string, string>;
 }>();
 
-const CATEGORY_LABELS: Record<string, string> = {
+const DEFAULT_CATEGORY_LABELS: Record<string, string> = {
   content: 'Content',
   appearance: 'Appearance',
   field: 'Field',
   validation: 'Validation',
   state: 'State',
   advanced: 'Advanced',
+  playground: 'Playground example',
 };
 
-const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
+const CATEGORY_LABELS = computed(() => ({
+  ...DEFAULT_CATEGORY_LABELS,
+  ...props.categoryLabels,
+}));
+
+const CATEGORY_ORDER = computed(() => {
+  const custom = Object.keys(props.categoryLabels ?? {});
+  const defaults = Object.keys(DEFAULT_CATEGORY_LABELS);
+  return [...custom, ...defaults.filter((k) => !custom.includes(k))];
+});
 
 const route = useRoute();
 
@@ -178,13 +191,71 @@ const grouped = computed((): [string, PlaygroundPropConfig[]][] => {
       map.set(cat, [p]);
     }
   }
-  return CATEGORY_ORDER.flatMap((c) => {
+  return CATEGORY_ORDER.value.flatMap((c) => {
     const items = map.get(c);
     return items ? [[c, items] as [string, PlaygroundPropConfig[]]] : [];
   });
 });
 
+// Two-level grouping: component → categories → props
+const hasComponents = computed(() => props.propsConfig.some((p) => p.component));
+
+interface ComponentGroup {
+  key: string;
+  label: string;
+  categories: [string, PlaygroundPropConfig[]][];
+}
+
+const groupedByComponent = computed((): ComponentGroup[] => {
+  const compMap = new Map<string, Map<string, PlaygroundPropConfig[]>>();
+  const compOrder: string[] = [];
+
+  for (const p of visibleProps.value) {
+    const comp = p.component ?? '';
+    const cat = p.category ?? '';
+
+    let catMap = compMap.get(comp);
+    if (!catMap) {
+      catMap = new Map();
+      compMap.set(comp, catMap);
+      compOrder.push(comp);
+    }
+    let catProps = catMap.get(cat);
+    if (!catProps) {
+      catProps = [];
+      catMap.set(cat, catProps);
+    }
+    catProps.push(p);
+  }
+
+  return compOrder.map((compKey) => {
+    const catMap = compMap.get(compKey) ?? new Map<string, PlaygroundPropConfig[]>();
+    const categories: [string, PlaygroundPropConfig[]][] = CATEGORY_ORDER.value.flatMap((c) => {
+      const ps = catMap.get(c);
+      return ps ? [[c, ps] as [string, PlaygroundPropConfig[]]] : [];
+    });
+    for (const [c, ps] of catMap.entries()) {
+      if (!CATEGORY_ORDER.value.includes(c)) {
+        categories.push([c, ps]);
+      }
+    }
+    return {
+      key: compKey,
+      label: props.componentLabels?.[compKey] ?? compKey,
+      categories,
+    };
+  });
+});
+
 const controlCount = computed(() => props.propsConfig.filter((p) => p.control !== 'none').length);
+
+const selectedComponent = ref(groupedByComponent.value[0]?.key ?? '');
+
+const activeComponentGroup = computed(
+  () =>
+    groupedByComponent.value.find((g) => g.key === selectedComponent.value) ??
+    groupedByComponent.value[0],
+);
 
 const collapsedCategories = ref<Set<string>>(new Set());
 
@@ -196,15 +267,43 @@ function toggleCategory(cat: string) {
   }
 }
 
-function toggleAllCategories() {
-  if (collapsedCategories.value.size > 0) {
-    collapsedCategories.value.clear();
+function toggleAllCategoriesInsideCurrentComponent() {
+  const currentComponentGroup = groupedByComponent.value.find(
+    ({ key }) => key === selectedComponent.value,
+  );
+
+  if (!currentComponentGroup) {
+    return;
+  }
+
+  const collapsedCategoriesAsArray = [...collapsedCategories.value];
+  if (collapsedCategoriesAsArray.filter((v) => v.includes(currentComponentGroup.key)).length > 0) {
+    collapsedCategories.value = new Set(
+      collapsedCategoriesAsArray.filter((v) => !v.includes(currentComponentGroup.key)),
+    );
   } else {
-    grouped.value.forEach(([cat]) => {
-      if (!collapsedCategories.value.has(cat)) {
-        collapsedCategories.value.add(cat);
+    currentComponentGroup.categories.forEach(([cat]) => {
+      const catName = `${currentComponentGroup.key}:${cat}`;
+      if (!collapsedCategories.value.has(catName)) {
+        collapsedCategories.value.add(catName);
       }
     });
+  }
+}
+
+function toggleAllCategories() {
+  if (!hasComponents.value) {
+    if (collapsedCategories.value.size > 0) {
+      collapsedCategories.value.clear();
+    } else {
+      grouped.value.forEach(([cat]) => {
+        if (!collapsedCategories.value.has(cat)) {
+          collapsedCategories.value.add(cat);
+        }
+      });
+    }
+  } else {
+    toggleAllCategoriesInsideCurrentComponent();
   }
 }
 
@@ -295,10 +394,17 @@ const codeString = computed(() => {
   return `<${props.componentName}\n  ${parts.join('\n  ')}\n/>`;
 });
 
+const resolvedCode = computed(() => {
+  if (!props.customCode) {
+    return codeString.value;
+  }
+  return typeof props.customCode === 'function' ? props.customCode(values) : props.customCode;
+});
+
 const copied = ref(false);
 
 async function copyCode() {
-  await navigator.clipboard.writeText(props.customCode ?? codeString.value);
+  await navigator.clipboard.writeText(resolvedCode.value);
   copied.value = true;
   setTimeout(() => {
     copied.value = false;
@@ -340,71 +446,165 @@ async function copyCode() {
           </div>
         </div>
 
-        <div class="sw-playground__controls-list">
-          <template v-for="[cat, catProps] in grouped" :key="cat">
-            <button v-if="cat" class="sw-playground__category-header" @click="toggleCategory(cat)">
-              {{ CATEGORY_LABELS[cat] }}
-              <SwIcon
-                name="chevron-down"
-                :size="11"
-                class="sw-playground__category-chevron"
-                :class="{
-                  'sw-playground__category-chevron--collapsed': collapsedCategories.has(cat),
-                }"
-              />
-            </button>
-            <div
-              v-for="p in catProps"
-              v-show="!cat || !collapsedCategories.has(cat)"
-              :key="p.name"
-              class="sw-playground__prop"
-              :class="{ 'sw-playground__prop--none': p.control === 'none' }"
-            >
-              <!-- Prop label row -->
-              <div class="sw-playground__prop-header">
-                <span class="sw-playground__prop-label">{{ getLabel(p) }}</span>
-                <span v-if="p.required" class="sw-playground__required">*</span>
-                <span v-if="p.isSlotContent" class="sw-playground__slot-badge">slot</span>
-                <SwTooltip v-if="getTooltip(p)" placement="right" :open-delay="200">
-                  <button class="sw-playground__info-btn">
-                    <SwIcon name="info" :size="13" />
-                  </button>
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <template #content><span v-html="getTooltip(p)" /></template>
-                </SwTooltip>
-              </div>
+        <!-- Component tabs -->
+        <div v-if="hasComponents" class="sw-playground__component-tabs">
+          <button
+            v-for="group in groupedByComponent"
+            :key="group.key"
+            :class="[
+              'sw-playground__component-tab',
+              { 'sw-playground__component-tab--active': selectedComponent === group.key },
+            ]"
+            @click="selectedComponent = group.key"
+          >
+            {{ group.label }}
+          </button>
+        </div>
 
-              <!-- Control -->
-              <div v-if="p.control !== 'none'" class="sw-playground__prop-control">
-                <SwInputText
-                  v-if="p.control === 'text'"
-                  v-model="values[p.name]"
-                  size="sm"
-                  :placeholder="p.default !== undefined ? String(p.default) : ''"
+        <div class="sw-playground__controls-list">
+          <!-- Component-grouped mode: show only active component's categories -->
+          <template v-if="hasComponents">
+            <template
+              v-for="[cat, catProps] in activeComponentGroup?.categories ?? []"
+              :key="`${selectedComponent}:${cat}`"
+            >
+              <button
+                v-if="cat"
+                class="sw-playground__category-header"
+                @click="toggleCategory(`${selectedComponent}:${cat}`)"
+              >
+                {{ CATEGORY_LABELS[cat] }}
+                <SwIcon
+                  name="chevron-down"
+                  :size="11"
+                  class="sw-playground__category-chevron"
+                  :class="{
+                    'sw-playground__category-chevron--collapsed': collapsedCategories.has(
+                      `${selectedComponent}:${cat}`,
+                    ),
+                  }"
                 />
-                <SwSelect
-                  v-else-if="p.control === 'select'"
-                  v-model="values[p.name]"
-                  size="sm"
-                  :options="(p.options ?? []).map((o) => ({ value: o, label: o }))"
-                />
-                <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
-                <SwIconInput v-else-if="p.control === 'icon'" v-model="values[p.name]" />
-                <div v-else-if="p.control === 'preset'" class="sw-playground__presets">
-                  <button
-                    v-for="(preset, i) in p.presets"
-                    :key="i"
-                    :class="[
-                      'sw-playground__preset-chip',
-                      { 'sw-playground__preset-chip--active': selectedPresetIndex[p.name] === i },
-                    ]"
-                    @click="selectPreset(p, i)"
-                  >
-                    {{ preset.label }}
-                  </button>
+              </button>
+              <div
+                v-for="p in catProps"
+                v-show="!cat || !collapsedCategories.has(`${selectedComponent}:${cat}`)"
+                :key="p.name"
+                class="sw-playground__prop"
+                :class="{ 'sw-playground__prop--none': p.control === 'none' }"
+              >
+                <div class="sw-playground__prop-header">
+                  <span class="sw-playground__prop-label">{{ getLabel(p) }}</span>
+                  <span v-if="p.required" class="sw-playground__required">*</span>
+                  <span v-if="p.isSlotContent" class="sw-playground__slot-badge">slot</span>
+                  <SwTooltip v-if="getTooltip(p)" placement="right" :open-delay="200">
+                    <button class="sw-playground__info-btn">
+                      <SwIcon name="info" :size="13" />
+                    </button>
+                    <!-- eslint-disable-next-line vue/no-v-html -->
+                    <template #content><span v-html="getTooltip(p)" /></template>
+                  </SwTooltip>
+                </div>
+                <div v-if="p.control !== 'none'" class="sw-playground__prop-control">
+                  <SwInputText
+                    v-if="p.control === 'text'"
+                    v-model="values[p.name]"
+                    size="sm"
+                    :placeholder="p.default !== undefined ? String(p.default) : ''"
+                  />
+                  <SwSelect
+                    v-else-if="p.control === 'select'"
+                    v-model="values[p.name]"
+                    size="sm"
+                    :options="(p.options ?? []).map((o) => ({ value: o, label: o }))"
+                  />
+                  <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
+                  <SwIconInput v-else-if="p.control === 'icon'" v-model="values[p.name]" />
+                  <div v-else-if="p.control === 'preset'" class="sw-playground__presets">
+                    <button
+                      v-for="(preset, i) in p.presets"
+                      :key="i"
+                      :class="[
+                        'sw-playground__preset-chip',
+                        { 'sw-playground__preset-chip--active': selectedPresetIndex[p.name] === i },
+                      ]"
+                      @click="selectPreset(p, i)"
+                    >
+                      {{ preset.label }}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </template>
+          </template>
+
+          <!-- Flat mode -->
+          <template v-else>
+            <template v-for="[cat, catProps] in grouped" :key="cat">
+              <button
+                v-if="cat"
+                class="sw-playground__category-header"
+                @click="toggleCategory(cat)"
+              >
+                {{ CATEGORY_LABELS[cat] }}
+                <SwIcon
+                  name="chevron-down"
+                  :size="11"
+                  class="sw-playground__category-chevron"
+                  :class="{
+                    'sw-playground__category-chevron--collapsed': collapsedCategories.has(cat),
+                  }"
+                />
+              </button>
+              <div
+                v-for="p in catProps"
+                v-show="!cat || !collapsedCategories.has(cat)"
+                :key="p.name"
+                class="sw-playground__prop"
+                :class="{ 'sw-playground__prop--none': p.control === 'none' }"
+              >
+                <div class="sw-playground__prop-header">
+                  <span class="sw-playground__prop-label">{{ getLabel(p) }}</span>
+                  <span v-if="p.required" class="sw-playground__required">*</span>
+                  <span v-if="p.isSlotContent" class="sw-playground__slot-badge">slot</span>
+                  <SwTooltip v-if="getTooltip(p)" placement="right" :open-delay="200">
+                    <button class="sw-playground__info-btn">
+                      <SwIcon name="info" :size="13" />
+                    </button>
+                    <!-- eslint-disable-next-line vue/no-v-html -->
+                    <template #content><span v-html="getTooltip(p)" /></template>
+                  </SwTooltip>
+                </div>
+                <div v-if="p.control !== 'none'" class="sw-playground__prop-control">
+                  <SwInputText
+                    v-if="p.control === 'text'"
+                    v-model="values[p.name]"
+                    size="sm"
+                    :placeholder="p.default !== undefined ? String(p.default) : ''"
+                  />
+                  <SwSelect
+                    v-else-if="p.control === 'select'"
+                    v-model="values[p.name]"
+                    size="sm"
+                    :options="(p.options ?? []).map((o) => ({ value: o, label: o }))"
+                  />
+                  <SwSwitch v-else-if="p.control === 'toggle'" v-model="values[p.name]" />
+                  <SwIconInput v-else-if="p.control === 'icon'" v-model="values[p.name]" />
+                  <div v-else-if="p.control === 'preset'" class="sw-playground__presets">
+                    <button
+                      v-for="(preset, i) in p.presets"
+                      :key="i"
+                      :class="[
+                        'sw-playground__preset-chip',
+                        { 'sw-playground__preset-chip--active': selectedPresetIndex[p.name] === i },
+                      ]"
+                      @click="selectPreset(p, i)"
+                    >
+                      {{ preset.label }}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </template>
           </template>
         </div>
       </div>
@@ -432,7 +632,7 @@ async function copyCode() {
           </button>
         </div>
       </div>
-      <SwCodeBlock :code="customCode ?? codeString" :language="language" :show-toolbar="false" />
+      <SwCodeBlock :code="resolvedCode" :language="language" :show-toolbar="false" />
     </div>
   </div>
 </template>
@@ -485,6 +685,25 @@ async function copyCode() {
   @apply flex items-center justify-center w-6 h-6 rounded-md
          text-text-subtle hover:text-text hover:bg-surface-hover
          cursor-pointer transition-colors;
+}
+
+/* ---- Component tabs ---- */
+.sw-playground__component-tabs {
+  @apply flex border-b border-border;
+}
+
+.sw-playground__component-tab {
+  @apply px-4 py-2.5 text-[11px] font-mono font-semibold text-text-subtle
+         border-b-2 border-transparent -mb-px
+         cursor-pointer select-none transition-colors duration-150;
+}
+
+.sw-playground__component-tab:hover {
+  @apply text-text;
+}
+
+.sw-playground__component-tab--active {
+  @apply text-primary border-primary;
 }
 
 /* ---- Category header ---- */
