@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SwIcon from '@/components/ui/SwIcon.vue';
+import SwIcon from '@/components/ui/display/SwIcon.vue';
 
 interface Item {
   label: string;

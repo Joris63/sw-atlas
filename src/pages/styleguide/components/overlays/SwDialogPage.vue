@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import SwPage from '@/components/layout/SwPage.vue';
-import SwDrawer from '@/components/ui/overlays/SwDrawer.vue';
+import SwDialog from '@/components/ui/overlays/SwDialog.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
@@ -12,53 +12,51 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'open',
     type: 'boolean',
-    description: 'Controls the open state of the drawer. Bind with v-model:open.',
+    description: 'Controls the open state of the dialog. Bind with v-model:open.',
     control: 'none',
   },
   {
     name: 'title',
     type: 'string',
     default: '',
-    description: 'Title shown in the drawer header. Also accepts a #title slot for rich content.',
+    description: 'Title displayed at the top of the dialog.',
     control: 'text',
-    initialValue: 'User settings',
+    initialValue: 'Are you sure?',
     category: 'content',
   },
   {
     name: 'description',
     type: 'string',
     default: '',
-    description: 'Subtext below the title. Also used by screen readers as the dialog description.',
+    description: 'Supporting text shown below the title.',
     control: 'text',
-    initialValue: 'Manage your account preferences and personal information.',
+    initialValue: 'This action cannot be undone. Please confirm you want to proceed.',
     category: 'content',
-  },
-  {
-    name: 'side',
-    type: "'right' | 'left'",
-    default: 'right',
-    description: 'Which side the drawer slides in from.',
-    control: 'select',
-    options: ['right', 'left'],
-    initialValue: 'right',
-    category: 'appearance',
   },
   {
     name: 'width',
     type: "'sm' | 'md' | 'lg' | string",
     default: 'md',
-    description:
-      "Width of the drawer panel. Accepts 'sm', 'md', 'lg' or any CSS value (e.g. '500px').",
+    description: "Width of the dialog. Accepts 'sm', 'md', 'lg' or any CSS value (e.g. '500px').",
     control: 'text',
     initialValue: 'md',
+    category: 'appearance',
+  },
+  {
+    name: 'variant',
+    type: "'default' | 'danger' | 'warning' | 'info'",
+    default: 'default',
+    description: 'Sets the icon and primary action color.',
+    control: 'select',
+    options: ['default', 'danger', 'warning', 'info'],
+    initialValue: 'danger',
     category: 'appearance',
   },
   {
     name: 'persistent',
     type: 'boolean',
     default: false,
-    description:
-      'Disable closing via backdrop click or Escape. Useful for forms with unsaved changes.',
+    description: 'Disable closing via backdrop click or Escape.',
     control: 'toggle',
     category: 'advanced',
   },
@@ -75,21 +73,23 @@ const playgroundConfig: PlaygroundPropConfig[] = [
 
 <template>
   <SwPage
-    title="SwDrawer"
-    description="A side panel that slides in from the left or right. Content and footer are composed via named slots."
+    title="SwDialog"
+    description="A modal dialog for confirmations, alerts, and focused interactions. Supports danger, warning, and info variants with an optional confirmation input."
   >
-    <SwPlayground :props-config="playgroundConfig" component-name="SwDrawer">
+    <SwPlayground :props-config="playgroundConfig" component-name="SwDialog">
       <template #default="{ values }">
-        <SwButton label="Open drawer" variant="outline" @click="isOpen = true" />
+        <SwButton label="Open dialog" variant="outline" @click="isOpen = true" />
 
-        <SwDrawer
+        <SwDialog
           v-model:open="isOpen"
           :title="values.title"
           :description="values.description || undefined"
-          :side="values.side"
           :width="values.width"
+          :variant="values.variant"
+          :confirm-slug="values.confirmSlug || undefined"
           :persistent="values.persistent"
           :lazy="values.lazy"
+          @confirm="isOpen = false"
         >
           <p class="text-sm text-text-muted">
             Drawer content goes here. Use the default slot to render anything inside the body.
@@ -97,9 +97,9 @@ const playgroundConfig: PlaygroundPropConfig[] = [
 
           <template #footer>
             <SwButton label="Cancel" variant="ghost" @click="isOpen = false" />
-            <SwButton label="Save changes" @click="isOpen = false" />
+            <SwButton label="Delete changes" variant="danger" @click="isOpen = false" />
           </template>
-        </SwDrawer>
+        </SwDialog>
       </template>
     </SwPlayground>
   </SwPage>

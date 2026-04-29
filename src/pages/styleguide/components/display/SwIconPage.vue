@@ -2,7 +2,7 @@
 import * as icons from 'lucide-vue-next';
 import { ref, computed, watch } from 'vue';
 import SwPage from '@/components/layout/SwPage.vue';
-import SwIcon from '@/components/ui/SwIcon.vue';
+import SwIcon from '@/components/ui/display/SwIcon.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 import SwInputText from '@/components/ui/forms/SwInputText.vue';

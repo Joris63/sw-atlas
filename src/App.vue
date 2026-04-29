@@ -56,6 +56,7 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
         <SwNavItem icon="panels-top-left" label="Overlays">
           <SwNavItem label="SwTooltip" to="/styleguide/components/tooltip" />
           <SwNavItem label="SwDrawer" to="/styleguide/components/drawer" />
+          <SwNavItem label="SwDialog" to="/styleguide/components/dialog" />
         </SwNavItem>
 
         <SwNavItem icon="bell" label="Feedback">

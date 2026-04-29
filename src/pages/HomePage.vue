@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SwHeading from '@/components/ui/typography/SwHeading.vue';
 import SwText from '@/components/ui/typography/SwText.vue';
-import SwIcon from '@/components/ui/SwIcon.vue';
+import SwIcon from '@/components/ui/display/SwIcon.vue';
 import SwMarquee from '@/components/ui/display/SwMarquee.vue';
 import { useDarkMode } from '@/composables/useDarkMode';
 import { computed } from 'vue';

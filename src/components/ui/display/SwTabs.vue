@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TabContent, TabIndicator, TabList, TabsRoot, TabTrigger } from '@ark-ui/vue';
-import SwIcon from '@/components/ui/SwIcon.vue';
+import SwIcon from '@/components/ui/display/SwIcon.vue';
 
 export interface SwTab {
   value: string;

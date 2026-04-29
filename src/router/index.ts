@@ -41,6 +41,7 @@ import SwPaginationPage from '@/pages/styleguide/components/display/SwPagination
 /* OVERLAYS */
 import SwTooltipPage from '@/pages/styleguide/components/overlays/SwTooltipPage.vue';
 import SwDrawerPage from '@/pages/styleguide/components/overlays/SwDrawerPage.vue';
+import SwDialogPage from '@/pages/styleguide/components/overlays/SwDialogPage.vue';
 
 /* FEEDBACK */
 import SwToastPage from '@/pages/styleguide/components/feedback/SwToastPage.vue';
@@ -200,6 +201,11 @@ const router = createRouter({
       path: '/styleguide/components/drawer',
       component: SwDrawerPage,
       meta: { breadcrumbs: sgCrumbs('SwDrawer') },
+    },
+    {
+      path: '/styleguide/components/dialog',
+      component: SwDialogPage,
+      meta: { breadcrumbs: sgCrumbs('SwDialog') },
     },
 
     // Feedback

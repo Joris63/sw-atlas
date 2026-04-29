@@ -2,7 +2,7 @@
 import { ref, inject, provide, useSlots, computed, watch } from 'vue';
 import type { Ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import SwIcon from '@/components/ui/SwIcon.vue';
+import SwIcon from '@/components/ui/display/SwIcon.vue';
 import SwTooltip from '../ui/overlays/SwTooltip.vue';
 
 interface Props {
