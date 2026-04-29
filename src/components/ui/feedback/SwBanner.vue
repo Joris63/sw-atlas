@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SwIcon from '../display/SwIcon.vue';
-import SwIconButton from '../buttons/SwIconButton.vue';
 import { computed } from 'vue';
 
 interface Props {
@@ -41,15 +40,14 @@ const resolvedIcon = computed(() => props.icon ?? DEFAULT_ICONS[props.variant]);
       <slot />
     </p>
 
-    <SwIconButton
+    <button
       v-if="dismissible"
-      label="Dismiss"
-      icon="x"
-      variant="plain"
-      size="xs"
       class="sw-banner__close"
+      aria-label="Dismiss"
       @click="emit('dismiss')"
-    />
+    >
+      <SwIcon name="x" :size="14" />
+    </button>
   </div>
 </template>
 
@@ -73,7 +71,13 @@ const resolvedIcon = computed(() => props.icon ?? DEFAULT_ICONS[props.variant]);
 }
 
 .sw-banner__close {
-  @apply shrink-0 -my-0.5 -mr-1 transition-opacity duration-150;
+  @apply shrink-0 flex items-center justify-center w-6 h-6 rounded-md
+         opacity-60 cursor-pointer transition-opacity duration-150;
+  color: currentColor;
+}
+
+.sw-banner__close:hover {
+  @apply opacity-100;
 }
 
 /* ---- Announcement ---- */
@@ -87,14 +91,6 @@ const resolvedIcon = computed(() => props.icon ?? DEFAULT_ICONS[props.variant]);
   @apply opacity-90;
 }
 
-.sw-banner--announcement .sw-banner__close {
-  @apply opacity-70;
-  color: inherit;
-}
-
-.sw-banner--announcement .sw-banner__close:hover {
-  @apply opacity-100;
-}
 
 /* ---- Info ---- */
 .sw-banner--info {
