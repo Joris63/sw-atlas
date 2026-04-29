@@ -33,17 +33,27 @@ export interface PlaygroundPropConfig {
   showWhen?: (values: Record<string, any>) => boolean;
 }
 
-const props = defineProps<{
-  propsConfig: PlaygroundPropConfig[];
-  componentName: string;
-  previewClass?: string;
-  stacked?: boolean;
-  customCode?: string | ((values: Record<string, any>) => string);
-  language?: string;
-  overrides?: Record<string, any>;
-  categoryLabels?: Record<string, string>;
-  componentLabels?: Record<string, string>;
-}>();
+const props = withDefaults(
+  defineProps<{
+    propsConfig: PlaygroundPropConfig[];
+    componentName: string;
+    previewClass?: string;
+    stacked?: boolean;
+    customCode?: string | ((values: Record<string, any>) => string);
+    language?: string;
+    overrides?: Record<string, any>;
+    categoryLabels?: Record<string, string>;
+    componentLabels?: Record<string, string>;
+  }>(),
+  {
+    previewClass: undefined,
+    customCode: undefined,
+    language: 'vue-html',
+    overrides: undefined,
+    categoryLabels: undefined,
+    componentLabels: undefined,
+  },
+);
 
 const DEFAULT_CATEGORY_LABELS: Record<string, string> = {
   content: 'Content',

@@ -47,6 +47,7 @@ import SwDialogPage from '@/pages/styleguide/components/overlays/SwDialogPage.vu
 /* FEEDBACK */
 import SwToastPage from '@/pages/styleguide/components/feedback/SwToastPage.vue';
 import SwBannerPage from '@/pages/styleguide/components/feedback/SwBannerPage.vue';
+import SwSkeletonPage from '@/pages/styleguide/components/feedback/SwSkeletonPage.vue';
 
 type Crumb = { label: string; icon?: string; to?: string };
 
@@ -225,6 +226,11 @@ const router = createRouter({
       path: '/styleguide/components/banner',
       component: SwBannerPage,
       meta: { breadcrumbs: sgCrumbs('SwBanner') },
+    },
+    {
+      path: '/styleguide/components/skeleton',
+      component: SwSkeletonPage,
+      meta: { breadcrumbs: sgCrumbs('SwSkeleton') },
     },
 
     // Composables

@@ -63,6 +63,7 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
         <SwNavItem icon="bell" label="Feedback">
           <SwNavItem label="SwToast" to="/styleguide/components/toast" />
           <SwNavItem label="SwBanner" to="/styleguide/components/banner" />
+          <SwNavItem label="SwSkeleton" to="/styleguide/components/skeleton" />
         </SwNavItem>
       </SwNavGroup>
 
