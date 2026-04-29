@@ -73,7 +73,8 @@ const color = computed(() => {
 
 .sw-avatar {
   @apply relative inline-flex items-center justify-center
-         rounded-full font-semibold select-none shrink-0 overflow-visible;
+         rounded-full font-semibold select-none shrink-0 overflow-visible
+         ring-2 ring-surface-strong;
 }
 
 /* ---- Sizes ---- */

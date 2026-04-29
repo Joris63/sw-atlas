@@ -1,16 +1,20 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import SwPage from '@/components/layout/SwPage.vue';
-import SwBadge from '@/components/ui/display/SwBadge.vue';
+import SwChip from '@/components/ui/display/SwChip.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
+
+const selected = ref(false);
+const visible = ref(true);
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'content',
     type: 'slot',
-    description: 'Badge label text.',
+    description: 'Chip label text.',
     control: 'text',
-    initialValue: 'Badge',
+    initialValue: 'Design',
     isSlotContent: true,
     category: 'content',
   },
@@ -27,7 +31,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'size',
     type: "'sm' | 'md'",
     default: 'md',
-    description: 'Physical size of the badge.',
+    description: 'Physical size.',
     control: 'select',
     options: ['sm', 'md'],
     category: 'appearance',
@@ -36,7 +40,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'icon',
     type: 'string',
     default: '',
-    description: 'Lucide icon name shown before the label.',
+    description: 'Lucide icon shown before the label.',
     control: 'icon',
     category: 'content',
   },
@@ -44,7 +48,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'dot',
     type: 'boolean',
     default: false,
-    description: 'Show a colored dot indicator before the label.',
+    description: 'Show a colored dot indicator.',
     control: 'toggle',
     category: 'appearance',
   },
@@ -57,22 +61,58 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     showWhen: (v) => !!v.dot,
     category: 'appearance',
   },
+  {
+    name: 'selectable',
+    type: 'boolean',
+    default: false,
+    description: 'Makes the chip a toggle button. Use v-model:selected for the state.',
+    control: 'toggle',
+    category: 'appearance',
+  },
+  {
+    name: 'removable',
+    type: 'boolean',
+    default: false,
+    description: 'Shows a remove (×) button that emits a remove event.',
+    control: 'toggle',
+    category: 'appearance',
+  },
+  {
+    name: 'disabled',
+    type: 'boolean',
+    default: false,
+    description: 'Disables interaction.',
+    control: 'toggle',
+    category: 'state',
+  },
 ];
 </script>
 
 <template>
-  <SwPage title="SwBadge" description="Compact labels for status, categories, or counts.">
-    <SwPlayground :props-config="playgroundConfig" component-name="SwBadge">
+  <SwPage
+    title="SwChip"
+    description="Compact labels for status, categories, filters, and tags. Supports icons, dots, selection, and removal."
+  >
+    <SwPlayground :props-config="playgroundConfig" component-name="SwChip">
       <template #default="{ values }">
-        <SwBadge
+        <SwChip
+          v-if="visible"
+          v-model:selected="selected"
           :variant="values.variant"
           :size="values.size"
           :icon="values.icon || undefined"
           :dot="values.dot"
           :animated="values.animated"
+          :selectable="values.selectable"
+          :removable="values.removable"
+          :disabled="values.disabled"
+          @remove="visible = false"
         >
           {{ values.content }}
-        </SwBadge>
+        </SwChip>
+        <span v-else class="text-xs text-text-muted cursor-pointer" @click="visible = true">
+          Removed — click to restore
+        </span>
       </template>
     </SwPlayground>
   </SwPage>

@@ -34,7 +34,7 @@ import SwTextareaPage from '@/pages/styleguide/components/forms/SwTextareaPage.v
 import SwNumberInputPage from '@/pages/styleguide/components/forms/SwNumberInputPage.vue';
 
 /* DISPLAY */
-import SwBadgePage from '@/pages/styleguide/components/display/SwBadgePage.vue';
+import SwChipPage from '@/pages/styleguide/components/display/SwChipPage.vue';
 import SwTabsPage from '@/pages/styleguide/components/display/SwTabsPage.vue';
 import SwIconPage from '@/pages/styleguide/components/display/SwIconPage.vue';
 import SwPaginationPage from '@/pages/styleguide/components/display/SwPaginationPage.vue';
@@ -182,9 +182,9 @@ const router = createRouter({
 
     // Display
     {
-      path: '/styleguide/components/badge',
-      component: SwBadgePage,
-      meta: { breadcrumbs: sgCrumbs('SwBadge') },
+      path: '/styleguide/components/chip',
+      component: SwChipPage,
+      meta: { breadcrumbs: sgCrumbs('SwChip') },
     },
     {
       path: '/styleguide/components/tabs',
