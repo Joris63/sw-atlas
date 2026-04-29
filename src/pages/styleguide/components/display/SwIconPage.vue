@@ -5,7 +5,7 @@ import SwPage from '@/components/layout/SwPage.vue';
 import SwIcon from '@/components/ui/SwIcon.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
-import SwInput from '@/components/ui/forms/SwInput.vue';
+import SwInputText from '@/components/ui/forms/SwInputText.vue';
 import SwPagination from '@/components/ui/display/SwPagination.vue';
 
 const selectedIcon = ref('star');
@@ -111,7 +111,7 @@ async function copyName(name: string) {
           <span class="sw-icon-browser__count">{{ filtered.length.toLocaleString() }} icons</span>
           <span v-if="search" class="sw-icon-browser__query">matching "{{ search }}"</span>
         </div>
-        <SwInput
+        <SwInputText
           v-model="search"
           placeholder="Search icons…"
           size="sm"

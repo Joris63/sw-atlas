@@ -25,6 +25,7 @@ interface Props {
   helpText?: string;
   invalid?: boolean;
   required?: boolean;
+  controls?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -42,6 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
   helpText: undefined,
   invalid: undefined,
   required: undefined,
+  controls: undefined,
 });
 
 const emit = defineEmits<{ 'update:modelValue': [number | undefined] }>();
@@ -67,7 +69,7 @@ const isInvalid = computed(() => {
   if (props.invalid !== undefined) {
     return props.invalid;
   }
-  
+
   if (!props.error) {
     return false;
   }
@@ -102,7 +104,7 @@ const isInvalid = computed(() => {
         :data-invalid="isInvalid ? '' : undefined"
       >
         <NumberInputInput class="sw-number-input__input" :placeholder="placeholder" />
-        <div class="sw-number-input__spinners">
+        <div v-if="controls" class="sw-number-input__spinners">
           <NumberInputIncrementTrigger class="sw-number-input__spinner-btn">
             <SwIcon name="chevron-up" :size="12" />
           </NumberInputIncrementTrigger>

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { z } from 'zod';
 import type { ZodType } from 'zod';
 import { useValidation } from '@/composables/useValidation';
-import SwInput from '@/components/ui/forms/SwInput.vue';
+import SwInputText from '@/components/ui/forms/SwInputText.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 
 const props = defineProps<{
@@ -38,10 +38,20 @@ const { errors, isValid, validate, reset } = useValidation({
         {{ isValid ? 'valid' : 'invalid' }}
       </span>
     </div>
-    <SwInput v-model="value" :label="label" :placeholder="placeholder" :error="errors[0]" />
+    <SwInputText v-model="value" :label="label" :placeholder="placeholder" :error="errors[0]" />
     <div class="sw-validation-nested-section__footer">
       <SwButton label="Validate" size="sm" variant="outline" @click="validate" />
-      <SwButton label="Reset" size="sm" variant="ghost" @click="() => { value = ''; reset(); }" />
+      <SwButton
+        label="Reset"
+        size="sm"
+        variant="ghost"
+        @click="
+          () => {
+            value = '';
+            reset();
+          }
+        "
+      />
     </div>
   </div>
 </template>

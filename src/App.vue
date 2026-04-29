@@ -37,7 +37,7 @@ import SwDarkModeToggle from '@/components/ui/SwDarkModeToggle.vue';
         </SwNavItem>
 
         <SwNavItem icon="text-cursor-input" label="Forms">
-          <SwNavItem label="SwInput" to="/styleguide/components/input" />
+          <SwNavItem label="SwInputText" to="/styleguide/components/input" />
           <SwNavItem label="SwTextarea" to="/styleguide/components/textarea" />
           <SwNavItem label="SwSwitch" to="/styleguide/components/switch" />
           <SwNavItem label="SwCheckbox" to="/styleguide/components/checkbox" />

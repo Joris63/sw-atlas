@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import SwPage from '@/components/layout/SwPage.vue';
-import SwInput from '@/components/ui/forms/SwInput.vue';
+import SwInputText from '@/components/ui/forms/SwInputText.vue';
 import SwPlayground from '@/components/ui/docs/SwPlayground.vue';
 import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue';
 
@@ -83,12 +83,12 @@ const playgroundConfig: PlaygroundPropConfig[] = [
 
 <template>
   <SwPage
-    title="SwInput"
+    title="SwInputText"
     description="A single-line text input built on Ark UI's Field. Use v-model to bind the value."
   >
-    <SwPlayground :props-config="playgroundConfig" component-name="SwInput">
+    <SwPlayground :props-config="playgroundConfig" component-name="SwInputText">
       <template #default="{ values }">
-        <SwInput
+        <SwInputText
           :placeholder="values.placeholder"
           :size="values.size"
           :label="values.label"

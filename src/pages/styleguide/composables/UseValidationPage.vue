@@ -5,7 +5,7 @@ import SwPage from '@/components/layout/SwPage.vue';
 import SwPropsTable from '@/components/ui/docs/SwPropsTable.vue';
 import SwHeading from '@/components/ui/typography/SwHeading.vue';
 import SwText from '@/components/ui/typography/SwText.vue';
-import SwInput from '@/components/ui/forms/SwInput.vue';
+import SwInputText from '@/components/ui/forms/SwInputText.vue';
 import SwButton from '@/components/ui/buttons/SwButton.vue';
 import SwCodeBlock from '@/components/ui/docs/SwCodeBlock.vue';
 import { useValidation } from '@/composables/useValidation';
@@ -46,7 +46,8 @@ const returnsRows = [
   {
     name: 'isDirty',
     type: 'Ref<boolean>',
-    description: 'Becomes true after the first validate() call. Use to suppress errors on pristine fields.',
+    description:
+      'Becomes true after the first validate() call. Use to suppress errors on pristine fields.',
   },
   {
     name: 'validate',
@@ -103,44 +104,156 @@ const { errors, isValid, isDirty, validate, reset } = useValidation({
 // Validator demo
 const email = ref('');
 const emailSchema = z.object({ email: emailValidator() });
-const { errors: emailErrors, validate: validateEmail, reset: resetEmail } = useValidation({
+const {
+  errors: emailErrors,
+  validate: validateEmail,
+  reset: resetEmail,
+} = useValidation({
   schema: emailSchema,
   data: () => ({ email: email.value }),
 });
-function handleEmailReset() { email.value = ''; resetEmail(); }
+function handleEmailReset() {
+  email.value = '';
+  resetEmail();
+}
 
 // Validator reference rows
 const stringValidatorRows = [
-  { name: 'required(message?)', type: 'ZodString', default: 'This field is required', description: 'Fails on empty string.' },
-  { name: 'minLength(n, message?)', type: 'ZodString', default: 'Must be at least n characters', description: 'Minimum character count.' },
-  { name: 'maxLength(n, message?)', type: 'ZodString', default: 'Must be at most n characters', description: 'Maximum character count.' },
-  { name: 'email(message?)', type: 'ZodString', default: 'Must be a valid email address', description: 'Email format check. Implicitly non-empty.' },
-  { name: 'url(message?)', type: 'ZodString', default: 'Must be a valid URL', description: 'URL format check.' },
-  { name: 'alpha(message?)', type: 'ZodString', default: 'Must contain letters only', description: 'Rejects digits and special characters.' },
-  { name: 'alphanumeric(message?)', type: 'ZodString', default: 'Must contain only letters and numbers', description: 'Rejects special characters.' },
-  { name: 'noSpecialChars(message?)', type: 'ZodString', default: 'Special characters are not allowed', description: 'Allows letters, numbers, and spaces.' },
-  { name: 'phone(message?)', type: 'ZodString', default: 'Must be a valid phone number', description: 'Accepts international formats with optional +, spaces, dashes.' },
-  { name: 'slug(message?)', type: 'ZodString', default: 'Must contain only lowercase letters, numbers, and hyphens', description: 'URL-safe slug format.' },
-  { name: 'pattern(regex, message)', type: 'ZodString', default: '—', description: 'Custom regular expression. Message is required.' },
+  {
+    name: 'required(message?)',
+    type: 'ZodString',
+    default: 'This field is required',
+    description: 'Fails on empty string.',
+  },
+  {
+    name: 'minLength(n, message?)',
+    type: 'ZodString',
+    default: 'Must be at least n characters',
+    description: 'Minimum character count.',
+  },
+  {
+    name: 'maxLength(n, message?)',
+    type: 'ZodString',
+    default: 'Must be at most n characters',
+    description: 'Maximum character count.',
+  },
+  {
+    name: 'email(message?)',
+    type: 'ZodString',
+    default: 'Must be a valid email address',
+    description: 'Email format check. Implicitly non-empty.',
+  },
+  {
+    name: 'url(message?)',
+    type: 'ZodString',
+    default: 'Must be a valid URL',
+    description: 'URL format check.',
+  },
+  {
+    name: 'alpha(message?)',
+    type: 'ZodString',
+    default: 'Must contain letters only',
+    description: 'Rejects digits and special characters.',
+  },
+  {
+    name: 'alphanumeric(message?)',
+    type: 'ZodString',
+    default: 'Must contain only letters and numbers',
+    description: 'Rejects special characters.',
+  },
+  {
+    name: 'noSpecialChars(message?)',
+    type: 'ZodString',
+    default: 'Special characters are not allowed',
+    description: 'Allows letters, numbers, and spaces.',
+  },
+  {
+    name: 'phone(message?)',
+    type: 'ZodString',
+    default: 'Must be a valid phone number',
+    description: 'Accepts international formats with optional +, spaces, dashes.',
+  },
+  {
+    name: 'slug(message?)',
+    type: 'ZodString',
+    default: 'Must contain only lowercase letters, numbers, and hyphens',
+    description: 'URL-safe slug format.',
+  },
+  {
+    name: 'pattern(regex, message)',
+    type: 'ZodString',
+    default: '—',
+    description: 'Custom regular expression. Message is required.',
+  },
 ];
 
 const numberValidatorRows = [
-  { name: 'minValue(n, message?)', type: 'ZodNumber', default: 'Must be at least n', description: 'Minimum numeric value.' },
-  { name: 'maxValue(n, message?)', type: 'ZodNumber', default: 'Must be at most n', description: 'Maximum numeric value.' },
-  { name: 'between(min, max, messages?)', type: 'ZodNumber', default: 'Must be at least / at most n', description: 'Inclusive range. Pass { min, max } to override each message individually.' },
-  { name: 'integer(message?)', type: 'ZodNumber', default: 'Must be a whole number', description: 'Rejects decimal values.' },
-  { name: 'positive(message?)', type: 'ZodNumber', default: 'Must be a positive number', description: 'Must be greater than zero.' },
-  { name: 'negative(message?)', type: 'ZodNumber', default: 'Must be a negative number', description: 'Must be less than zero.' },
+  {
+    name: 'minValue(n, message?)',
+    type: 'ZodNumber',
+    default: 'Must be at least n',
+    description: 'Minimum numeric value.',
+  },
+  {
+    name: 'maxValue(n, message?)',
+    type: 'ZodNumber',
+    default: 'Must be at most n',
+    description: 'Maximum numeric value.',
+  },
+  {
+    name: 'between(min, max, messages?)',
+    type: 'ZodNumber',
+    default: 'Must be at least / at most n',
+    description: 'Inclusive range. Pass { min, max } to override each message individually.',
+  },
+  {
+    name: 'integer(message?)',
+    type: 'ZodNumber',
+    default: 'Must be a whole number',
+    description: 'Rejects decimal values.',
+  },
+  {
+    name: 'positive(message?)',
+    type: 'ZodNumber',
+    default: 'Must be a positive number',
+    description: 'Must be greater than zero.',
+  },
+  {
+    name: 'negative(message?)',
+    type: 'ZodNumber',
+    default: 'Must be a negative number',
+    description: 'Must be less than zero.',
+  },
 ];
 
 const arrayValidatorRows = [
-  { name: 'nonempty(message?)', type: 'ZodArray', default: 'Must have at least one item', description: 'Array must contain at least one element.' },
-  { name: 'minItems(n, message?)', type: 'ZodArray', default: 'Must have at least n items', description: 'Minimum array length.' },
-  { name: 'maxItems(n, message?)', type: 'ZodArray', default: 'Must have at most n items', description: 'Maximum array length.' },
+  {
+    name: 'nonempty(message?)',
+    type: 'ZodArray',
+    default: 'Must have at least one item',
+    description: 'Array must contain at least one element.',
+  },
+  {
+    name: 'minItems(n, message?)',
+    type: 'ZodArray',
+    default: 'Must have at least n items',
+    description: 'Minimum array length.',
+  },
+  {
+    name: 'maxItems(n, message?)',
+    type: 'ZodArray',
+    default: 'Must have at most n items',
+    description: 'Maximum array length.',
+  },
 ];
 
 const booleanValidatorRows = [
-  { name: 'accepted(message?)', type: 'ZodBoolean', default: 'Must be accepted', description: 'Value must be true. Use for required checkboxes such as terms and conditions.' },
+  {
+    name: 'accepted(message?)',
+    type: 'ZodBoolean',
+    default: 'Must be accepted',
+    description: 'Value must be true. Use for required checkboxes such as terms and conditions.',
+  },
 ];
 
 const validatorBasicCode = `import { required, email, phone, between, accepted } from '@/validators/validators';
@@ -247,7 +360,7 @@ await validateAll();`;
       <div class="sw-use-validation-page__demo-card">
         <div class="sw-use-validation-page__demo-card-body">
           <div class="sw-use-validation-page__demo-card-form">
-            <SwInput
+            <SwInputText
               v-model="username"
               label="Username"
               placeholder="Enter a username"
@@ -344,7 +457,7 @@ await validateAll();`;
       <div class="sw-use-validation-page__demo-card">
         <div class="sw-use-validation-page__demo-card-body">
           <div class="sw-use-validation-page__demo-card-form">
-            <SwInput
+            <SwInputText
               v-model="email"
               label="Email"
               placeholder="Enter an email address"
@@ -362,9 +475,13 @@ await validateAll();`;
             </div>
             <div class="sw-use-validation-page__state-row sw-use-validation-page__state-row--top">
               <code class="sw-use-validation-page__state-key">errors</code>
-              <div v-if="emailErrors.length === 0" class="sw-use-validation-page__state-empty">[ ]</div>
+              <div v-if="emailErrors.length === 0" class="sw-use-validation-page__state-empty">
+                [ ]
+              </div>
               <ul v-else class="sw-use-validation-page__state-errors">
-                <li v-for="e in emailErrors" :key="e" class="sw-use-validation-page__state-error">{{ e }}</li>
+                <li v-for="e in emailErrors" :key="e" class="sw-use-validation-page__state-error">
+                  {{ e }}
+                </li>
               </ul>
             </div>
           </div>

@@ -24,7 +24,7 @@ import SwLabelPage from '@/pages/styleguide/components/typography/SwLabelPage.vu
 import SwCodePage from '@/pages/styleguide/components/typography/SwCodePage.vue';
 
 /* FORMS */
-import SwInputPage from '@/pages/styleguide/components/forms/SwInputPage.vue';
+import SwInputTextPage from '@/pages/styleguide/components/forms/SwInputTextPage.vue';
 import SwSwitchPage from '@/pages/styleguide/components/forms/SwSwitchPage.vue';
 import SwCheckboxPage from '@/pages/styleguide/components/forms/SwCheckboxPage.vue';
 import SwRadioPage from '@/pages/styleguide/components/forms/SwRadioPage.vue';
@@ -134,8 +134,8 @@ const router = createRouter({
     // Forms
     {
       path: '/styleguide/components/input',
-      component: SwInputPage,
-      meta: { breadcrumbs: sgCrumbs('SwInput') },
+      component: SwInputTextPage,
+      meta: { breadcrumbs: sgCrumbs('SwInputText') },
     },
     {
       path: '/styleguide/components/switch',

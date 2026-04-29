@@ -123,6 +123,14 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     control: 'toggle',
     category: 'state',
   },
+  {
+    name: 'controls',
+    type: 'boolean',
+    default: false,
+    description: 'Shows the control buttons at the right side of the input.',
+    control: 'toggle',
+    category: 'advanced',
+  },
 ];
 </script>
 
@@ -147,6 +155,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           :required="values.required"
           :invalid="values.invalid"
           :disabled="values.disabled"
+          :controls="values.controls"
         />
       </template>
     </SwPlayground>

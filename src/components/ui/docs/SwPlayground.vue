@@ -4,7 +4,7 @@ import { computed, reactive, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import SwIcon from '../SwIcon.vue';
 import SwCodeBlock from './SwCodeBlock.vue';
-import SwInput from '../forms/SwInput.vue';
+import SwInputText from '../forms/SwInputText.vue';
 import SwSwitch from '../forms/SwSwitch.vue';
 import SwSelect from '../forms/SwSelect.vue';
 import SwIconInput from './SwIconInput.vue';
@@ -376,7 +376,7 @@ async function copyCode() {
 
               <!-- Control -->
               <div v-if="p.control !== 'none'" class="sw-playground__prop-control">
-                <SwInput
+                <SwInputText
                   v-if="p.control === 'text'"
                   v-model="values[p.name]"
                   size="sm"
