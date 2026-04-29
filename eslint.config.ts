@@ -1,8 +1,7 @@
-import { globalIgnores } from 'eslint/config'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
-import pluginVue from 'eslint-plugin-vue'
-import pluginOxlint from 'eslint-plugin-oxlint'
-import skipFormatting from 'eslint-config-prettier/flat'
+import { globalIgnores } from 'eslint/config';
+import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
+import pluginVue from 'eslint-plugin-vue';
+import skipFormatting from 'eslint-config-prettier/flat';
 
 export default defineConfigWithVueTs(
   {
@@ -16,8 +15,6 @@ export default defineConfigWithVueTs(
   ...pluginVue.configs['flat/recommended'],
   // Type-aware TypeScript rules (slower but catches real bugs)
   vueTsConfigs.recommendedTypeChecked,
-
-  ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   skipFormatting,
 
@@ -74,4 +71,4 @@ export default defineConfigWithVueTs(
       'vue/no-mutating-props': 'error',
     },
   },
-)
+);
