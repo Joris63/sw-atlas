@@ -83,7 +83,7 @@ const { isValid, isDirty, validateAll, reset } = useValidation();
 }
 
 .sw-validation-nested-demo__state-key {
-  @apply text-[11px] font-mono font-medium text-text-subtle bg-surface-hover px-2 py-0.5 rounded-md;
+  @apply text-[11px] font-mono font-medium text-text-muted bg-surface-hover px-2 py-0.5 rounded-md;
 }
 
 .sw-validation-nested-demo__indicator {

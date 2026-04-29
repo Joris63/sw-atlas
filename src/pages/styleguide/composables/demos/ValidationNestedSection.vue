@@ -68,7 +68,7 @@ const { errors, isValid, validate, reset } = useValidation({
 }
 
 .sw-validation-nested-section__name {
-  @apply text-[11px] font-mono font-medium text-text-subtle bg-surface-hover px-2 py-0.5 rounded-md;
+  @apply text-[11px] font-mono font-medium text-text-muted bg-surface-hover px-2 py-0.5 rounded-md;
 }
 
 .sw-validation-nested-section__indicator {
