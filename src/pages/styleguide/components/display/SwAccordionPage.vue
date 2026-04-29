@@ -143,8 +143,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   },
   {
     name: 'items',
-    description:
-      'Represents a list of items for the playground example.',
+    description: 'Represents a list of items for the playground example.',
     control: 'preset',
     presets: itemPresets,
     initialValue: itemPresets[0]?.value,

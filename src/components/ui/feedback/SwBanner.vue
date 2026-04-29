@@ -91,7 +91,6 @@ const resolvedIcon = computed(() => props.icon ?? DEFAULT_ICONS[props.variant]);
   @apply opacity-90;
 }
 
-
 /* ---- Info ---- */
 .sw-banner--info {
   background: color-mix(in srgb, var(--color-primary) 12%, var(--surface));

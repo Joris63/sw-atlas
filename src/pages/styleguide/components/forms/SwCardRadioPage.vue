@@ -8,9 +8,24 @@ import type { PlaygroundPropConfig, PlaygroundPreset } from '@/components/ui/doc
 const selected = ref('business');
 
 const PLAN_OPTIONS = [
-  { value: 'standard', label: 'Standard plan', description: 'Up to 5 users, 10 GB storage', icon: 'user' },
-  { value: 'business', label: 'Business plan', description: 'Up to 50 users, 100 GB storage', icon: 'users' },
-  { value: 'enterprise', label: 'Enterprise plan', description: 'Unlimited users and storage', icon: 'settings-2' },
+  {
+    value: 'standard',
+    label: 'Standard plan',
+    description: 'Up to 5 users, 10 GB storage',
+    icon: 'user',
+  },
+  {
+    value: 'business',
+    label: 'Business plan',
+    description: 'Up to 50 users, 100 GB storage',
+    icon: 'users',
+  },
+  {
+    value: 'enterprise',
+    label: 'Enterprise plan',
+    description: 'Unlimited users and storage',
+    icon: 'settings-2',
+  },
 ];
 
 const optionPresets: PlaygroundPreset[] = [
@@ -20,15 +35,15 @@ const optionPresets: PlaygroundPreset[] = [
   },
   {
     label: 'No icons',
-    value: PLAN_OPTIONS.map(({ icon: _icon, ...rest }) => rest),
+    value: PLAN_OPTIONS.map((o) => ({
+      value: o.value,
+      label: o.label,
+      description: o.description,
+    })),
   },
   {
     label: 'With disabled',
-    value: [
-      PLAN_OPTIONS[0],
-      { ...PLAN_OPTIONS[1], disabled: true },
-      PLAN_OPTIONS[2],
-    ],
+    value: [PLAN_OPTIONS[0], { ...PLAN_OPTIONS[1], disabled: true }, PLAN_OPTIONS[2]],
   },
 ];
 
@@ -42,7 +57,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'options',
     type: 'SwCardRadioOption[]',
-    description: 'The list of options. Each option supports label, description, icon, and disabled.',
+    description:
+      'The list of options. Each option supports label, description, icon, and disabled.',
     control: 'preset',
     presets: optionPresets,
     initialValue: optionPresets[0]?.value,

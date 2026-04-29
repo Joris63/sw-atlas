@@ -39,8 +39,12 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{ 'update:modelValue': [string | null] }>();
 
 const isInvalid = computed(() => {
-  if (props.invalid !== undefined) return props.invalid;
-  if (!props.error) return false;
+  if (props.invalid !== undefined) {
+    return props.invalid;
+  }
+  if (!props.error) {
+    return false;
+  }
   return Array.isArray(props.error) ? props.error.length > 0 : props.error.length > 0;
 });
 

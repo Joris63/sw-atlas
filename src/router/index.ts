@@ -39,6 +39,8 @@ import SwTabsPage from '@/pages/styleguide/components/display/SwTabsPage.vue';
 import SwIconPage from '@/pages/styleguide/components/display/SwIconPage.vue';
 import SwPaginationPage from '@/pages/styleguide/components/display/SwPaginationPage.vue';
 import SwAccordionPage from '@/pages/styleguide/components/display/SwAccordionPage.vue';
+import SwAvatarPage from '@/pages/styleguide/components/display/SwAvatarPage.vue';
+import SwAvatarGroupPage from '@/pages/styleguide/components/display/SwAvatarGroupPage.vue';
 
 /* OVERLAYS */
 import SwTooltipPage from '@/pages/styleguide/components/overlays/SwTooltipPage.vue';
@@ -203,6 +205,16 @@ const router = createRouter({
       path: '/styleguide/components/accordion',
       component: SwAccordionPage,
       meta: { breadcrumbs: sgCrumbs('SwAccordion') },
+    },
+    {
+      path: '/styleguide/components/avatar',
+      component: SwAvatarPage,
+      meta: { breadcrumbs: sgCrumbs('SwAvatar') },
+    },
+    {
+      path: '/styleguide/components/avatar-group',
+      component: SwAvatarGroupPage,
+      meta: { breadcrumbs: sgCrumbs('SwAvatarGroup') },
     },
 
     // Overlays

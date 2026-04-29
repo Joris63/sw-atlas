@@ -46,7 +46,11 @@ const PRESET_RADII: Record<string, string> = {
 }
 
 @keyframes sw-skeleton-shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position:  200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 </style>

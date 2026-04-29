@@ -36,11 +36,19 @@ const customCode = `<SwSkeleton width="100%" height="1rem" />
     title="SwSkeleton"
     description="Animated shimmer placeholders for content that is loading. Compose multiple SwSkeleton blocks to match the shape of the real UI."
   >
-    <SwPlayground :props-config="playgroundConfig" component-name="SwSkeleton" :custom-code="customCode">
+    <SwPlayground
+      :props-config="playgroundConfig"
+      component-name="SwSkeleton"
+      :custom-code="customCode"
+    >
       <template #default="{ values }">
         <!-- Profile composition -->
         <div v-if="values.example === 'profile'" class="sw-sk-profile">
-          <SwSkeleton width="3rem" height="3rem" :rounded="values.rounded === 'md' ? 'full' : values.rounded" />
+          <SwSkeleton
+            width="3rem"
+            height="3rem"
+            :rounded="values.rounded === 'md' ? 'full' : values.rounded"
+          />
           <div class="sw-sk-profile__body">
             <SwSkeleton width="9rem" height="0.875rem" :rounded="values.rounded" />
             <SwSkeleton width="6rem" height="0.75rem" :rounded="values.rounded" />
@@ -61,12 +69,29 @@ const customCode = `<SwSkeleton width="100%" height="1rem" />
         <!-- List composition -->
         <div v-else-if="values.example === 'list'" class="sw-sk-list">
           <div v-for="n in 4" :key="n" class="sw-sk-list__row">
-            <SwSkeleton width="2rem" height="2rem" :rounded="values.rounded === 'md' ? 'full' : values.rounded" />
+            <SwSkeleton
+              width="2rem"
+              height="2rem"
+              :rounded="values.rounded === 'md' ? 'full' : values.rounded"
+            />
             <div class="sw-sk-list__text">
-              <SwSkeleton :width="`${70 + (n % 3) * 10}%`" height="0.875rem" :rounded="values.rounded" />
-              <SwSkeleton :width="`${40 + (n % 2) * 15}%`" height="0.75rem" :rounded="values.rounded" />
+              <SwSkeleton
+                :width="`${70 + (n % 3) * 10}%`"
+                height="0.875rem"
+                :rounded="values.rounded"
+              />
+              <SwSkeleton
+                :width="`${40 + (n % 2) * 15}%`"
+                height="0.75rem"
+                :rounded="values.rounded"
+              />
             </div>
-            <SwSkeleton width="4rem" height="1.5rem" :rounded="values.rounded" class="sw-sk-list__action" />
+            <SwSkeleton
+              width="4rem"
+              height="1.5rem"
+              :rounded="values.rounded"
+              class="sw-sk-list__action"
+            />
           </div>
         </div>
       </template>
