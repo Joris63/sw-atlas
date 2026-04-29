@@ -39,7 +39,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   placeholder: 'Select…',
   size: 'md',
-  deselectable: true,
+  deselectable: false,
   disabled: false,
   loadingOptions: false,
   label: undefined,
