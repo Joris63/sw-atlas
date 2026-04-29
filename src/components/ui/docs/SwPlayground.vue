@@ -196,6 +196,18 @@ function toggleCategory(cat: string) {
   }
 }
 
+function toggleAllCategories() {
+  if (collapsedCategories.value.size > 0) {
+    collapsedCategories.value.clear();
+  } else {
+    grouped.value.forEach(([cat]) => {
+      if (!collapsedCategories.value.has(cat)) {
+        collapsedCategories.value.add(cat);
+      }
+    });
+  }
+}
+
 function resetToDefaults() {
   for (const p of props.propsConfig) {
     if (p.control === 'none') {
@@ -303,24 +315,42 @@ async function copyCode() {
           <SwIcon name="sliders-horizontal" :size="13" class="shrink-0" />
           <span>Props</span>
           <span class="sw-playground__badge">{{ controlCount }}</span>
-          <button class="sw-playground__reset" title="Reset to defaults" @click="resetToDefaults">
-            <SwIcon name="rotate-ccw" :size="13" />
-          </button>
+          <div class="sw-playground__actions">
+            <button
+              class="sw-playground__action-btn"
+              :title="`${collapsedCategories.size > 0 ? 'Collapse' : 'Expand'} all categories`"
+              @click="toggleAllCategories"
+            >
+              <SwIcon
+                name="chevron-down"
+                :size="15"
+                class="sw-playground__category-chevron"
+                :class="{
+                  'sw-playground__category-chevron--collapsed': collapsedCategories.size > 0,
+                }"
+              />
+            </button>
+            <button
+              class="sw-playground__action-btn"
+              title="Reset to defaults"
+              @click="resetToDefaults"
+            >
+              <SwIcon name="rotate-ccw" :size="13" />
+            </button>
+          </div>
         </div>
 
         <div class="sw-playground__controls-list">
           <template v-for="[cat, catProps] in grouped" :key="cat">
-            <button
-              v-if="cat"
-              class="sw-playground__category-header"
-              @click="toggleCategory(cat)"
-            >
+            <button v-if="cat" class="sw-playground__category-header" @click="toggleCategory(cat)">
               {{ CATEGORY_LABELS[cat] }}
               <SwIcon
                 name="chevron-down"
                 :size="11"
                 class="sw-playground__category-chevron"
-                :class="{ 'sw-playground__category-chevron--collapsed': collapsedCategories.has(cat) }"
+                :class="{
+                  'sw-playground__category-chevron--collapsed': collapsedCategories.has(cat),
+                }"
               />
             </button>
             <div
@@ -447,8 +477,12 @@ async function copyCode() {
          bg-surface-hover text-text-muted;
 }
 
-.sw-playground__reset {
-  @apply ml-auto flex items-center justify-center w-6 h-6 rounded-md
+.sw-playground__actions {
+  @apply flex ml-auto;
+}
+
+.sw-playground__action-btn {
+  @apply flex items-center justify-center w-6 h-6 rounded-md
          text-text-subtle hover:text-text hover:bg-surface-hover
          cursor-pointer transition-colors;
 }
