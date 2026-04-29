@@ -37,6 +37,7 @@ import SwBadgePage from '@/pages/styleguide/components/display/SwBadgePage.vue';
 import SwTabsPage from '@/pages/styleguide/components/display/SwTabsPage.vue';
 import SwIconPage from '@/pages/styleguide/components/display/SwIconPage.vue';
 import SwPaginationPage from '@/pages/styleguide/components/display/SwPaginationPage.vue';
+import SwAccordionPage from '@/pages/styleguide/components/display/SwAccordionPage.vue';
 
 /* OVERLAYS */
 import SwTooltipPage from '@/pages/styleguide/components/overlays/SwTooltipPage.vue';
@@ -190,6 +191,11 @@ const router = createRouter({
       path: '/styleguide/components/pagination',
       component: SwPaginationPage,
       meta: { breadcrumbs: sgCrumbs('SwPagination') },
+    },
+    {
+      path: '/styleguide/components/accordion',
+      component: SwAccordionPage,
+      meta: { breadcrumbs: sgCrumbs('SwAccordion') },
     },
 
     // Overlays
