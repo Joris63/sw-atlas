@@ -2,7 +2,6 @@
 import {
   CheckboxRoot,
   CheckboxControl,
-  CheckboxIndicator,
   CheckboxHiddenInput,
   CheckboxLabel,
 } from '@ark-ui/vue';
@@ -33,9 +32,9 @@ const emit = defineEmits<{ 'update:modelValue': [boolean | 'indeterminate'] }>()
     @checked-change="emit('update:modelValue', $event.checked)"
   >
     <CheckboxControl class="sw-checkbox__control">
-      <CheckboxIndicator class="sw-checkbox__indicator">
+      <span v-if="modelValue" class="sw-checkbox__indicator">
         <SwIcon :name="modelValue === 'indeterminate' ? 'minus' : 'check'" :size="11" />
-      </CheckboxIndicator>
+      </span>
     </CheckboxControl>
 
     <span v-if="label || hint" class="sw-checkbox__text">

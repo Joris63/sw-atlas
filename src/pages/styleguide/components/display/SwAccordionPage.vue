@@ -12,18 +12,27 @@ const ITEMS = [
     description:
       'Manage keys, rotate secrets, and scope access to specific environments. Each key can be revoked independently.',
   },
-  { value: 'webhooks', title: 'Webhooks', description: 'Configure endpoints for event delivery.' },
+  {
+    value: 'webhooks',
+    title: 'Webhooks',
+    description: 'Configure endpoints for event delivery.',
+  },
   {
     value: 'security',
     title: 'Security & compliance',
     description: 'Review audit logs, manage SSO settings, and configure data retention policies.',
+  },
+  {
+    value: 'members',
+    title: 'Members & permissions',
+    description: 'Invite team members, assign roles, and manage workspace access.',
   },
 ];
 
 const itemPresets: PlaygroundPreset[] = [
   {
     label: 'Default',
-    value: ITEMS.map((i) => ({ ...i, icon: '', disabled: false })),
+    value: ITEMS.slice(0, 3).map((i) => ({ ...i, icon: '', disabled: false })),
   },
   {
     label: 'With icons',
@@ -41,6 +50,15 @@ const itemPresets: PlaygroundPreset[] = [
       { ...ITEMS[2], icon: 'shield-check', disabled: true },
     ],
   },
+  {
+    label: 'Multiple open',
+    value: [
+      { ...ITEMS[0], icon: 'key', disabled: false },
+      { ...ITEMS[1], icon: 'webhook', disabled: false },
+      { ...ITEMS[2], icon: 'shield-check', disabled: false },
+      { ...ITEMS[3], icon: 'users', disabled: false },
+    ],
+  },
 ];
 
 const componentLabels = {
@@ -51,17 +69,12 @@ const componentLabels = {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 function customCode(values: Record<string, any>): string {
   const rootAttrs: string[] = [];
-  if (values.multiple) {
+  // Multiple open has 4 items, while the rest has 3
+  if (values.examples.length === 4) {
     rootAttrs.push('multiple');
   }
-  if (values.collapsible === false) {
-    rootAttrs.push(':collapsible="false"');
-  }
-  if (values.lazy === false) {
-    rootAttrs.push(':lazy="false"');
-  }
 
-  const items = (values.items ?? [])
+  const items = (values.examples ?? [])
     .map((item: Record<string, any>) => {
       const attrs: string[] = [`value="${String(item.value)}"`, `title="${String(item.title)}"`];
       if (item.icon) {
@@ -80,9 +93,10 @@ function customCode(values: Record<string, any>): string {
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
 const playgroundConfig: PlaygroundPropConfig[] = [
+  // ── SwAccordion ──────────────────────────────────────
   {
     name: 'examples',
-    description: 'Represents a list of items for the playground example.',
+    description: 'Item configurations to display in the preview.',
     control: 'preset',
     presets: itemPresets,
     initialValue: itemPresets[0]?.value,
@@ -90,20 +104,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     category: 'playground',
   },
   {
-    name: 'examples',
-    description: 'Represents a list of items for the playground example.',
-    control: 'preset',
-    presets: itemPresets,
-    initialValue: itemPresets[0]?.value,
-    component: 'item',
-    category: 'playground',
-  },
-  {
     name: 'multiple',
     type: 'boolean',
     default: false,
     description: 'Allow multiple items to be open at the same time.',
-    control: 'toggle',
+    control: 'none',
     component: 'root',
     category: 'appearance',
   },
@@ -112,7 +117,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: 'boolean',
     default: true,
     description: 'Allow the open item to be collapsed by clicking it again.',
-    control: 'toggle',
+    control: 'none',
     initialValue: true,
     component: 'root',
     category: 'appearance',
@@ -122,15 +127,26 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     type: 'boolean',
     default: true,
     description: 'Defer mounting item content until the item is first opened.',
-    control: 'toggle',
+    control: 'none',
     initialValue: true,
     component: 'root',
     category: 'advanced',
   },
+
+  // ── SwAccordionItem ───────────────────────────────────
+  {
+    name: 'examples',
+    description: 'Item configurations to display in the preview.',
+    control: 'preset',
+    presets: itemPresets,
+    initialValue: itemPresets[0]?.value,
+    component: 'item',
+    category: 'playground',
+  },
   {
     name: 'value',
     type: 'string',
-    description: 'The current value of the accordion item.',
+    description: 'Unique identifier for the item.',
     control: 'none',
     component: 'item',
     category: 'appearance',
@@ -138,7 +154,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'title',
     type: 'string',
-    description: 'Title displayed in the accordion item button.',
+    description: 'Label shown in the trigger row.',
     control: 'none',
     component: 'item',
     category: 'appearance',
@@ -146,7 +162,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'icon',
     type: 'string',
-    description: 'Lucide icon name to display before the title.',
+    description: 'Lucide icon name shown before the title.',
     control: 'none',
     component: 'item',
     category: 'appearance',
@@ -154,7 +170,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   {
     name: 'disabled',
     type: 'boolean',
-    description: 'Prevents interaction and dims accordion item.',
+    description: 'Prevents interaction and dims the item.',
     control: 'none',
     component: 'item',
     category: 'state',
@@ -175,8 +191,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     >
       <template #default="{ values }">
         <SwAccordion
-          :multiple="values.multiple"
-          :collapsible="values.collapsible"
+          :multiple="values.examples.length === 4"
           :default-value="[values.examples[0]?.value]"
         >
           <SwAccordionItem

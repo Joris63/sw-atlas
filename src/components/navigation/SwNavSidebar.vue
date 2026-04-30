@@ -53,12 +53,28 @@ const toggle = inject<() => void>('toggleSidebar', () => {});
 }
 
 .sw-nav-sidebar__inner {
-  @apply flex flex-col flex-1 bg-surface overflow-hidden h-full shadow-md;
+  @apply relative flex flex-col flex-1 bg-surface overflow-hidden h-full shadow-md;
   clip-path: inset(0 -20px 0 0); /* no @apply equivalent for clip-path */
 }
 
 .sw-nav-sidebar__nav {
   @apply flex flex-col gap-1 p-2 overflow-y-auto overflow-x-hidden flex-1;
+  scrollbar-width: none;
+}
+
+.sw-nav-sidebar__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.sw-nav-sidebar__inner::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3rem;
+  background: linear-gradient(to bottom, transparent, var(--surface));
+  pointer-events: none;
 }
 
 /* Toggle button — floats on the right border, near the top */

@@ -29,9 +29,43 @@ const playgroundConfig: PlaygroundPropConfig[] = [
   },
 ];
 
-const customCode = `<SwSkeleton width="100%" height="1rem" />
-<SwSkeleton width="80%"  height="1rem" />
-<SwSkeleton width="60%"  height="1rem" />`;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+function customCode(values: Record<string, any>): string {
+  const r = values.rounded ?? 'md';
+  const rounded = (val: string) => (val !== 'md' ? ` rounded="${val}"` : '');
+
+  if (values.examples === 'profile') {
+    return `<div class="flex items-center gap-4">
+  <SwSkeleton width="3rem" height="3rem"${rounded('full')} />
+  <div class="flex flex-col gap-2 flex-1">
+    <SwSkeleton width="9rem" height="0.875rem"${rounded(r)} />
+    <SwSkeleton width="6rem" height="0.75rem"${rounded(r)} />
+  </div>
+</div>`;
+  }
+
+  if (values.examples === 'article') {
+    return `<div class="flex flex-col gap-4 w-80">
+  <SwSkeleton width="100%" height="10rem"${rounded(r)} />
+  <div class="flex flex-col gap-2">
+    <SwSkeleton width="75%"  height="1rem"${rounded(r)} />
+    <SwSkeleton width="100%" height="0.875rem"${rounded(r)} />
+    <SwSkeleton width="90%"  height="0.875rem"${rounded(r)} />
+    <SwSkeleton width="50%"  height="0.875rem"${rounded(r)} />
+  </div>
+</div>`;
+  }
+
+  return `<div v-for="n in 4" :key="n" class="flex items-center gap-3 px-4 py-3">
+  <SwSkeleton width="2rem" height="2rem"${rounded('full')} />
+  <div class="flex flex-col gap-1.5 flex-1">
+    <SwSkeleton width="70%" height="0.875rem"${rounded(r)} />
+    <SwSkeleton width="40%" height="0.75rem"${rounded(r)} />
+  </div>
+  <SwSkeleton width="4rem" height="1.5rem"${rounded(r)} />
+</div>`;
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 </script>
 
 <template>
