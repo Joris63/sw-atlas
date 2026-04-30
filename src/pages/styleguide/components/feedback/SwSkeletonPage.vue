@@ -6,13 +6,16 @@ import type { PlaygroundPropConfig } from '@/components/ui/docs/SwPlayground.vue
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
-    name: 'example',
-    type: "'profile' | 'article' | 'list'",
+    name: 'examples',
     description: 'Which composition to preview.',
-    control: 'select',
-    options: ['profile', 'article', 'list'],
+    control: 'preset',
+    presets: [
+      { value: 'profile', label: 'profile' },
+      { value: 'article', label: 'article' },
+      { value: 'list', label: 'list' },
+    ],
     initialValue: 'profile',
-    category: 'content',
+    category: 'playground',
   },
   {
     name: 'rounded',
@@ -43,7 +46,7 @@ const customCode = `<SwSkeleton width="100%" height="1rem" />
     >
       <template #default="{ values }">
         <!-- Profile composition -->
-        <div v-if="values.example === 'profile'" class="sw-sk-profile">
+        <div v-if="values.examples === 'profile'" class="sw-sk-profile">
           <SwSkeleton
             width="3rem"
             height="3rem"
@@ -56,7 +59,7 @@ const customCode = `<SwSkeleton width="100%" height="1rem" />
         </div>
 
         <!-- Article composition -->
-        <div v-else-if="values.example === 'article'" class="sw-sk-article">
+        <div v-else-if="values.examples === 'article'" class="sw-sk-article">
           <SwSkeleton width="100%" height="10rem" :rounded="values.rounded" />
           <div class="sw-sk-article__body">
             <SwSkeleton width="75%" height="1rem" :rounded="values.rounded" />
@@ -67,7 +70,7 @@ const customCode = `<SwSkeleton width="100%" height="1rem" />
         </div>
 
         <!-- List composition -->
-        <div v-else-if="values.example === 'list'" class="sw-sk-list">
+        <div v-else-if="values.examples === 'list'" class="sw-sk-list">
           <div v-for="n in 4" :key="n" class="sw-sk-list__row">
             <SwSkeleton
               width="2rem"

@@ -81,6 +81,24 @@ function customCode(values: Record<string, any>): string {
 
 const playgroundConfig: PlaygroundPropConfig[] = [
   {
+    name: 'examples',
+    description: 'Represents a list of items for the playground example.',
+    control: 'preset',
+    presets: itemPresets,
+    initialValue: itemPresets[0]?.value,
+    component: 'root',
+    category: 'playground',
+  },
+  {
+    name: 'examples',
+    description: 'Represents a list of items for the playground example.',
+    control: 'preset',
+    presets: itemPresets,
+    initialValue: itemPresets[0]?.value,
+    component: 'item',
+    category: 'playground',
+  },
+  {
     name: 'multiple',
     type: 'boolean',
     default: false,
@@ -141,15 +159,6 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     component: 'item',
     category: 'state',
   },
-  {
-    name: 'items',
-    description: 'Represents a list of items for the playground example.',
-    control: 'preset',
-    presets: itemPresets,
-    initialValue: itemPresets[0]?.value,
-    component: 'item',
-    category: 'playground',
-  },
 ];
 </script>
 
@@ -168,10 +177,10 @@ const playgroundConfig: PlaygroundPropConfig[] = [
         <SwAccordion
           :multiple="values.multiple"
           :collapsible="values.collapsible"
-          :default-value="[values.items[0]?.value]"
+          :default-value="[values.examples[0]?.value]"
         >
           <SwAccordionItem
-            v-for="item in values.items"
+            v-for="item in values.examples"
             :key="item.value"
             :value="item.value"
             :title="item.title"

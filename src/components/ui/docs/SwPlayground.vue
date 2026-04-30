@@ -56,13 +56,13 @@ const props = withDefaults(
 );
 
 const DEFAULT_CATEGORY_LABELS: Record<string, string> = {
+  playground: 'Playground example',
   content: 'Content',
   appearance: 'Appearance',
   field: 'Field',
   validation: 'Validation',
   state: 'State',
   advanced: 'Advanced',
-  playground: 'Playground example',
 };
 
 const CATEGORY_LABELS = computed(() => ({
