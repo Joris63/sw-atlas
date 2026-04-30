@@ -20,11 +20,35 @@ const STATUS_VARIANT: Record<string, 'neutral' | 'success' | 'warning' | 'danger
 };
 
 const ROWS = [
-  { id: '1', name: 'Alice Chen',   role: 'Product Designer',    status: 'Active',   joined: 'Apr 12, 2026' },
-  { id: '2', name: 'Jordan Blake', role: 'UX Researcher',       status: 'Archived', joined: 'Dec 14, 2025' },
-  { id: '3', name: 'Marcus Webb',  role: 'Frontend Engineer',   status: 'Active',   joined: 'Mar 28, 2026' },
-  { id: '4', name: 'Priya Nair',   role: 'Engineering Manager', status: 'On leave', joined: 'Jan 5, 2026'  },
-  { id: '5', name: 'Sofia Torres', role: 'Data Analyst',        status: 'Active',   joined: 'Feb 2, 2026'  },
+  {
+    id: '1',
+    name: 'Alice Chen',
+    role: 'Product Designer',
+    status: 'Active',
+    joined: 'Apr 12, 2026',
+  },
+  {
+    id: '2',
+    name: 'Jordan Blake',
+    role: 'UX Researcher',
+    status: 'Archived',
+    joined: 'Dec 14, 2025',
+  },
+  {
+    id: '3',
+    name: 'Marcus Webb',
+    role: 'Frontend Engineer',
+    status: 'Active',
+    joined: 'Mar 28, 2026',
+  },
+  {
+    id: '4',
+    name: 'Priya Nair',
+    role: 'Engineering Manager',
+    status: 'On leave',
+    joined: 'Jan 5, 2026',
+  },
+  { id: '5', name: 'Sofia Torres', role: 'Data Analyst', status: 'Active', joined: 'Feb 2, 2026' },
 ];
 
 const COLUMNS = ['name', 'role', 'status', 'joined'] as const;
@@ -55,7 +79,9 @@ const sortedRows = computed(() =>
 const selection = ref<Set<string>>(new Set());
 
 const allSelected = computed(() => ROWS.every((r) => selection.value.has(r.id)));
-const someSelected = computed(() => !allSelected.value && ROWS.some((r) => selection.value.has(r.id)));
+const someSelected = computed(
+  () => !allSelected.value && ROWS.some((r) => selection.value.has(r.id)),
+);
 const headerCheck = computed<boolean | 'indeterminate'>(() => {
   if (allSelected.value) {
     return true;
@@ -232,11 +258,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Which composition to preview.',
     control: 'preset',
     presets: [
-      { label: 'Basic',      value: 'basic'       },
-      { label: 'Selectable', value: 'selectable'   },
-      { label: 'Sortable',   value: 'sortable'     },
-      { label: 'Expandable', value: 'expandable'   },
-      { label: 'Loading',    value: 'loading'      },
+      { label: 'Basic', value: 'basic' },
+      { label: 'Selectable', value: 'selectable' },
+      { label: 'Sortable', value: 'sortable' },
+      { label: 'Expandable', value: 'expandable' },
+      { label: 'Loading', value: 'loading' },
     ],
     initialValue: 'basic',
     component: 'table',
@@ -249,11 +275,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Which composition to preview.',
     control: 'preset',
     presets: [
-      { label: 'Basic',      value: 'basic'       },
-      { label: 'Selectable', value: 'selectable'   },
-      { label: 'Sortable',   value: 'sortable'     },
-      { label: 'Expandable', value: 'expandable'   },
-      { label: 'Loading',    value: 'loading'      },
+      { label: 'Basic', value: 'basic' },
+      { label: 'Selectable', value: 'selectable' },
+      { label: 'Sortable', value: 'sortable' },
+      { label: 'Expandable', value: 'expandable' },
+      { label: 'Loading', value: 'loading' },
     ],
     initialValue: 'basic',
     component: 'row',
@@ -272,7 +298,8 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     name: 'selected',
     type: 'boolean',
     default: false,
-    description: 'Applies the selected background tint. Typically controlled by your selection state.',
+    description:
+      'Applies the selected background tint. Typically controlled by your selection state.',
     control: 'none',
     component: 'row',
     category: 'state',
@@ -293,11 +320,11 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     description: 'Which composition to preview.',
     control: 'preset',
     presets: [
-      { label: 'Basic',      value: 'basic'       },
-      { label: 'Selectable', value: 'selectable'   },
-      { label: 'Sortable',   value: 'sortable'     },
-      { label: 'Expandable', value: 'expandable'   },
-      { label: 'Loading',    value: 'loading'      },
+      { label: 'Basic', value: 'basic' },
+      { label: 'Selectable', value: 'selectable' },
+      { label: 'Sortable', value: 'sortable' },
+      { label: 'Expandable', value: 'expandable' },
+      { label: 'Loading', value: 'loading' },
     ],
     initialValue: 'basic',
     component: 'column',
@@ -373,7 +400,6 @@ const playgroundConfig: PlaygroundPropConfig[] = [
       stacked
     >
       <template #default="{ values }">
-
         <!-- ---- BASIC ---- -->
         <SwTable v-if="values.example === 'basic'">
           <template #head>
@@ -391,11 +417,17 @@ const playgroundConfig: PlaygroundPropConfig[] = [
                 <span class="sw-tp-name__label">{{ row.name }}</span>
               </div>
             </SwTableColumn>
-            <SwTableColumn><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn>
+            <SwTableColumn
+              ><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn
+            >
             <SwTableColumn>
-              <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{ row.status }}</SwChip>
+              <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{
+                row.status
+              }}</SwChip>
             </SwTableColumn>
-            <SwTableColumn><span class="sw-tp-date">{{ row.joined }}</span></SwTableColumn>
+            <SwTableColumn
+              ><span class="sw-tp-date">{{ row.joined }}</span></SwTableColumn
+            >
           </SwTableRow>
         </SwTable>
 
@@ -420,7 +452,10 @@ const playgroundConfig: PlaygroundPropConfig[] = [
           >
             <SwTableColumn width="3rem" @click.stop>
               <div class="sw-tp-check">
-                <SwCheckbox :model-value="selection.has(row.id)" @update:model-value="toggleRow(row.id)" />
+                <SwCheckbox
+                  :model-value="selection.has(row.id)"
+                  @update:model-value="toggleRow(row.id)"
+                />
               </div>
             </SwTableColumn>
             <SwTableColumn>
@@ -429,9 +464,13 @@ const playgroundConfig: PlaygroundPropConfig[] = [
                 <span class="sw-tp-name__label">{{ row.name }}</span>
               </div>
             </SwTableColumn>
-            <SwTableColumn><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn>
+            <SwTableColumn
+              ><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn
+            >
             <SwTableColumn>
-              <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{ row.status }}</SwChip>
+              <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{
+                row.status
+              }}</SwChip>
             </SwTableColumn>
           </SwTableRow>
         </SwTable>
@@ -460,11 +499,17 @@ const playgroundConfig: PlaygroundPropConfig[] = [
                 <span class="sw-tp-name__label">{{ row.name }}</span>
               </div>
             </SwTableColumn>
-            <SwTableColumn><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn>
+            <SwTableColumn
+              ><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn
+            >
             <SwTableColumn>
-              <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{ row.status }}</SwChip>
+              <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{
+                row.status
+              }}</SwChip>
             </SwTableColumn>
-            <SwTableColumn><span class="sw-tp-date">{{ row.joined }}</span></SwTableColumn>
+            <SwTableColumn
+              ><span class="sw-tp-date">{{ row.joined }}</span></SwTableColumn
+            >
           </SwTableRow>
         </SwTable>
 
@@ -494,14 +539,21 @@ const playgroundConfig: PlaygroundPropConfig[] = [
                   <span class="sw-tp-name__label">{{ row.name }}</span>
                 </div>
               </SwTableColumn>
-              <SwTableColumn><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn>
+              <SwTableColumn
+                ><span class="sw-tp-role">{{ row.role }}</span></SwTableColumn
+              >
               <SwTableColumn>
-                <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{ row.status }}</SwChip>
+                <SwChip :variant="STATUS_VARIANT[row.status] ?? 'neutral'" size="sm">{{
+                  row.status
+                }}</SwChip>
               </SwTableColumn>
             </SwTableRow>
             <tr v-if="expandedId === row.id" class="sw-tp-expanded">
               <td colspan="4" class="sw-tp-expanded__cell">
-                <p class="sw-tp-expanded__text">Joined on <strong>{{ row.joined }}</strong> — additional details about {{ row.name }} can go here.</p>
+                <p class="sw-tp-expanded__text">
+                  Joined on <strong>{{ row.joined }}</strong> — additional details about
+                  {{ row.name }} can go here.
+                </p>
               </td>
             </tr>
           </template>
@@ -521,15 +573,18 @@ const playgroundConfig: PlaygroundPropConfig[] = [
             <SwTableColumn>
               <div class="sw-tp-name">
                 <SwSkeleton width="1.5rem" height="1.5rem" rounded="full" />
-                <SwSkeleton :width="`${100 + (n * 23) % 60}px`" height="0.875rem" />
+                <SwSkeleton :width="`${100 + ((n * 23) % 60)}px`" height="0.875rem" />
               </div>
             </SwTableColumn>
-            <SwTableColumn><SwSkeleton :width="`${80 + (n * 17) % 50}px`" height="0.875rem" /></SwTableColumn>
-            <SwTableColumn><SwSkeleton width="4rem" height="1.25rem" rounded="full" /></SwTableColumn>
+            <SwTableColumn
+              ><SwSkeleton :width="`${80 + ((n * 17) % 50)}px`" height="0.875rem"
+            /></SwTableColumn>
+            <SwTableColumn
+              ><SwSkeleton width="4rem" height="1.25rem" rounded="full"
+            /></SwTableColumn>
             <SwTableColumn><SwSkeleton width="5rem" height="0.875rem" /></SwTableColumn>
           </SwTableRow>
         </SwTable>
-
       </template>
     </SwPlayground>
   </SwPage>

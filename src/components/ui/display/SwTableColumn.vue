@@ -27,10 +27,7 @@ const ALIGN = { left: 'text-left', center: 'text-center', right: 'text-right' };
 <template>
   <component
     :is="header ? 'th' : 'td'"
-    :class="[
-      header ? 'sw-table-col--header' : 'sw-table-col--cell',
-      ALIGN[align],
-    ]"
+    :class="[header ? 'sw-table-col--header' : 'sw-table-col--cell', ALIGN[align]]"
     :style="width ? { width } : undefined"
   >
     <button
@@ -40,7 +37,9 @@ const ALIGN = { left: 'text-left', center: 'text-center', right: 'text-right' };
     >
       <slot />
       <SwIcon
-        :name="sortActive ? (sortDir === 'asc' ? 'chevron-up' : 'chevron-down') : 'chevrons-up-down'"
+        :name="
+          sortActive ? (sortDir === 'asc' ? 'chevron-up' : 'chevron-down') : 'chevrons-up-down'
+        "
         :size="11"
       />
     </button>

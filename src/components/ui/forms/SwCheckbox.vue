@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  CheckboxRoot,
-  CheckboxControl,
-  CheckboxHiddenInput,
-  CheckboxLabel,
-} from '@ark-ui/vue';
+import { CheckboxRoot, CheckboxControl, CheckboxHiddenInput, CheckboxLabel } from '@ark-ui/vue';
 import SwIcon from '../display/SwIcon.vue';
 import SwLabel from '@/components/ui/typography/SwLabel.vue';
 
