@@ -191,7 +191,7 @@ const playgroundConfig: PlaygroundPropConfig[] = [
     >
       <template #default="{ values }">
         <SwAccordion
-          :multiple="values.examples.length === 4"
+          :multiple="Boolean(values.examples.length === 4)"
           :default-value="[values.examples[0]?.value]"
         >
           <SwAccordionItem
